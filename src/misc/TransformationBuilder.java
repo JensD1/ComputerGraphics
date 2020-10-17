@@ -1,30 +1,16 @@
-package base_classes;
+package misc;
 
 import java.lang.Math;
 
 public class TransformationBuilder {
-    private Operations operations;
     private Matrix transformationMatrix;
 
     public TransformationBuilder() {
-        double[][] matrixInitValues = {
-                {1, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1}
-        };
-        this.transformationMatrix = new Matrix(matrixInitValues);
-        this.operations = new Operations();
+        this.transformationMatrix = Matrix.createUnitMatrix();
     }
 
     public TransformationBuilder reset() {
-        double[][] matrixInitValues = {
-                {1, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1}
-        };
-        this.transformationMatrix = new Matrix(matrixInitValues);
+        this.transformationMatrix = Matrix.createUnitMatrix();
         return this;
     }
 
@@ -42,7 +28,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -56,7 +42,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -73,7 +59,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -90,7 +76,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -107,7 +93,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -124,7 +110,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -141,7 +127,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -158,7 +144,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -177,7 +163,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -196,7 +182,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -215,7 +201,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -236,7 +222,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -250,7 +236,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -264,7 +250,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -281,7 +267,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -298,7 +284,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -315,7 +301,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -332,7 +318,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -349,7 +335,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -366,7 +352,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -385,7 +371,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -404,7 +390,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 
@@ -423,7 +409,7 @@ public class TransformationBuilder {
         };
         Matrix matrix = new Matrix(matrixInitValues);
         // Multiply B with A (BxA) so that it will transform as requested. A is the previous transformationMatrix
-        this.transformationMatrix = operations.matrixProduct(matrix, this.transformationMatrix);
+        this.transformationMatrix = Operations.matrixProduct(matrix, this.transformationMatrix);
         return this;
     }
 }

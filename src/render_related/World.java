@@ -1,7 +1,7 @@
 package render_related;
 
-import base_classes.HitPointInfo;
-import base_classes.Ray;
+import misc.HitPointInfo;
+import misc.Ray;
 import generic_objects.GenericObject;
 
 import java.util.ArrayList;
@@ -53,10 +53,10 @@ public class World {
      * @return HitPointInfo the information about the hitpoint.
      */
     public HitPointInfo calculateBestHitpoint(Ray ray){
-        HitPointInfo bestHitpoint = null;
+        HitPointInfo bestHitpoint = new HitPointInfo();
         for(GenericObject object: this.objectList){
             HitPointInfo tempHitPoint = object.calculateHitPoint(ray);
-            if(bestHitpoint == null || (bestHitpoint.getHitTime() > tempHitPoint.getHitTime() && tempHitPoint.getHitTime()>0)){ // && tempHitPoint.getHitTime() > getCamera().getDistanceN()
+            if((!bestHitpoint.isHit() && tempHitPoint.isHit()) || (bestHitpoint.getHitTime() > tempHitPoint.getHitTime() && tempHitPoint.getHitTime() > 0)){ // && tempHitPoint.getHitTime() > getCamera().getDistanceN()
                 bestHitpoint = tempHitPoint;
             }
         }

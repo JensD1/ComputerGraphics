@@ -1,4 +1,4 @@
-package base_classes;
+package misc;
 
 public class Plane {
     public Point position;

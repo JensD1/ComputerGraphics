@@ -1,14 +1,11 @@
-package base_classes;
-
-import base_classes.Point;
-import base_classes.Vector;
+package misc;
 
 public class Operations {
 
     public Operations() {
     }
 
-    public Vector vectorSum(Vector vector1, Vector vector2) {
+    public static Vector vectorSum(Vector vector1, Vector vector2) {
         Vector vector = new Vector();
         for (int i = 0; i < 4; i++) {
             vector.setElement(i, vector1.getElement(i) + vector2.getElement(i));
@@ -16,7 +13,7 @@ public class Operations {
         return vector;
     }
 
-    public Vector scalarVectorProduct(double scalar, Vector vector){
+    public static Vector scalarVectorProduct(double scalar, Vector vector){
         Vector returnVector = new Vector();
         for(int i = 0; i<4; i++){
             returnVector.setElement(i, scalar * vector.getElement(i));
@@ -30,7 +27,7 @@ public class Operations {
      * @param point2
      * @return
      */
-    public double dotProduct(Point point1, Point point2) {
+    public static double dotProduct(Point point1, Point point2) {
         double dotProduct = 0;
         for (int i = 0; i < 3; i++) {
             dotProduct = dotProduct + point1.getElement(i) * point2.getElement(i);
@@ -44,7 +41,7 @@ public class Operations {
      * @param point1
      * @return
      */
-    public double dotProduct(Vector vector1, Point point1) {
+    public static double dotProduct(Vector vector1, Point point1) {
         double dotProduct = 0;
         for (int i = 0; i < 3; i++) {
             dotProduct = dotProduct + vector1.getElement(i) * point1.getElement(i);
@@ -58,7 +55,7 @@ public class Operations {
      * @param vector2
      * @return
      */
-    public double dotProduct(Point point1, Vector vector2) {
+    public static double dotProduct(Point point1, Vector vector2) {
         double dotProduct = 0;
         for (int i = 0; i < 3; i++) {
             dotProduct = dotProduct + point1.getElement(i) * vector2.getElement(i);
@@ -72,7 +69,7 @@ public class Operations {
      * @param vector2
      * @return
      */
-    public double dotProduct(Vector vector1, Vector vector2) {
+    public static double dotProduct(Vector vector1, Vector vector2) {
         double dotProduct = 0;
         for (int i = 0; i < 3; i++) {
             dotProduct = dotProduct + vector1.getElement(i) * vector2.getElement(i);
@@ -80,7 +77,7 @@ public class Operations {
         return dotProduct;
     }
 
-    public Point pointSum(Point point1, Point point2) {
+    public static Point pointSum(Point point1, Point point2) {
         Point point = new Point();
         for (int i = 0; i < 4; i++) {
             point.setElement(i, point1.getElement(i) + point2.getElement(i));
@@ -88,7 +85,7 @@ public class Operations {
         return point;
     }
 
-    public Point pointProduct(Point point1, Point point2) {
+    public static Point pointProduct(Point point1, Point point2) {
         Point point = new Point();
         for (int i = 0; i < 4; i++) {
             point.setElement(i, point1.getElement(i) * point2.getElement(i));
@@ -96,7 +93,7 @@ public class Operations {
         return point;
     }
 
-    public Matrix matrixAddition(Matrix matrix1, Matrix matrix2) {
+    public static Matrix matrixAddition(Matrix matrix1, Matrix matrix2) {
         Matrix matrix = new Matrix();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -106,7 +103,7 @@ public class Operations {
         return matrix;
     }
 
-    public Matrix matrixProduct(Matrix matrix1, Matrix matrix2) {
+    public static Matrix matrixProduct(Matrix matrix1, Matrix matrix2) {
         Matrix matrix = new Matrix();
         double tempValue;
         for (int rowFirstMatrix = 0; rowFirstMatrix < 4; rowFirstMatrix++) {
@@ -121,7 +118,7 @@ public class Operations {
         return matrix;
     }
 
-    public Vector vectorTransformation(Matrix matrix, Vector vector){
+    public static Vector vectorTransformation(Matrix matrix, Vector vector){
         Vector returnVector = new Vector();
         double tempValue;
         for (int rowFirstMatrix = 0; rowFirstMatrix < 4; rowFirstMatrix++) {
@@ -134,7 +131,7 @@ public class Operations {
         return returnVector;
     }
 
-    public Point pointTransformation(Matrix matrix, Point point){
+    public static Point pointTransformation(Matrix matrix, Point point){
         Point returnPoint = new Point();
         double tempValue;
         for (int rowFirstMatrix = 0; rowFirstMatrix < 4; rowFirstMatrix++) {

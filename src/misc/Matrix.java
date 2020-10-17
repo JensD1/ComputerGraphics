@@ -1,6 +1,4 @@
-package base_classes;
-
-import java.util.Arrays;
+package misc;
 
 public class Matrix {
 
@@ -15,6 +13,15 @@ public class Matrix {
         }
     }
 
+    public static Matrix createUnitMatrix(){
+        double[][] matrixInitValues = {
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        };
+        return new Matrix(matrixInitValues);
+    }
 
 
     public Matrix(double[][] matrix){

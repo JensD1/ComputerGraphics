@@ -1,7 +1,4 @@
-package base_classes;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+package misc;
 
 public class Vector {
 
@@ -26,6 +23,15 @@ public class Vector {
         if(vector.length != 4)
             throw new IllegalArgumentException("base_classes.Vector is not of the correct size.");
         this.vector = vector;
+    }
+
+    public double norm(){
+        return Math.sqrt(vector[0] * vector[0]+ vector[1] * vector[1]+ vector[2] * vector[2]);
+    }
+
+    public Vector normalize(){
+        double norm = norm();
+        return new Vector(vector[0]/norm, vector[1]/norm, vector[2]/norm);
     }
 
     public void setX(double value){

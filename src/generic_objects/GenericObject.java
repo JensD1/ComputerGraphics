@@ -1,8 +1,31 @@
 package generic_objects;
 
-import base_classes.HitPointInfo;
-import base_classes.Ray;
+import misc.HitPointInfo;
+import misc.Ray;
 
-public interface GenericObject {
-    public HitPointInfo calculateHitPoint(Ray ray);
+import java.awt.*;
+
+public abstract class GenericObject {
+
+    // todo zet kleur hier en plaats in HitPointInfo
+
+    protected Color color;
+
+    public GenericObject(){
+        this.color = Color.BLACK;
+    }
+
+    public GenericObject(Color color){
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public abstract HitPointInfo calculateHitPoint(Ray ray);
 }

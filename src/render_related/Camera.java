@@ -1,7 +1,7 @@
 package render_related;
 
-import base_classes.Point;
-import base_classes.Vector;
+import misc.Point;
+import misc.Vector;
 import configuration.Configuration;
 
 public class Camera {
@@ -28,9 +28,9 @@ public class Camera {
 
     public Camera(Point eye, Vector u, Vector v, Vector n, int width, int height, double distanceN){
         this.eye = eye;
-        this.u = u;
-        this.v = v;
-        this.n = n;
+        this.u = u.normalize();
+        this.v = v.normalize();
+        this.n = n.normalize();
         this.width = width;
         this.height = height;
         this.distanceN = distanceN;
@@ -54,7 +54,7 @@ public class Camera {
     }
 
     public void setU(Vector u) {
-        this.u = u;
+        this.u = u.normalize();
     }
 
     public Vector getV() {
@@ -62,7 +62,7 @@ public class Camera {
     }
 
     public void setV(Vector v) {
-        this.v = v;
+        this.v = v.normalize();
     }
 
     public Vector getN() {
@@ -70,7 +70,7 @@ public class Camera {
     }
 
     public void setN(Vector n) {
-        this.n = n;
+        this.n = n.normalize();
     }
 
     public int getWidth() {
