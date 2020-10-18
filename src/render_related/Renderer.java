@@ -15,7 +15,7 @@ public class Renderer{
 
     public void renderFrame(World world) {
         PixelPlotter pixelPlotter = new PixelPlotter();
-        HitPointInfo hitPointInfo = null;
+        HitPointInfo hitPointInfo;
         for (int c = 0; c < Configuration.SCREEN_WIDTH; c++) {
             for (int r = 0; r < Configuration.SCREEN_HEIGHT; r++) {
                 Ray ray = Ray.createRay(world, c, r);
@@ -27,10 +27,6 @@ public class Renderer{
         }
         pixelPlotter.renderFrame();
     }
-
-//    public int transformYCoordinate(int y){
-//        return Configuration.SCREEN_HEIGHT-y-1;
-//    }
 
     public Pixel createPixel(int x, int y, HitPointInfo hitPointInfo) {
         Pixel pixel;

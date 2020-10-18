@@ -18,6 +18,12 @@ public class HitPointInfo {
         this.color = Color.BLACK;
     }
 
+    public HitPointInfo(double hitTime, boolean isHit, Color color){
+        this.hitTime = hitTime;
+        this.isHit = isHit;
+        this.color = color;
+    }
+
     public double getHitTime() {
         return hitTime;
     }

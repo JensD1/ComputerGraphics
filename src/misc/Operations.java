@@ -131,6 +131,14 @@ public class Operations {
         return returnVector;
     }
 
+    public static Point pointVectorAddition(Point point, Vector vector){
+        Point returnPoint = new Point();
+        for(int i = 0; i<4; i++){
+            returnPoint.setElement(i, point.getElement(i) + vector.getElement(i));
+        }
+        return returnPoint;
+    }
+
     public static Point pointTransformation(Matrix matrix, Point point){
         Point returnPoint = new Point();
         double tempValue;

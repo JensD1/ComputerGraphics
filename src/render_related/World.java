@@ -56,7 +56,7 @@ public class World {
         HitPointInfo bestHitpoint = new HitPointInfo();
         for(GenericObject object: this.objectList){
             HitPointInfo tempHitPoint = object.calculateHitPoint(ray);
-            if((!bestHitpoint.isHit() && tempHitPoint.isHit()) || (bestHitpoint.getHitTime() > tempHitPoint.getHitTime() && tempHitPoint.getHitTime() > 0)){ // && tempHitPoint.getHitTime() > getCamera().getDistanceN()
+            if((!bestHitpoint.isHit() && tempHitPoint.isHit()) || (bestHitpoint.getHitTime() > tempHitPoint.getHitTime() && tempHitPoint.getHitTime() > 0 && tempHitPoint.isHit())){ // && tempHitPoint.getHitTime() > getCamera().getDistanceN()
                 bestHitpoint = tempHitPoint;
             }
         }

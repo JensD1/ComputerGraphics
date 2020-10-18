@@ -1,50 +1,27 @@
 package generic_objects;
 
-import misc.HitPointInfo;
-import misc.Matrix;
-import misc.Operations;
-import misc.Ray;
+import misc.*;
 import configuration.Configuration;
 
 import java.awt.*;
 
 public class Sphere extends GenericObject{
 
-    Matrix transformation;
-    Matrix inverseTransformation;
-
     public Sphere(){
         super();
-        this.transformation = Matrix.createUnitMatrix();
-        this.inverseTransformation = Matrix.createUnitMatrix();
     }
 
     public Sphere(Color color){
         super(color);
-        this.transformation = Matrix.createUnitMatrix();
-        this.inverseTransformation = Matrix.createUnitMatrix();
     }
 
+    public Sphere(double radius, double x, double y, double z, Color color){
+        super(x, y, z, radius, radius, radius, 0, 0, 0, color);
+    }
 
     public Sphere(Matrix transformation, Matrix inverseTransformation, Color color){
         super(color);
         this.transformation = transformation;
-        this.inverseTransformation = inverseTransformation;
-    }
-
-    public Matrix getTransformation() {
-        return transformation;
-    }
-
-    public void setTransformation(Matrix transformation) {
-        this.transformation = transformation;
-    }
-
-    public Matrix getInverseTransformation() {
-        return inverseTransformation;
-    }
-
-    public void setInverseTransformation(Matrix inverseTransformation) {
         this.inverseTransformation = inverseTransformation;
     }
 
@@ -57,7 +34,7 @@ public class Sphere extends GenericObject{
         );
 
         HitPointInfo hitPointInfo = new HitPointInfo();
-        double a = Math.abs(Operations.dotProduct(inverseRay.getDir(), inverseRay.getDir()));
+        double a = Operations.dotProduct(inverseRay.getDir(), inverseRay.getDir());
         double b = Operations.dotProduct(inverseRay.getOrigin(), inverseRay.getDir());
         double c = Operations.dotProduct(inverseRay.getOrigin(), inverseRay.getOrigin()) - 1;
 
@@ -74,6 +51,14 @@ public class Sphere extends GenericObject{
             hitPointInfo.setHit(true);
             hitPointInfo.setColor(this.color);
         }
+//        if(hitPointInfo.isHit()){
+//            // calculate x, y and z coordinates
+//            System.out.println("Hitpoint coordinates x, y, z:");
+//            System.out.println();
+//        }
+//        else{
+//            System.out.println("No hit.");
+//        }
         return hitPointInfo;
     }
 }

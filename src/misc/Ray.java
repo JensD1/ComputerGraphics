@@ -48,4 +48,12 @@ public class Ray {
         Vector dir = Operations.vectorSum(Operations.vectorSum(dirN, dirU), dirV);
         return new Ray(world.getCamera().getEye(), dir.normalize());
     }
+
+    @Override
+    public String toString() {
+        return "Ray{\n" +
+                "origin=\n" + origin +
+                ", dir=\n" + dir +
+                "}\n";
+    }
 }

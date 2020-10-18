@@ -1,9 +1,8 @@
+import configuration.Configuration;
+import generic_objects.*;
 import misc.*;
 import misc.Point;
-import generic_objects.Sphere;
-import render_related.Camera;
-import render_related.Renderer;
-import render_related.World;
+import render_related.*;
 
 import java.awt.*;
 
@@ -73,47 +72,45 @@ public class Main {
 //        System.out.println(hitPointInfo.getHitTime());
 //        System.out.println(hitPointInfo.isHit());
 
+//        Ray ray = new Ray(new Point(5, 15, 10), new Vector(-1, -1, -1));
+//        Sphere sphere = new Sphere();
+//        TransformationBuilder transformationBuilder = new TransformationBuilder();
+//        sphere.setTransformation(transformationBuilder.reset().translation(-5, 5, 0).create());
+//        sphere.setInverseTransformation(transformationBuilder.reset().inverseTranslation(-5, 5, 0).create());
+//        System.out.println(sphere.calculateHitPoint(ray).getHitTime());
+
+//        PixelPlotter pixelPlotter = new PixelPlotter();
+//        HitPointInfo hitPointInfo = new HitPointInfo();
+//        hitPointInfo.setColor(Color.CYAN);
+//        pixelPlotter.addPixelToCanvas(new Pixel(0, 0, hitPointInfo.getColor()));
+//        pixelPlotter.addPixelToCanvas(new Pixel(10, 10, hitPointInfo.getColor()));
+//        pixelPlotter.addPixelToCanvas(new Pixel(20, 20, hitPointInfo.getColor()));
+//        pixelPlotter.addPixelToCanvas(new Pixel(30, 30, hitPointInfo.getColor()));
+//        pixelPlotter.renderFrame();
 
 // Test a scene
-        TransformationBuilder transformationBuilder = new TransformationBuilder();
-        Matrix trMatrix = transformationBuilder.translation(5, 0, 0).create();
-        Matrix invMatrix = transformationBuilder.reset().inverseTranslation(5, 0, 0).create();
-        System.out.println(trMatrix);
-        System.out.println(invMatrix);
+
         Camera camera = new Camera();
-        camera.setEye(new Point(10, 10, 10));
+//        camera.setCameraLocation(new Point(10, 10, 10), 0, 0, 0);
+        camera.setEye(new Point(15, 15, 15));
         camera.setDistanceN(1000);
         camera.setN(new Vector(1, 1, 1));
         camera.setV(new Vector(1, 1, -2));
         camera.setU(new Vector(-1, 1, 0));
-
         World world = new World(camera);
-        Sphere sphere = new Sphere();
-        sphere.setColor(Color.YELLOW);
-        sphere.setTransformation(trMatrix);
-        sphere.setInverseTransformation(invMatrix);
-        world.addObject(sphere);
 
-        Sphere sphere3 = new Sphere();
-        sphere3.setColor(Color.BLUE);
-        sphere3.setTransformation(transformationBuilder.reset().translation(0,5,0).create());
-        sphere3.setInverseTransformation(transformationBuilder.reset().translation(0,5,0).create());
-        world.addObject(sphere3);
-
-        Sphere sphere2 = new Sphere();
-        sphere2.setColor(Color.RED);
-//        sphere2.setTransformation(transformationBuilder.reset().scaling(2, 2, 2).create());
-//        sphere2.setInverseTransformation(transformationBuilder.reset().inverseScaling(2, 2, 2).create());
-        world.addObject(sphere2);
-
-        Sphere sphere4 = new Sphere();
-        sphere4.setColor(Color.MAGENTA);
-        sphere4.setTransformation(transformationBuilder.reset().translation(0,0,5).create());
-        sphere4.setInverseTransformation(transformationBuilder.reset().translation(0,0,5).create());
-        world.addObject(sphere4);
+        world.addObject(new Sphere(0.6, 1, 1, 1, Color.RED));
+        world.addObject(new Plane(0, 0, 0, 0, 0, 0, Color.DARK_GRAY));
+        world.addObject(new Plane(0, 0, 0, 90, 0, 0, Color.ORANGE));
+        world.addObject(new Plane(0, 0, 0, 0, 90, 0, Color.YELLOW));
+        world.addObject(new Square(5, 0.1, 5,2, 1, 90, 0, 0,  Color.BLUE));
+        world.addObject(new TaperedCylinder(0, 6, 2, 0, 1, 1, 2, 0, 0, 0, Color.GREEN));
+        world.addObject(new TaperedCylinder(0, 6, 2, 3.7, 1, 1, -2, 0, 0, 0, Color.GREEN));
+        world.addObject(new TaperedCylinder(1, 5, 5, 0, 1, 1, 2, 0, 0, 0, Color.MAGENTA));
+        world.addObject(new TaperedCylinder(0.5, 2, 6, 0, 1, 1, 2, 0, 0, 0, Color.CYAN));
+        world.addObject(new Cube(2, 2, 5, 1, 1, 1, 0, 0, 0, Color.LIGHT_GRAY));
 
         Renderer renderer = new Renderer();
         renderer.renderFrame(world);
-
     }
 }
