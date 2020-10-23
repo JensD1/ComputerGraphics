@@ -1,35 +1,30 @@
 package generic_objects;
 
-import misc.HitPointInfo;
-import misc.Matrix;
-import misc.Ray;
-import misc.TransformationBuilder;
-
-import java.awt.*;
+import misc.*;
+import render_related.Material;
 
 public abstract class GenericObject {
 
     protected Matrix transformation;
     protected Matrix inverseTransformation;
-    protected Color color;
+    protected Material material;
 
     public GenericObject(){
-        this.color = Color.BLACK;
         this.transformation = Matrix.createUnitMatrix();
         this.inverseTransformation = Matrix.createUnitMatrix();
+        this.material = new Material();
     }
 
-    public GenericObject(Color color){
-        this.color = color;
+    public GenericObject(Material material){
         this.transformation = Matrix.createUnitMatrix();
         this.inverseTransformation = Matrix.createUnitMatrix();
+        this.material = material;
     }
 
     public GenericObject(double x, double y, double z,
                          double scaleX, double scaleY, double scaleZ,
                          double rotateX, double rotateY, double rotateZ,
-          Color color){
-        this.color = color;
+                         Material material){
         TransformationBuilder transformationBuilder = new TransformationBuilder();
         this.transformation = transformationBuilder.scaling(scaleX, scaleY, scaleZ)
                 .rotateX(rotateX).rotateY(rotateY).rotateZ(rotateZ)
@@ -39,14 +34,7 @@ public abstract class GenericObject {
                 .inverseRotateZ(rotateZ).inverseRotateY(rotateY).inverseRotateX(rotateX)
                 .inverseScaling(scaleX, scaleY, scaleZ)
                 .create();
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+        this.material = material;
     }
 
     public abstract HitPointInfo calculateHitPoint(Ray ray);
@@ -65,5 +53,13 @@ public abstract class GenericObject {
 
     public void setInverseTransformation(Matrix inverseTransformation) {
         this.inverseTransformation = inverseTransformation;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 }

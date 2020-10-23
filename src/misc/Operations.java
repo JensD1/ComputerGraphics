@@ -151,4 +151,12 @@ public class Operations {
         }
         return returnPoint;
     }
+
+    public static Vector pointSubstraction(Point point1, Point point2){
+        Vector vector = new Vector();
+        for (int i = 0; i < 4; i++) {
+            vector.setElement(i, point1.getElement(i) - point2.getElement(i));
+        }
+        return vector;
+    }
 }

@@ -15,6 +15,11 @@ public class Ray {
         this.t = 0;
     }
 
+    public Ray(Point origin, Point destination){
+        this.origin = origin;
+        this.dir = Operations.pointSubstraction(destination, origin);
+    }
+
     public Point getOrigin() {
         return origin;
     }

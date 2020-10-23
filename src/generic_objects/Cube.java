@@ -1,9 +1,8 @@
 package generic_objects;
 
-import misc.HitPointInfo;
-import misc.Operations;
+import misc.*;
 import misc.Point;
-import misc.Ray;
+import render_related.Material;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,15 +14,15 @@ public class Cube extends GenericObject {
         super();
     }
 
-    public Cube(Color color) {
-        super(color);
+    public Cube(Material material) {
+        super(material);
     }
 
     public Cube(double x, double y, double z,
                 double scaleX, double scaleY, double scaleZ,
                 double rotateX, double rotateY, double rotateZ,
-                Color color) {
-        super(x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, color);
+                Material material) {
+        super(x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, material);
     }
 
     @Override
@@ -33,12 +32,12 @@ public class Cube extends GenericObject {
                 Operations.pointTransformation(this.inverseTransformation, ray.getOrigin()),
                 Operations.vectorTransformation(this.inverseTransformation, ray.getDir())
         );
-        Square groundSquare = new Square(0, 0, -1, 1, 1, 0, 0, 0, this.color); // todo check normals (also with squares and planes) and other objects
-        Square upperSquare = new Square(0, 0, 1, 1, 1, 0, 0, 0, this.color);
-        Square backSquare = new Square(0, -1, 0, 1, 1, 90, 0, 0, this.color);
-        Square frontSquare = new Square(0, 1, 0, 1, 1, 90, 0, 0, this.color);
-        Square rightSquare = new Square(-1, 0, 0, 1, 1, 0, 90, 0, this.color);
-        Square leftSquare = new Square(1, 0, 0, 1, 1, 0, 90, 0, this.color);
+        Square groundSquare = new Square(0, 0, -1, 1, 1, 180, 0, 0, this.material);
+        Square upperSquare = new Square(0, 0, 1, 1, 1, 0, 0, 0, this.material);
+        Square backSquare = new Square(0, -1, 0, 1, 1, 90, 0, 0, this.material);
+        Square frontSquare = new Square(0, 1, 0, 1, 1, -90, 0, 0, this.material);
+        Square rightSquare = new Square(-1, 0, 0, 1, 1, 0, -90, 0, this.material);
+        Square leftSquare = new Square(1, 0, 0, 1, 1, 0, 90, 0, this.material);
         hitPointInfoList.add(groundSquare.calculateHitPoint(inverseRay));
         hitPointInfoList.add(upperSquare.calculateHitPoint(inverseRay));
         hitPointInfoList.add(backSquare.calculateHitPoint(inverseRay));
@@ -51,6 +50,11 @@ public class Cube extends GenericObject {
             if ((!firstHit.isHit() && hitPointInfo.isHit()) || (hitPointInfo.getHitTime() < firstHit.getHitTime() && hitPointInfo.isHit())) {
                 firstHit = hitPointInfo;
             }
+        }
+        if(firstHit.isHit()){ // Make sure that the transformation of the cube is taken into account.
+            firstHit.setHitPoint(Operations.pointTransformation(this.transformation, firstHit.getHitPoint()));
+            firstHit.setNormal(Operations.vectorTransformation(this.transformation, firstHit.getNormal()));
+            firstHit.setObject(this);
         }
         return firstHit;
     }

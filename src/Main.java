@@ -97,18 +97,40 @@ public class Main {
         camera.setN(new Vector(1, 1, 1));
         camera.setV(new Vector(1, 1, -2));
         camera.setU(new Vector(-1, 1, 0));
-        World world = new World(camera);
+        World world = new World(camera, new CustomColor(0.5, 0.5, 0.5));
+        PointLight pointLight = new PointLight(new Point(1, 10, 7), new CustomColor(1, 1, 1));
+        world.addLight(pointLight);
+        PointLight pointLight2 = new PointLight(new Point(10, 1, 3), new CustomColor(0.7, 0.7, 0.7));
+        world.addLight(pointLight2);
 
-        world.addObject(new Sphere(0.6, 1, 1, 1, Color.RED));
-        world.addObject(new Plane(0, 0, 0, 0, 0, 0, Color.DARK_GRAY));
-        world.addObject(new Plane(0, 0, 0, 90, 0, 0, Color.ORANGE));
-        world.addObject(new Plane(0, 0, 0, 0, 90, 0, Color.YELLOW));
-        world.addObject(new Square(5, 0.1, 5,2, 1, 90, 0, 0,  Color.BLUE));
-        world.addObject(new TaperedCylinder(0, 6, 2, 0, 1, 1, 2, 0, 0, 0, Color.GREEN));
-        world.addObject(new TaperedCylinder(0, 6, 2, 3.7, 1, 1, -2, 0, 0, 0, Color.GREEN));
-        world.addObject(new TaperedCylinder(1, 5, 5, 0, 1, 1, 2, 0, 0, 0, Color.MAGENTA));
-        world.addObject(new TaperedCylinder(0.5, 2, 6, 0, 1, 1, 2, 0, 0, 0, Color.CYAN));
-        world.addObject(new Cube(2, 2, 5, 1, 1, 1, 0, 0, 0, Color.LIGHT_GRAY));
+        // Easy testing
+//        Material redMaterial = new Material(new CustomColor(0.8, 0.8, 0.8), new CustomColor(1, 1, 1),
+//                16, new CustomColor(), new CustomColor(0, 0, 0));
+//        world.addObject(new Sphere(2, 0, 0, 3,
+//                new CustomColor(0.8, 0.2, 0.1), new CustomColor(1, 1, 1), 16, new CustomColor(), new CustomColor(0.1, 0.1, 0.1)));
+//        world.addObject(new TaperedCylinder(0.3, 0, 0, 0, 5, 5, 5, 0, 0, 0,
+//                new CustomColor(0.8, 0.2, 0.1), new CustomColor(1, 1, 1), 16, new CustomColor(), new CustomColor(0.1, 0.1, 0.1)));
+//        world.addObject(new Cube(0, 0, 0, 5, 5, 5, 0, 0, 0, redMaterial));
+//        world.addObject(new Plane(new CustomColor(0.8, 0.2, 0.1), new CustomColor(1, 1, 1), 16, new CustomColor(), new CustomColor(0.1, 0.1, 0.1)));
+
+//        // Nice world layout:
+        Material redMaterial = new Material(new CustomColor(0.8, 0.2, 0.1), new CustomColor(1, 1, 1),
+                16, new CustomColor(), new CustomColor(0.3, 0.3, 0.3));
+        Material blueMaterial = new Material(new CustomColor(0, 0.7, 0.8), new CustomColor(0.8, 0.5, 0.5),
+                100, new CustomColor(), new CustomColor(0.3, 0.3, 0.3));
+        Material specular = new Material(new CustomColor(0.3, 0.3, 0.3), new CustomColor(0, 0, 1),
+                16, new CustomColor(), new CustomColor(0.3, 0.3, 0.3));
+
+        world.addObject(new Sphere(0.6, 10, 2, 1, specular));
+        world.addObject(new Plane(0, 0, 0, 0, 0, 0, blueMaterial));
+        world.addObject(new Plane(0, 0, 0, -90, 0, 0, blueMaterial));
+        world.addObject(new Plane(0, 0, 0, 0, 90, 0, blueMaterial));
+        world.addObject(new Square(5, 0.1, 5,2, 1, -90, 0, 0,  redMaterial));
+        world.addObject(new TaperedCylinder(0, 6, 2, 0, 1, 1, 2, 0, 0, 0, redMaterial));
+        world.addObject(new TaperedCylinder(0, 6, 2, 3.7, 1, 1, -2, 0, 0, 0, redMaterial));
+        world.addObject(new TaperedCylinder(1, 5, 5, 0, 1, 1, 2, 0, 0, 0, specular));
+        world.addObject(new TaperedCylinder(0.5, 2, 6, 0, 1, 1, 2, 0, 0, 0, specular));
+        world.addObject(new Cube(2, 2, 2, 1, 1, 1, 0, 0, 10, redMaterial));
 
         Renderer renderer = new Renderer();
         renderer.renderFrame(world);
