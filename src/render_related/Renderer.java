@@ -44,6 +44,9 @@ public class Renderer{
                 CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getAmbient(), world.getAmbient())
         );
         hitPointInfo.setNormal(hitPointInfo.getNormal().normalize()); // normalise the normal
+        if(Operations.dotProduct(v, hitPointInfo.getNormal()) < 0){
+            hitPointInfo.setNormal(Operations.scalarVectorProduct(-1, hitPointInfo.getNormal()));
+        }
         for(PointLight light: world.getLights()){
             if(!inShadow(world, light, hitPointInfo)) {
                 Vector s = Operations.pointSubstraction(light.getLocation(), hitPointInfo.getHitPoint()).normalize();

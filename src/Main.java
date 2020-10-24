@@ -160,35 +160,27 @@ public class Main {
 		PointLight pointLight3 = new PointLight(new Point(-5, -5, 5), new CustomColor(0.7, 0.7, 0.7));
 		world.addLight(pointLight3);
 
-		// Easy testing
-//        Material redMaterial = new Material(new CustomColor(0.8, 0.8, 0.8), new CustomColor(1, 1, 1),
-//                16, new CustomColor(), new CustomColor(0, 0, 0));
-//        world.addObject(new Sphere(2, 0, 0, 3,
-//                new CustomColor(0.8, 0.2, 0.1), new CustomColor(1, 1, 1), 16, new CustomColor(), new CustomColor(0.1, 0.1, 0.1)));
-//        world.addObject(new TaperedCylinder(0.3, 0, 0, 0, 5, 5, 5, 0, 0, 0,
-//                new CustomColor(0.8, 0.2, 0.1), new CustomColor(1, 1, 1), 16, new CustomColor(), new CustomColor(0.1, 0.1, 0.1)));
-//        world.addObject(new Cube(0, 0, 0, 5, 5, 5, 0, 0, 0, redMaterial));
-//        world.addObject(new Plane(new CustomColor(0.8, 0.2, 0.1), new CustomColor(1, 1, 1), 16, new CustomColor(), new CustomColor(0.1, 0.1, 0.1)));
+//		Bounding box with plane so the floor is of another material
+		world.addObject(new Cube(0, 0, 0, 20, 20, 20, 0, 0, 0, cyanPlastic));
+		world.addObject(new Plane(obsidian));
 
-//        // Nice world layout:
+//      Nice world layout:
 		world.addObject(new Sphere(2, 10, 2, 1, emerald));
-		world.addObject(new Plane(0, 0, 0, 0, 0, 0, jade));
-		world.addObject(new Plane(0, -10, 0, -90, 0, 0, obsidian));
-		world.addObject(new Plane(-10, 0, 0, 0, 90, 0, pearl));
-		world.addObject(new Square(-5, -9.9, 5, 2, 1, -90, 0, 0, ruby));
+		world.addObject(new Square(-5, -19.9, 5, 2, 1, -90, 0, 0, ruby));
 		world.addObject(new TaperedCylinder(0, 7, 3, 0, 1, 1, 2, 0, 0, 0, turquoise));
 		world.addObject(new TaperedCylinder(0, 7, 3, 3.7, 1, 1, -2, 0, 0, 0, brass));
 		world.addObject(new TaperedCylinder(1, 3, 3, 0, 1, 1, 2, 0, 0, 0, bronze));
-		world.addObject(new TaperedCylinder(0.5, 3, 7, 0, 1, 1, 2, 0, 0, 0, chrome));
+		world.addObject(new TaperedCylinder(0.5, 3, 7, 0, 1, 1, 2, 0, 0, 0, silver));
 		world.addObject(new Cube(2, 10, 1, 1, 1, 1, 0, 0, 30, copper));
 
-		//Christmas tree
+//		Christmas tree
 		world.addObject(new TaperedCylinder(1, -5, 0, 0, 1, 1, 2, 0, 0, 0, brownMaterial));
 		world.addObject(new TaperedCylinder(0.5, -5, 0, 2, 3, 3, 2, 0, 0, 0, greenPlastic));
 		world.addObject(new TaperedCylinder(0.3, -5, 0, 4, 2, 2, 1.7, 0, 0, 0, greenPlastic));
 		world.addObject(new TaperedCylinder(0.2, -5, 0, 5.7, 1, 1, 1.3, 0, 0, 0, greenPlastic));
 		world.addObject(new TaperedCylinder(0, -5, 0, 7, 0.5, 0.5, 1, 0, 0, 0, greenPlastic));
 
+//		Render the scene
 		Renderer renderer = new Renderer();
 		renderer.renderFrame(world);
 	}
