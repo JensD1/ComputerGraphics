@@ -159,4 +159,12 @@ public class Operations {
         }
         return vector;
     }
+
+    public static Vector vectorCrossProduct(Vector vector1, Vector vector2){
+        Vector vector = new Vector();
+        vector.setX(vector1.getY() * vector2.getZ() - vector1.getZ() * vector2.getY());
+        vector.setY(vector1.getZ() * vector2.getX() - vector1.getX() * vector2.getZ());
+        vector.setZ(vector1.getX() * vector2.getY() - vector1.getY() * vector2.getX());
+        return vector;
+    }
 }

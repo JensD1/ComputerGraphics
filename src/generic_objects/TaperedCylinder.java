@@ -34,6 +34,7 @@ public class TaperedCylinder extends GenericObject{
     @Override
     public HitPointInfo calculateHitPoint(Ray ray) {
         List<HitPointInfo> hitPointInfoList = new ArrayList<>();
+        hitPointInfoList.add(new HitPointInfo());
         Ray inverseRay = new Ray(
                 Operations.pointTransformation(this.inverseTransformation, ray.getOrigin()),
                 Operations.vectorTransformation(this.inverseTransformation, ray.getDir())
@@ -51,64 +52,70 @@ public class TaperedCylinder extends GenericObject{
         // if discriminate is negative, the standard hitPointInfo will be returned, which is non-hit
         if(Math.abs(discriminant) < Configuration.ROUNDING_ERROR) { // if discriminant is 0
             double hitTime = -b/a;
-            Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-            if(hitLocation.getZ() >= 0 && hitLocation.getZ() <= 1){
-                hitPointInfoList.add(
-                        new HitPointInfo(
-                                this,
-                                Operations.pointTransformation(this.transformation, hitLocation),
-                                hitTime,
-                                Operations.vectorTransformation(
-                                        this.transformation,
-                                        new Vector(
-                                                hitLocation.getX(),
-                                                hitLocation.getY(),
-                                                -(this.s - 1) * (1 + (this.s - 1) * hitLocation.getZ())
-                                        )
-                                )
-                        )
-                );
+            if(hitTime > 0) {
+                Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
+                if (hitLocation.getZ() >= 0 && hitLocation.getZ() <= 1) {
+                    hitPointInfoList.add(
+                            new HitPointInfo(
+                                    this,
+                                    Operations.pointTransformation(this.transformation, hitLocation),
+                                    hitTime,
+                                    Operations.vectorTransformation(
+                                            this.transformation,
+                                            new Vector(
+                                                    hitLocation.getX(),
+                                                    hitLocation.getY(),
+                                                    -(this.s - 1) * (1 + (this.s - 1) * hitLocation.getZ())
+                                            )
+                                    )
+                            )
+                    );
+                }
             }
         }
         else if(discriminant > 0){
             double hitTime = -(b/a) - (Math.sqrt(discriminant)/a); // first hit
-            Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-            if(hitLocation.getZ() >= 0 && hitLocation.getZ() <= 1){
-                hitPointInfoList.add(
-                        new HitPointInfo(
-                                this,
-                                Operations.pointTransformation(this.transformation, hitLocation),
-                                hitTime,
-                                Operations.vectorTransformation(
-                                        this.transformation,
-                                        new Vector(
-                                                hitLocation.getX(),
-                                                hitLocation.getY(),
-                                                -(this.s - 1) * (1 + (this.s - 1) * hitLocation.getZ())
-                                        )
-                                )
-                        )
-                );
+            if(hitTime > 0) {
+                Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
+                if (hitLocation.getZ() >= 0 && hitLocation.getZ() <= 1) {
+                    hitPointInfoList.add(
+                            new HitPointInfo(
+                                    this,
+                                    Operations.pointTransformation(this.transformation, hitLocation),
+                                    hitTime,
+                                    Operations.vectorTransformation(
+                                            this.transformation,
+                                            new Vector(
+                                                    hitLocation.getX(),
+                                                    hitLocation.getY(),
+                                                    -(this.s - 1) * (1 + (this.s - 1) * hitLocation.getZ())
+                                            )
+                                    )
+                            )
+                    );
+                }
             }
 
             hitTime = -(b/a) + (Math.sqrt(discriminant)/a);
-            Point hitLocation2 = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-            if(hitLocation2.getZ() >= 0 && hitLocation2.getZ() <= 1){
-                hitPointInfoList.add(
-                        new HitPointInfo(
-                                this,
-                                Operations.pointTransformation(this.transformation, hitLocation),
-                                hitTime,
-                                Operations.vectorTransformation(
-                                        this.transformation,
-                                        new Vector(
-                                                hitLocation.getX(),
-                                                hitLocation.getY(),
-                                                -(this.s - 1) * (1 + (this.s - 1) * hitLocation.getZ())
-                                        )
-                                )
-                        )
-                );
+            if(hitTime > 0) {
+                Point hitLocation2 = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
+                if (hitLocation2.getZ() >= 0 && hitLocation2.getZ() <= 1) {
+                    hitPointInfoList.add(
+                            new HitPointInfo(
+                                    this,
+                                    Operations.pointTransformation(this.transformation, hitLocation2),
+                                    hitTime,
+                                    Operations.vectorTransformation(
+                                            this.transformation,
+                                            new Vector(
+                                                    hitLocation2.getX(),
+                                                    hitLocation2.getY(),
+                                                    -(this.s - 1) * (1 + (this.s - 1) * hitLocation2.getZ())
+                                            )
+                                    )
+                            )
+                    );
+                }
             }
         }
 

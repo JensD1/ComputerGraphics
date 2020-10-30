@@ -19,11 +19,15 @@ public class Renderer{
                 Ray ray = Ray.createRay(world, c, r);
                 hitPointInfo = world.calculateBestHitpoint(ray);
                 pixelPlotter.addPixelToCanvas(
-                        new Pixel(c, r , colorPixel(world, ray, hitPointInfo))
+                        new Pixel(c, transformYCoordinate(r) , colorPixel(world, ray, hitPointInfo))
                 );
             }
         }
         pixelPlotter.renderFrame();
+    }
+
+    public int transformYCoordinate(int y){
+        return Configuration.SCREEN_HEIGHT-y-1;
     }
 
     public Color colorPixel(World world, Ray ray, HitPointInfo hitPointInfo){

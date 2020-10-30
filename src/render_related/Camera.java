@@ -35,28 +35,19 @@ public class Camera {
         this.distanceN = distanceN;
     }
 
-
-    /**
-     * This method will set the camera's location, diraction and roll.
-     * @param position the position of the origin
-     * @param theta the corner in degrees that the camera makes with the positive x-axis in the xy-plane
-     * @param phi the corner in degrees that the camera makes with the positive z-axis.
-     * @param roll the corner in degrees that the camera is tilted counterclockwise.
-     */
-    public void setCameraLocation(Point position, double theta, double phi, double roll){ // todo fix method
+    public void setCameraLocation(Point position, Point look, Vector up){
         this.eye = position;
-        TransformationBuilder transformationBuilder = new TransformationBuilder();
-        Vector arbitraryAxisVectorRoll = new Vector(1, 0, 0);
-        Vector arbitraryAxisVectorTilt = new Vector(0, 1, 0);
-        this.n = new Vector(1, 0, 0);
-        this.u = new Vector(0, 1, 0);
-        this.v = new Vector(0, 0, 1);
-        Operations.vectorTransformation(transformationBuilder.rotateZ(theta).create(), arbitraryAxisVectorTilt);
-        Operations.vectorTransformation(transformationBuilder.rotateArbitraryAxis(phi, arbitraryAxisVectorTilt).create(), arbitraryAxisVectorRoll);
-        Matrix transformationMatrix = transformationBuilder.rotateArbitraryAxis(roll, arbitraryAxisVectorRoll).create();
-        this.n = Operations.vectorTransformation(transformationMatrix, this.n).normalize();
-        this.u = Operations.vectorTransformation(transformationMatrix, this.u).normalize();
-        this.v = Operations.vectorTransformation(transformationMatrix, this.v).normalize();
+        this.n = Operations.pointSubstraction(position, look);
+        this.u = Operations.vectorCrossProduct(up, this.n);
+        if(this.u.norm() < Configuration.ROUNDING_ERROR){
+            this.u = new Vector(0, 1, 0);
+        }
+        this.v = Operations.vectorCrossProduct(this.n, this.u);
+
+        // normalize all vectors
+        this.n = this.n.normalize();
+        this.u = this.u.normalize();
+        this.v = this.v.normalize();
     }
 
     public Point getEye() {

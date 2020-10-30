@@ -1,5 +1,6 @@
 import generic_objects.*;
 import misc.CustomColor;
+import misc.Operations;
 import misc.Point;
 import misc.Vector;
 import render_related.*;
@@ -51,6 +52,11 @@ public class Main {
 //        Matrix matrix1 = new Matrix(elementsMatrix);
 //        Matrix matrix2 = new Matrix(elementsMatrix2);
 //        System.out.println(Operations.matrixProduct(matrix1, matrix2));
+
+//		Vector vector1 = new Vector(1, 2, 3);
+//		Vector vector2 = new Vector(-3, 2, 1);
+//		Vector vector3 = Operations.vectorCrossProduct(vector1, vector2);
+//		System.out.println(vector3);
 
 
 		// test if a ray hits the translated sphere correctly
@@ -146,12 +152,8 @@ public class Main {
 				0.078125 * 128, new CustomColor(), new CustomColor(0.05, 0.05, 0.0));
 
 		Camera camera = new Camera();
-//        camera.setCameraLocation(new Point(10, 10, 10), 0, 0, 0);
-		camera.setEye(new Point(15, 15, 15));
+        camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
 		camera.setDistanceN(1000);
-		camera.setN(new Vector(1, 1, 1));
-		camera.setV(new Vector(1, 1, -2));
-		camera.setU(new Vector(-1, 1, 0));
 		World world = new World(camera, new CustomColor(1, 1, 1));
 		PointLight pointLight = new PointLight(new Point(1, 10, 7), new CustomColor(1, 1, 1));
 		world.addLight(pointLight);
@@ -162,6 +164,8 @@ public class Main {
 
 //		Bounding box with plane so the floor is of another material
 		world.addObject(new Cube(0, 0, 0, 20, 20, 20, 0, 0, 0, cyanPlastic));
+//		world.addObject(new Sphere(50, 0, 0, 0, cyanPlastic));
+//		world.addObject(new TaperedCylinder(1, 0, 0, -2, 30, 30, 20, 0, 0, 0, cyanPlastic));
 		world.addObject(new Plane(obsidian));
 
 //      Nice world layout:

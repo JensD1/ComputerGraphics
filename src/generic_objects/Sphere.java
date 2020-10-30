@@ -45,28 +45,39 @@ public class Sphere extends GenericObject {
 		// if discriminate is negative, the standard hitPointInfo will be returned, which is non-hit
 		if (Math.abs(discriminant) < Configuration.ROUNDING_ERROR) { // if discriminant is 0
 			double hitTime = -b / a;
-			Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-			hitPointInfo = new HitPointInfo(
-					this,
-					Operations.pointTransformation(
-							this.transformation,
-							hitPoint
-					),
-					hitTime,
-					Operations.vectorTransformation(this.transformation, Operations.pointSubstraction(hitPoint, new Point()))
-			);
+			if(hitTime > 0) {
+				Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
+				hitPointInfo = new HitPointInfo(
+						this,
+						Operations.pointTransformation(
+								this.transformation,
+								hitPoint
+						),
+						hitTime,
+						Operations.vectorTransformation(this.transformation, Operations.pointSubstraction(hitPoint, new Point()))
+				);
+			}
+			else {
+				hitPointInfo = new HitPointInfo();
+			}
 		} else if (discriminant > 0) {
 			double hitTime = -(b / a) - (Math.sqrt(discriminant) / a);
-			Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-			hitPointInfo = new HitPointInfo(
-					this,
-					Operations.pointTransformation(
-							this.transformation,
-							hitPoint
-					),
-					hitTime,
-					Operations.vectorTransformation(this.transformation, Operations.pointSubstraction(hitPoint, new Point()))
-			);
+			if(hitTime < 0) {// todo kijk overal na bij <, > of == dat er bij doubles nog +- Configuration.error bij komt!
+				hitTime = -(b / a) + (Math.sqrt(discriminant) / a);
+			}
+			if(hitTime > 0) {
+				Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
+				hitPointInfo = new HitPointInfo(
+						this,
+						Operations.pointTransformation(
+								this.transformation,
+								hitPoint
+						),
+						hitTime,
+						Operations.vectorTransformation(this.transformation, Operations.pointSubstraction(hitPoint, new Point()))
+				);
+			}
+			else hitPointInfo = new HitPointInfo();
 		} else {
 			hitPointInfo = new HitPointInfo();
 		}

@@ -1,5 +1,6 @@
 package generic_objects;
 
+import configuration.Configuration;
 import misc.Point;
 import misc.*;
 import render_related.Material;
@@ -33,7 +34,7 @@ public class Square extends GenericObject {
 		HitPointInfo hitPointInfo;
 		if (hitTime > 0) {
 			Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-			if (Math.abs(hitLocation.getX()) <= 1 && Math.abs(hitLocation.getY()) <= 1) {
+			if (Math.abs(hitLocation.getX()) <= (1.0 + Configuration.ROUNDING_ERROR)  && Math.abs(hitLocation.getY()) <= (1.0 + Configuration.ROUNDING_ERROR)) {
 				hitPointInfo = new HitPointInfo(
 						this,
 						Operations.pointTransformation(this.transformation, hitLocation),
