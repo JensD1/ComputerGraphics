@@ -7,17 +7,29 @@ public class Ray {
 
     private Point origin;
     private Vector dir;
-    private double t;
+    private int recurseLevel;
 
     public Ray(Point origin, Vector dir){
         this.origin = origin;
         this.dir = dir;
-        this.t = 0;
+        this.recurseLevel = 0;
+    }
+
+    public Ray(Point origin, Vector dir, int recurseLevel){
+        this.origin = origin;
+        this.dir = dir;
+        this.recurseLevel = recurseLevel;
     }
 
     public Ray(Point origin, Point destination){
         this.origin = origin;
         this.dir = Operations.pointSubstraction(destination, origin);
+    }
+
+    public Ray(Point origin, Point destination, int recurseLevel){
+        this.origin = origin;
+        this.dir = Operations.pointSubstraction(destination, origin);
+        this.recurseLevel = recurseLevel;
     }
 
     public Point getOrigin() {
@@ -36,14 +48,6 @@ public class Ray {
         this.dir = dir;
     }
 
-    public double getT() {
-        return t;
-    }
-
-    public void setT(double t) {
-        this.t = t;
-    }
-
     public static Ray createRay(World world, int c, int r){
         Vector dirN = Operations.scalarVectorProduct(-world.getCamera().getDistanceN(), world.getCamera().getN());
         double uCoefficient = world.getCamera().getWidth() * (2 * (double) c / (double) Configuration.SCREEN_WIDTH - 1);
@@ -52,6 +56,14 @@ public class Ray {
         Vector dirV = Operations.scalarVectorProduct(vCoefficient, world.getCamera().getV());
         Vector dir = Operations.vectorSum(Operations.vectorSum(dirN, dirU), dirV);
         return new Ray(world.getCamera().getEye(), dir.normalize());
+    }
+
+    public int getRecurseLevel() {
+        return recurseLevel;
+    }
+
+    public void setRecurseLevel(int recurseLevel) {
+        this.recurseLevel = recurseLevel;
     }
 
     @Override

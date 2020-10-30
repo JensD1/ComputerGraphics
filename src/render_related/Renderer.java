@@ -48,9 +48,13 @@ public class Renderer{
                 CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getAmbient(), world.getAmbient())
         );
         hitPointInfo.setNormal(hitPointInfo.getNormal().normalize()); // normalise the normal
+
+        // check if the camera is inside the object, if so, reverse normals.
         if(Operations.dotProduct(v, hitPointInfo.getNormal()) < 0){
             hitPointInfo.setNormal(Operations.scalarVectorProduct(-1, hitPointInfo.getNormal()));
         }
+
+        // diffuse and specular components
         for(PointLight light: world.getLights()){
             if(!inShadow(world, light, hitPointInfo)) {
                 Vector s = Operations.pointSubstraction(light.getLocation(), hitPointInfo.getHitPoint()).normalize();
@@ -61,26 +65,29 @@ public class Renderer{
                 }
                 Vector h = Operations.vectorSum(v, s).normalize(); // The halfway vector
                 double mDoth = Operations.dotProduct(h, hitPointInfo.getNormal());
-                if (mDoth > 0.0) { // specular contribution // todo vraag aan prof of dit binnen de andere if moet
+                if (mDoth > 0.0) { // specular contribution
                     double phong = Math.pow(mDoth, hitPointInfo.getObject().getMaterial().getSpecularExponent());
                     CustomColor specColor = CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getSpecular(), light.getColor()).scalarProduct(phong);
                     color = color.addColor(specColor);
                 }
             }
         }
+
+
+        // Reflection and Transmission
+//        if()
+
         return color;
     }
 
     public boolean inShadow(World world, PointLight light, HitPointInfo hitPointInfo){
-
         Ray ray = new Ray(hitPointInfo.getHitPoint(), light.getLocation());
         boolean inShadow = false;
         for(GenericObject object: world.getObjectList()){
-            if(!object.equals(hitPointInfo.getObject())){
+            if(!object.equals(hitPointInfo.getObject()) && !inShadow){
                 HitPointInfo hitPointInfo1 = object.calculateHitPoint(ray);
                 if(hitPointInfo1.getHitTime() >= 0 && hitPointInfo1.getHitTime() <= 1) {
                     inShadow = true;
-                    break;
                 }
             }
         }

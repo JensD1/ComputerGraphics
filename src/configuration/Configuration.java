@@ -11,4 +11,6 @@ public class Configuration {
 
     public static final Color BACKGROUND_COLOR = Color.black;
 
+    public static final int MAX_RECURSE_LEVEL = 5;
+
 }

@@ -12,15 +12,21 @@ import java.util.List;
 public class TaperedCylinder extends GenericObject{
 
     private double s;
+    Plane groundPlane;
+    Plane upperPlane; // todo kijk overal na of er this. staat
 
     public TaperedCylinder(){
         super();
         this.s = 1;
+        this.groundPlane = new Plane(0, 0, 0, 180, 0, 0, this.material);
+        this.upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material);
     }
 
     public TaperedCylinder(double s, Material material){
         super(material);
         this.s = s;
+        this.groundPlane = new Plane(0, 0, 0, 180, 0, 0, this.material);
+        this.upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material);
     }
 
     public TaperedCylinder(double s,double x, double y, double z, double scaleX,
@@ -29,6 +35,8 @@ public class TaperedCylinder extends GenericObject{
         super(x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ,
                 material);
         this.s = s;
+        this.groundPlane = new Plane(0, 0, 0, 180, 0, 0, this.material);
+        this.upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material);
     }
 
     @Override
@@ -120,20 +128,18 @@ public class TaperedCylinder extends GenericObject{
         }
 
         // test groundplane
-        Plane groundPlane = new Plane(0, 0, 0, 180, 0, 0, this.material);
         HitPointInfo hitPointInfo1 = groundPlane.calculateHitPoint(inverseRay);
         Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitPointInfo1.getHitTime(), inverseRay.getDir()));
-        if( Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2) <= 1 && hitPointInfo1.isHit()){
+        if( (Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2)) <= (1 + Configuration.ROUNDING_ERROR) && hitPointInfo1.isHit()){
             hitPointInfo1.setNormal(Operations.vectorTransformation(this.transformation, hitPointInfo1.getNormal()));
             hitPointInfo1.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo1.getHitPoint()));
             hitPointInfoList.add(hitPointInfo1);
         }
 
         // test Upper plane
-        Plane upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material); // todo kijk overal na of er this. staat
         HitPointInfo hitPointInfo2 = upperPlane.calculateHitPoint(inverseRay);
         hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitPointInfo2.getHitTime(), inverseRay.getDir()));
-        if( Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2) <= Math.pow(this.s, 2) && hitPointInfo2.isHit()){
+        if( (Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2)) <= (Math.pow(this.s, 2) + Configuration.ROUNDING_ERROR) && hitPointInfo2.isHit()){
             hitPointInfo2.setNormal(Operations.vectorTransformation(this.transformation, hitPointInfo2.getNormal()));
             hitPointInfo2.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo2.getHitPoint()));
             hitPointInfoList.add(hitPointInfo2);

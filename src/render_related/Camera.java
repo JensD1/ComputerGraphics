@@ -8,7 +8,7 @@ public class Camera {
     private Point eye;
     private Vector u;
     private Vector v;
-    private Vector n;// todo Leid af uit v en u door vectorproduct.
+    private Vector n;
 
     private int width = Math.floorDiv(Configuration.SCREEN_WIDTH, 2);
     private int height = Math.floorDiv(Configuration.SCREEN_HEIGHT, 2);

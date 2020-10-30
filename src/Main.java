@@ -178,11 +178,11 @@ public class Main {
 		world.addObject(new Cube(2, 10, 1, 1, 1, 1, 0, 0, 30, copper));
 
 //		Christmas tree
-		world.addObject(new TaperedCylinder(1, -5, 0, 0, 1, 1, 2, 0, 0, 0, brownMaterial));
-		world.addObject(new TaperedCylinder(0.5, -5, 0, 2, 3, 3, 2, 0, 0, 0, greenPlastic));
-		world.addObject(new TaperedCylinder(0.3, -5, 0, 4, 2, 2, 1.7, 0, 0, 0, greenPlastic));
-		world.addObject(new TaperedCylinder(0.2, -5, 0, 5.7, 1, 1, 1.3, 0, 0, 0, greenPlastic));
-		world.addObject(new TaperedCylinder(0, -5, 0, 7, 0.5, 0.5, 1, 0, 0, 0, greenPlastic));
+//		world.addObject(new TaperedCylinder(1, -5, 0, 0, 1, 1, 2, 0, 0, 0, brownMaterial));
+//		world.addObject(new TaperedCylinder(0.5, -5, 0, 2, 3, 3, 2, 0, 0, 0, greenPlastic));
+//		world.addObject(new TaperedCylinder(0.3, -5, 0, 4, 2, 2, 1.7, 0, 0, 0, greenPlastic));
+//		world.addObject(new TaperedCylinder(0.2, -5, 0, 5.7, 1, 1, 1.3, 0, 0, 0, greenPlastic));
+//		world.addObject(new TaperedCylinder(0, -5, 0, 7, 0.5, 0.5, 1, 0, 0, 0, greenPlastic));
 
 //		Render the scene
 		Renderer renderer = new Renderer();
