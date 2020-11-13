@@ -1,5 +1,6 @@
 package generic_objects;
 
+import configuration.Configuration;
 import misc.*;
 import render_related.Material;
 
@@ -30,7 +31,7 @@ public class Plane extends GenericObject {
 		HitPointInfo hitPointInfo;
 		double hitTime = -inverseRay.getOrigin().getZ() / inverseRay.getDir().getZ();
 
-		if (hitTime > 0) {
+		if (hitTime > Configuration.ROUNDING_ERROR) {
 			hitPointInfo = new HitPointInfo(
 					this,
 					Operations.pointTransformation(

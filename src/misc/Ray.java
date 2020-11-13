@@ -1,6 +1,7 @@
 package misc;
 
 import configuration.Configuration;
+import generic_objects.GenericObject;
 import render_related.World;
 
 public class Ray {
@@ -8,28 +9,48 @@ public class Ray {
     private Point origin;
     private Vector dir;
     private int recurseLevel;
+    private GenericObject insideObject;
 
     public Ray(Point origin, Vector dir){
         this.origin = origin;
         this.dir = dir;
         this.recurseLevel = 0;
+        this.insideObject = null;
     }
 
     public Ray(Point origin, Vector dir, int recurseLevel){
         this.origin = origin;
         this.dir = dir;
         this.recurseLevel = recurseLevel;
+        this.insideObject = null;
+    }
+
+    public Ray(Point origin, Vector dir, int recurseLevel, GenericObject insideObject){
+        this.origin = origin;
+        this.dir = dir;
+        this.recurseLevel = recurseLevel;
+        this.insideObject = insideObject;
     }
 
     public Ray(Point origin, Point destination){
         this.origin = origin;
         this.dir = Operations.pointSubstraction(destination, origin);
+        this.recurseLevel = 0;
+        this.insideObject = null;
     }
 
     public Ray(Point origin, Point destination, int recurseLevel){
         this.origin = origin;
         this.dir = Operations.pointSubstraction(destination, origin);
         this.recurseLevel = recurseLevel;
+        this.insideObject = null;
+    }
+
+    public Ray(Point origin, Point destination, int recurseLevel, GenericObject insideObject){
+        this.origin = origin;
+        this.dir = Operations.pointSubstraction(destination, origin);
+        this.recurseLevel = recurseLevel;
+        this.insideObject = insideObject;
     }
 
     public Point getOrigin() {
@@ -64,6 +85,14 @@ public class Ray {
 
     public void setRecurseLevel(int recurseLevel) {
         this.recurseLevel = recurseLevel;
+    }
+
+    public GenericObject getInsideObject() {
+        return insideObject;
+    }
+
+    public void setInsideObject(GenericObject insideObject) {
+        this.insideObject = insideObject;
     }
 
     @Override

@@ -13,6 +13,14 @@ public class Operations {
         return vector;
     }
 
+    public static Vector vectorDifference(Vector vector1, Vector vector2) {
+        Vector vector = new Vector();
+        for (int i = 0; i < 4; i++) {
+            vector.setElement(i, vector1.getElement(i) - vector2.getElement(i));
+        }
+        return vector;
+    }
+
     public static Vector scalarVectorProduct(double scalar, Vector vector){
         Vector returnVector = new Vector();
         for(int i = 0; i<4; i++){

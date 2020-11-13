@@ -95,4 +95,16 @@ public class HitPointInfo {
 	public void setInShadow(boolean inShadow) {
 		this.inShadow = inShadow;
 	}
+
+	@Override
+	public String toString() {
+		return "HitPointInfo{" +
+				"isHit=" + isHit +
+				", hitTime=" + hitTime +
+				", object=" + object +
+				", normal=" + normal +
+				", hitPoint=" + hitPoint +
+				", inShadow=" + inShadow +
+				'}';
+	}
 }

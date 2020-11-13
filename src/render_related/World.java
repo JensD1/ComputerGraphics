@@ -1,5 +1,7 @@
 package render_related;
 
+import configuration.Configuration;
+import generic_objects.TaperedCylinder;
 import misc.CustomColor;
 import misc.HitPointInfo;
 import misc.Point;
@@ -90,12 +92,19 @@ public class World {
      * @return HitPointInfo the information about the hitpoint.
      */
     public HitPointInfo calculateBestHitpoint(Ray ray){
+//        System.out.println("The recursion level is: " + ray.getRecurseLevel()); // todo remove
         HitPointInfo bestHitpoint = new HitPointInfo();
         for(GenericObject object: this.objectList){
             HitPointInfo tempHitPoint = object.calculateHitPoint(ray);
-            if((!bestHitpoint.isHit() && tempHitPoint.isHit()) || (bestHitpoint.getHitTime() > tempHitPoint.getHitTime() && tempHitPoint.getHitTime() > 0 && tempHitPoint.isHit())){ // && tempHitPoint.getHitTime() > getCamera().getDistanceN()
+            if((!bestHitpoint.isHit() && tempHitPoint.isHit()) || (bestHitpoint.getHitTime() > tempHitPoint.getHitTime() && (tempHitPoint.getHitTime() > Configuration.ROUNDING_ERROR) && tempHitPoint.isHit())){ // && tempHitPoint.getHitTime() > getCamera().getDistanceN()
                 bestHitpoint = tempHitPoint;
             }
+//            if (object.getClass() == TaperedCylinder.class && tempHitPoint.isHit()) { // todo remove
+//                System.out.println("Hit cilinder on recursion level " + ray.getRecurseLevel());
+//                System.out.println("time" + bestHitpoint.getHitTime());
+//                System.out.println("point" + bestHitpoint.getHitPoint());
+//                System.out.println();
+//            }
         }
         return bestHitpoint;
     }

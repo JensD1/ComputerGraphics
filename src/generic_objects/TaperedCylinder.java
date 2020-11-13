@@ -60,7 +60,7 @@ public class TaperedCylinder extends GenericObject{
         // if discriminate is negative, the standard hitPointInfo will be returned, which is non-hit
         if(Math.abs(discriminant) < Configuration.ROUNDING_ERROR) { // if discriminant is 0
             double hitTime = -b/a;
-            if(hitTime > 0) {
+            if(hitTime > Configuration.ROUNDING_ERROR) {
                 Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
                 if (hitLocation.getZ() >= 0 && hitLocation.getZ() <= 1) {
                     hitPointInfoList.add(
@@ -83,7 +83,7 @@ public class TaperedCylinder extends GenericObject{
         }
         else if(discriminant > 0){
             double hitTime = -(b/a) - (Math.sqrt(discriminant)/a); // first hit
-            if(hitTime > 0) {
+            if(hitTime > Configuration.ROUNDING_ERROR) {
                 Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
                 if (hitLocation.getZ() >= 0 && hitLocation.getZ() <= 1) {
                     hitPointInfoList.add(
@@ -105,7 +105,7 @@ public class TaperedCylinder extends GenericObject{
             }
 
             hitTime = -(b/a) + (Math.sqrt(discriminant)/a);
-            if(hitTime > 0) {
+            if(hitTime > Configuration.ROUNDING_ERROR) {
                 Point hitLocation2 = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
                 if (hitLocation2.getZ() >= 0 && hitLocation2.getZ() <= 1) {
                     hitPointInfoList.add(
@@ -130,7 +130,7 @@ public class TaperedCylinder extends GenericObject{
         // test groundplane
         HitPointInfo hitPointInfo1 = groundPlane.calculateHitPoint(inverseRay);
         Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitPointInfo1.getHitTime(), inverseRay.getDir()));
-        if( (Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2)) <= (1 + Configuration.ROUNDING_ERROR) && hitPointInfo1.isHit()){
+        if( ((Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2)) <= (1 + Configuration.ROUNDING_ERROR)) && hitPointInfo1.isHit()){
             hitPointInfo1.setNormal(Operations.vectorTransformation(this.transformation, hitPointInfo1.getNormal()));
             hitPointInfo1.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo1.getHitPoint()));
             hitPointInfoList.add(hitPointInfo1);
@@ -139,7 +139,7 @@ public class TaperedCylinder extends GenericObject{
         // test Upper plane
         HitPointInfo hitPointInfo2 = upperPlane.calculateHitPoint(inverseRay);
         hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitPointInfo2.getHitTime(), inverseRay.getDir()));
-        if( (Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2)) <= (Math.pow(this.s, 2) + Configuration.ROUNDING_ERROR) && hitPointInfo2.isHit()){
+        if( ((Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2)) <= (Math.pow(this.s, 2) + Configuration.ROUNDING_ERROR)) && hitPointInfo2.isHit()){
             hitPointInfo2.setNormal(Operations.vectorTransformation(this.transformation, hitPointInfo2.getNormal()));
             hitPointInfo2.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo2.getHitPoint()));
             hitPointInfoList.add(hitPointInfo2);

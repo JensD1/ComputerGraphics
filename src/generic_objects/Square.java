@@ -32,7 +32,7 @@ public class Square extends GenericObject {
 		);
 		double hitTime = -inverseRay.getOrigin().getZ() / inverseRay.getDir().getZ();
 		HitPointInfo hitPointInfo;
-		if (hitTime > 0) {
+		if (hitTime > Configuration.ROUNDING_ERROR) {
 			Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
 			if (Math.abs(hitLocation.getX()) <= (1.0 + Configuration.ROUNDING_ERROR)  && Math.abs(hitLocation.getY()) <= (1.0 + Configuration.ROUNDING_ERROR)) {
 				hitPointInfo = new HitPointInfo(

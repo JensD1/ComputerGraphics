@@ -45,7 +45,7 @@ public class Sphere extends GenericObject {
 		// if discriminate is negative, the standard hitPointInfo will be returned, which is non-hit
 		if (Math.abs(discriminant) < Configuration.ROUNDING_ERROR) { // if discriminant is 0
 			double hitTime = -b / a;
-			if(hitTime > 0) {
+			if(hitTime > Configuration.ROUNDING_ERROR) {
 				Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
 				hitPointInfo = new HitPointInfo(
 						this,
@@ -62,10 +62,10 @@ public class Sphere extends GenericObject {
 			}
 		} else if (discriminant > 0) {
 			double hitTime = -(b / a) - (Math.sqrt(discriminant) / a);
-			if(hitTime < 0) {// todo kijk overal na bij <, > of == dat er bij doubles nog +- Configuration.error bij komt!
+			if(hitTime < Configuration.ROUNDING_ERROR) {// todo kijk overal na bij <, > of == dat er bij doubles nog +- Configuration.error bij komt!
 				hitTime = -(b / a) + (Math.sqrt(discriminant) / a);
 			}
-			if(hitTime > 0) {
+			if(hitTime > Configuration.ROUNDING_ERROR) {
 				Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
 				hitPointInfo = new HitPointInfo(
 						this,

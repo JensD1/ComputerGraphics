@@ -9,6 +9,9 @@ public class Material {
 	private double specularExponent;
 	private CustomColor emission;
 	private CustomColor ambient;
+	private double reflectionCoefficient;
+	private double refractionCoefficient;
+	private double relativeDensity;
 
 	public Material(){
 		this.diffuse = new CustomColor(0, 0, 0);
@@ -16,15 +19,22 @@ public class Material {
 		this.specularExponent = 1;
 		this.emission = new CustomColor(0, 0, 0);
 		this.ambient = new CustomColor(0, 0, 0);
+		this.reflectionCoefficient = 0;
+		this.refractionCoefficient = 0;
+		this.relativeDensity = 1;
 	}
 
 	public Material(CustomColor diffuse, CustomColor specular, double specularExponent,
-					CustomColor emission, CustomColor ambient){
+					CustomColor emission, CustomColor ambient, double reflectionCoefficient,
+					double refractionCoefficient, double relativeDensity){
 		this.diffuse = diffuse;
 		this.specular = specular;
 		this.specularExponent = specularExponent;
 		this.emission = emission;
 		this.ambient = ambient;
+		this.reflectionCoefficient = reflectionCoefficient;
+		this.refractionCoefficient = refractionCoefficient;
+		this.relativeDensity = relativeDensity;
 	}
 
 	public CustomColor getDiffuse() {
@@ -65,5 +75,29 @@ public class Material {
 
 	public void setAmbient(CustomColor ambient) {
 		this.ambient = ambient;
+	}
+
+	public double getReflectionCoefficient() {
+		return reflectionCoefficient;
+	}
+
+	public void setReflectionCoefficient(double reflectionCoefficient) {
+		this.reflectionCoefficient = reflectionCoefficient;
+	}
+
+	public double getRefractionCoefficient() {
+		return refractionCoefficient;
+	}
+
+	public void setRefractionCoefficient(double refractionCoefficient) {
+		this.refractionCoefficient = refractionCoefficient;
+	}
+
+	public double getRelativeDensity() {
+		return relativeDensity;
+	}
+
+	public void setRelativeDensity(double relativeDensity) {
+		this.relativeDensity = relativeDensity;
 	}
 }
