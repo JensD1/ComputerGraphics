@@ -138,4 +138,25 @@ public class World {
         }
         return bestHitpoint;
     }
+
+    /**
+     * Calculates all hitpoints exclusive an object. This is null in case no object is hit.
+     * @param ray The ray to calculate hitpoints for
+     * @param exclusiveObject The object that is not allowed to be a bestHitPoint
+     * @return HitPointInfo the information about the hitpoint.
+     */
+    public List<HitPointInfo> calculateAllHitPoints(Ray ray, GenericObject exclusiveObject){
+        // Find all hitpoints with all objects
+        List<HitPointInfo> hitPointInfoList = new ArrayList<>();
+        for(GenericObject object: this.objectList) {
+            if(!object.equals(exclusiveObject)) {
+                List<HitPointInfo> tempList = object.calculateHitPoint(ray);
+                if (!tempList.isEmpty()) {
+                    hitPointInfoList.addAll(tempList);
+                }
+            }
+        }
+
+        return hitPointInfoList;
+    }
 }

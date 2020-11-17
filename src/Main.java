@@ -105,7 +105,7 @@ public class Main {
 				100, new CustomColor(), new CustomColor(0.15, 0.15, 0.05), 0.6, 0,1);
 		Material transparentMaterial = new Material(new CustomColor(0, 0, 0), new CustomColor(0, 0, 0),
 				100, new CustomColor(), new CustomColor(0.1, 0.1, 0.1), 0.2, 0.9,0.7519);
-		Material mirrorMaterial = new Material(new CustomColor(0, 0, 0), new CustomColor(0.1, 0.1, 0.1),
+		Material mirrorMaterial = new Material(new CustomColor(0, 0, 0), new CustomColor(0.15, 0.15, 0.15),
 				100, new CustomColor(), new CustomColor(0.02, 0.02, 0.02), 0.9, 0,1);
 
 		// Materials from http://devernay.free.fr/cours/opengl/materials.html
@@ -162,7 +162,7 @@ public class Main {
         camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
 		camera.setDistanceN(1000);
 		World world = new World(camera, new CustomColor(1, 1, 1));
-		PointLight pointLight = new PointLight(new Point(1, 10, 7), new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(1, 10, 15), new CustomColor(1, 1, 1));
 		world.addLight(pointLight);
 		PointLight pointLight2 = new PointLight(new Point(10, 1, 3), new CustomColor(0.2, 0.2, 0.2));
 		world.addLight(pointLight2);
