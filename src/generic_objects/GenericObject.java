@@ -3,6 +3,8 @@ package generic_objects;
 import misc.*;
 import render_related.Material;
 
+import java.util.List;
+
 public abstract class GenericObject {
 
     protected Matrix transformation;
@@ -37,7 +39,7 @@ public abstract class GenericObject {
         this.material = material;
     }
 
-    public abstract HitPointInfo calculateHitPoint(Ray ray);
+    public abstract List<HitPointInfo> calculateHitPoint(Ray ray);
 
     public Matrix getTransformation() {
         return transformation;
@@ -59,7 +61,5 @@ public abstract class GenericObject {
         return material;
     }
 
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
+    public abstract void setMaterial(Material material);
 }

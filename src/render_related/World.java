@@ -92,19 +92,49 @@ public class World {
      * @return HitPointInfo the information about the hitpoint.
      */
     public HitPointInfo calculateBestHitpoint(Ray ray){
-//        System.out.println("The recursion level is: " + ray.getRecurseLevel()); // todo remove
-        HitPointInfo bestHitpoint = new HitPointInfo();
-        for(GenericObject object: this.objectList){
-            HitPointInfo tempHitPoint = object.calculateHitPoint(ray);
-            if((!bestHitpoint.isHit() && tempHitPoint.isHit()) || (bestHitpoint.getHitTime() > tempHitPoint.getHitTime() && (tempHitPoint.getHitTime() > Configuration.ROUNDING_ERROR) && tempHitPoint.isHit())){ // && tempHitPoint.getHitTime() > getCamera().getDistanceN()
-                bestHitpoint = tempHitPoint;
+        // Find all hitpoints with all objects
+        List<HitPointInfo> hitPointInfoList = new ArrayList<>();
+        for(GenericObject object: this.objectList) {
+            List<HitPointInfo> tempList = object.calculateHitPoint(ray);
+            if(!tempList.isEmpty()) {
+                hitPointInfoList.addAll(tempList);
             }
-//            if (object.getClass() == TaperedCylinder.class && tempHitPoint.isHit()) { // todo remove
-//                System.out.println("Hit cilinder on recursion level " + ray.getRecurseLevel());
-//                System.out.println("time" + bestHitpoint.getHitTime());
-//                System.out.println("point" + bestHitpoint.getHitPoint());
-//                System.out.println();
-//            }
+        }
+
+        // Find the best hitpoint of this list
+        HitPointInfo bestHitpoint = new HitPointInfo();
+        for(HitPointInfo hitPointInfo: hitPointInfoList){
+            if((!bestHitpoint.isHit() && hitPointInfo.isHit()) || (bestHitpoint.getHitTime() > hitPointInfo.getHitTime() && (hitPointInfo.getHitTime() > Configuration.ROUNDING_ERROR) && hitPointInfo.isHit())){
+                bestHitpoint = hitPointInfo;
+            }
+        }
+        return bestHitpoint;
+    }
+
+    /**
+     * Calculates the best hitpoint exclusive an object. This is null in case no object is hit.
+     * @param ray The ray to calculate hitpoints for
+     * @param exclusiveObject The object that is not allowed to be a bestHitPoint
+     * @return HitPointInfo the information about the hitpoint.
+     */
+    public HitPointInfo calculateBestHitpoint(Ray ray, GenericObject exclusiveObject){
+        // Find all hitpoints with all objects
+        List<HitPointInfo> hitPointInfoList = new ArrayList<>();
+        for(GenericObject object: this.objectList) {
+            if(!object.equals(exclusiveObject)) {
+                List<HitPointInfo> tempList = object.calculateHitPoint(ray);
+                if (!tempList.isEmpty()) {
+                    hitPointInfoList.addAll(tempList);
+                }
+            }
+        }
+
+        // Find the best hitpoint of this list
+        HitPointInfo bestHitpoint = new HitPointInfo();
+        for(HitPointInfo hitPointInfo: hitPointInfoList){
+            if((!bestHitpoint.isHit() && hitPointInfo.isHit()) || (bestHitpoint.getHitTime() > hitPointInfo.getHitTime() && (hitPointInfo.getHitTime() > Configuration.ROUNDING_ERROR) && hitPointInfo.isHit())){
+                bestHitpoint = hitPointInfo;
+            }
         }
         return bestHitpoint;
     }

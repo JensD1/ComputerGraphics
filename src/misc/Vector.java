@@ -1,5 +1,7 @@
 package misc;
 
+import configuration.Configuration;
+
 public class Vector {
 
     private double[] vector;
@@ -31,6 +33,9 @@ public class Vector {
 
     public Vector normalize(){
         double norm = norm();
+        if(norm <= Configuration.ROUNDING_ERROR){
+            throw new IllegalArgumentException("Vector cannot be normalized if the norm is 0!");
+        }
         return new Vector(vector[0]/norm, vector[1]/norm, vector[2]/norm);
     }
 

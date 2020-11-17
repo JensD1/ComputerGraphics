@@ -104,9 +104,9 @@ public class Main {
 		Material yellowMaterial = new Material(new CustomColor(0.8, 0.8, 0), new CustomColor(0.6, 0.6, 0.3),
 				100, new CustomColor(), new CustomColor(0.15, 0.15, 0.05), 0.6, 0,1);
 		Material transparentMaterial = new Material(new CustomColor(0, 0, 0), new CustomColor(0, 0, 0),
-				100, new CustomColor(), new CustomColor(0.1, 0.1, 0.1), 0, 1,0.7519);
-		Material mirrorMaterial = new Material(new CustomColor(0, 0, 0), new CustomColor(0, 0, 0),
-				100, new CustomColor(), new CustomColor(0.1, 0.1, 0.1), 1, 0,1);
+				100, new CustomColor(), new CustomColor(0.1, 0.1, 0.1), 0.2, 0.9,0.7519);
+		Material mirrorMaterial = new Material(new CustomColor(0, 0, 0), new CustomColor(0.1, 0.1, 0.1),
+				100, new CustomColor(), new CustomColor(0.02, 0.02, 0.02), 0.9, 0,1);
 
 		// Materials from http://devernay.free.fr/cours/opengl/materials.html
 //		Material emerald = new Material(new CustomColor(0.07568, 0.61424, 0.07568), new CustomColor(0.633, 0.727811, 0.633),
@@ -159,7 +159,7 @@ public class Main {
 //				0.078125 * 128, new CustomColor(), new CustomColor(0.05, 0.05, 0.0));
 
 		Camera camera = new Camera();
-        camera.setCameraLocation(new Point(15, 15, 20), new Point(0, 0, 0), new Vector(0, 0, 1));
+        camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
 		camera.setDistanceN(1000);
 		World world = new World(camera, new CustomColor(1, 1, 1));
 		PointLight pointLight = new PointLight(new Point(1, 10, 7), new CustomColor(1, 1, 1));
@@ -170,25 +170,34 @@ public class Main {
 		world.addLight(pointLight3);
 
 //		Bounding box with plane so the floor is of another material
-		world.addObject(new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, mirrorMaterial));
+		world.addObject(new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, redMaterial));
 //		world.addObject(new Sphere(50, 0, 0, 0, cyanPlastic));
 //		world.addObject(new TaperedCylinder(1, 0, 0, -2, 30, 30, 20, 0, 0, 0, cyanPlastic));
 		world.addObject(new Plane(redMaterial));
 
 //		Easy world layout:
-//		world.addObject(new TaperedCylinder(0, 0, 0, 1, 1, 1, 1, 0, 0, 0, blueMaterial));
-		world.addObject(new TaperedCylinder(1,0, 0, 0, 8, 8, 3, 0, 0, 0, transparentMaterial));
-//		world.addObject(new Cube(0, 0, 10, 1, 1, 1, 0, 0, 0, blueMaterial));
-//		world.addObject(new Sphere(3, 0, 0, 3, yellowMaterial));
+		world.addObject(new TaperedCylinder(1,0, 10, 7, 8, 8, 3, 0, 0, 0, transparentMaterial));
+//		world.addObject(new Sphere(2, 0, 0, 3, yellowMaterial));
 //		world.addObject(new Sphere(3, 6, -3, 3, blueMaterial));
 //		world.addObject(new Sphere(3, -3, 6, 3, brownMaterial));
-//		world.addObject(new Sphere(3, 6, 6, 6, transparentMaterial));
-//		world.addObject(new Cube(6, 0.5, 3, 3, 0.5, 3.1, 0, 0, 0, transparentMaterial));
-//		world.addObject(new TaperedCylinder(1,6, 6, 0.01, 3, 3, 3, 0, 0, 0, mirrorMaterial));
-//		world.addObject(new TaperedCylinder(1,-3, 6, 6.5, 8, 8, 3, 0, 0, 0, transparentMaterial));
+		world.addObject(new Cube(6, 0.5, 3.1, 3, 0.5, 3, 0, 0, 0, transparentMaterial));
 
+//		      Nice world layout: with working materials
+		world.addObject(new Sphere(2, 10, -10, 2, transparentMaterial));
+		world.addObject(new Square(10, -19.9, 10, 20, 20, -90, 0, 0, mirrorMaterial));
+		world.addObject(new TaperedCylinder(0, 7, 3, 0, 1, 1, 2, 0, 0, 0, yellowMaterial));
+		world.addObject(new TaperedCylinder(0, 7, 3, 3.7, 1, 1, -2, 0, 0, 0, blueMaterial));
+		world.addObject(new TaperedCylinder(1, 3, 3, 0, 1, 1, 2, 0, 0, 0, yellowMaterial));
+		world.addObject(new TaperedCylinder(0.5, 3, 7, 0, 1, 1, 2, 0, 0, 0, redMaterial));
+		world.addObject(new Cube(2, 10, 1, 1, 1, 1, 0, 0, 30, blueMaterial));
+//		 christmas tree: with working materials
+		world.addObject(new TaperedCylinder(1, -5, 0, 0, 1, 1, 2, 0, 0, 0, yellowMaterial));
+		world.addObject(new TaperedCylinder(0.5, -5, 0, 2, 3, 3, 2, 0, 0, 0, yellowMaterial));
+		world.addObject(new TaperedCylinder(0.3, -5, 0, 4, 2, 2, 1.7, 0, 0, 0, yellowMaterial));
+		world.addObject(new TaperedCylinder(0.2, -5, 0, 5.7, 1, 1, 1.3, 0, 0, 0, yellowMaterial));
+		world.addObject(new TaperedCylinder(0, -5, 0, 7, 0.5, 0.5, 1, 0, 0, 0, yellowMaterial));
 
-//      Nice world layout:
+		//      Nice world layout:
 //		world.addObject(new Sphere(2, 10, 2, 1, emerald));
 //		world.addObject(new Square(-5, -19.9, 5, 2, 1, -90, 0, 0, ruby));
 //		world.addObject(new TaperedCylinder(0, 7, 3, 0, 1, 1, 2, 0, 0, 0, turquoise));

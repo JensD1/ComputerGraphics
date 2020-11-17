@@ -48,34 +48,43 @@ public class Cube extends GenericObject {
         this.rightSquare = new Square(-1, 0, 0, 1, 1, 0, -90, 0, this.material);
         this.leftSquare = new Square(1, 0, 0, 1, 1, 0, 90, 0, this.material);
     }
-    // todo make sure that everywhere the materials of the subelements (e.g. squares) are adjusted when the material of e.g. the cube is adjusted
 
     @Override
-    public HitPointInfo calculateHitPoint(Ray ray) {
+    public List<HitPointInfo> calculateHitPoint(Ray ray) {
         List<HitPointInfo> hitPointInfoList = new ArrayList<>();
         Ray inverseRay = new Ray(
                 Operations.pointTransformation(this.inverseTransformation, ray.getOrigin()),
                 Operations.vectorTransformation(this.inverseTransformation, ray.getDir())
         );
 
-        hitPointInfoList.add(this.groundSquare.calculateHitPoint(inverseRay));
-        hitPointInfoList.add(this.upperSquare.calculateHitPoint(inverseRay));
-        hitPointInfoList.add(this.backSquare.calculateHitPoint(inverseRay));
-        hitPointInfoList.add(this.frontSquare.calculateHitPoint(inverseRay));
-        hitPointInfoList.add(this.rightSquare.calculateHitPoint(inverseRay));
-        hitPointInfoList.add(this.leftSquare.calculateHitPoint(inverseRay));
+        addHitPointToList(hitPointInfoList, this.groundSquare.calculateHitPoint(inverseRay));
+        addHitPointToList(hitPointInfoList, this.upperSquare.calculateHitPoint(inverseRay));
+        addHitPointToList(hitPointInfoList, this.backSquare.calculateHitPoint(inverseRay));
+        addHitPointToList(hitPointInfoList, this.frontSquare.calculateHitPoint(inverseRay));
+        addHitPointToList(hitPointInfoList, this.rightSquare.calculateHitPoint(inverseRay));
+        addHitPointToList(hitPointInfoList, this.leftSquare.calculateHitPoint(inverseRay));
 
-        HitPointInfo firstHit = new HitPointInfo();
-        for (HitPointInfo hitPointInfo : hitPointInfoList) {
-            if ((!firstHit.isHit() && hitPointInfo.isHit()) || (hitPointInfo.getHitTime() < firstHit.getHitTime() && hitPointInfo.isHit())) {
-                firstHit = hitPointInfo;
+        return hitPointInfoList;
+    }
+
+    public void addHitPointToList(List<HitPointInfo> hitPointInfoList, List<HitPointInfo> toAddList){
+        if(!toAddList.isEmpty()){
+            for(HitPointInfo hitPointInfo: toAddList){ // Change the parameters that needs to change
+                hitPointInfo.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo.getHitPoint()));
+                hitPointInfo.setNormal(Operations.vectorTransformation(this.transformation, hitPointInfo.getNormal()));
+                hitPointInfo.setObject(this);
             }
+            hitPointInfoList.addAll(toAddList);
         }
-        if(firstHit.isHit()){ // Make sure that the transformation of the cube is taken into account.
-            firstHit.setHitPoint(Operations.pointTransformation(this.transformation, firstHit.getHitPoint()));
-            firstHit.setNormal(Operations.vectorTransformation(this.transformation, firstHit.getNormal()));
-            firstHit.setObject(this);
-        }
-        return firstHit;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+        this.groundSquare.setMaterial(material);
+        this.upperSquare.setMaterial(material);
+        this.backSquare.setMaterial(material);
+        this.frontSquare.setMaterial(material);
+        this.rightSquare.setMaterial(material);
+        this.leftSquare.setMaterial(material);
     }
 }
