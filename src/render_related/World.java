@@ -1,12 +1,10 @@
 package render_related;
 
 import configuration.Configuration;
-import generic_objects.TaperedCylinder;
 import misc.CustomColor;
 import misc.HitPointInfo;
-import misc.Point;
 import misc.Ray;
-import generic_objects.GenericObject;
+import objects.GenericObject;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package misc;
 
-import generic_objects.GenericObject;
+import objects.GenericObject;
 
 public class HitPointInfo {
 	private boolean isHit;
@@ -9,6 +9,7 @@ public class HitPointInfo {
 	private Vector normal;
 	private Point hitPoint;
 	private boolean inShadow;
+	private boolean isEntering;
 
 	public HitPointInfo() {
 		this.hitTime = -1;
@@ -17,6 +18,7 @@ public class HitPointInfo {
 		this.normal = null;
 		this.hitPoint = null;
 		this.inShadow = false;
+		this.isEntering = true;
 	}
 
 	public HitPointInfo(double hitTime, GenericObject object) {
@@ -26,6 +28,7 @@ public class HitPointInfo {
 		this.normal = null;
 		this.hitPoint = null;
 		this.inShadow = false;
+		this.isEntering = true;
 	}
 
 	public HitPointInfo(GenericObject object, Point hitPoint, double hitTime,
@@ -39,13 +42,14 @@ public class HitPointInfo {
 	}
 
 	public HitPointInfo(GenericObject object, Point hitPoint, double hitTime,
-						Vector normal, boolean inShadow) {
+						Vector normal, boolean isEntering) {
 		this.hitTime = hitTime;
 		this.isHit = true;
 		this.object = object;
 		this.normal = normal;
 		this.hitPoint = hitPoint;
-		this.inShadow = inShadow;
+		this.inShadow = false;
+		this.isEntering = isEntering;
 	}
 
 	public double getHitTime() {
@@ -94,6 +98,14 @@ public class HitPointInfo {
 
 	public void setInShadow(boolean inShadow) {
 		this.inShadow = inShadow;
+	}
+
+	public boolean isEntering() {
+		return isEntering;
+	}
+
+	public void setEntering(boolean entering) {
+		isEntering = entering;
 	}
 
 	@Override

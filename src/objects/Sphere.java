@@ -1,4 +1,4 @@
-package generic_objects;
+package objects;
 
 import configuration.Configuration;
 import misc.*;
@@ -45,21 +45,25 @@ public class Sphere extends GenericObject {
 		// if discriminate is negative, the standard hitPointInfo will be returned, which is non-hit
 		if (Math.abs(discriminant) < Configuration.ROUNDING_ERROR) { // if discriminant is 0, there is 1 hitpoint.
 			double hitTime = -b / a;
-			addHitPointToList(inverseRay, hitPointInfoList, hitTime);
+			addHitPointToList(inverseRay, hitPointInfoList, hitTime, false);
 		} else if (discriminant > -Configuration.ROUNDING_ERROR) { // if there are 2 hitpoints
 			// hitpoint 1:
-			double hitTime = -(b / a) - (Math.sqrt(discriminant) / a);
-			addHitPointToList(inverseRay, hitPointInfoList, hitTime);
+			double hitTime = -(b / a) - (Math.sqrt(Math.abs(discriminant)) / a);
+			if(hitTime > Configuration.ROUNDING_ERROR){
+				addHitPointToList(inverseRay, hitPointInfoList, hitTime, true);
+			}
 
 			//hitpoint 2:
-			hitTime = -(b / a) + (Math.sqrt(discriminant) / a);
-			addHitPointToList(inverseRay, hitPointInfoList, hitTime);
+			hitTime = -(b / a) + (Math.sqrt(Math.abs(discriminant)) / a);
+			if(hitTime > Configuration.ROUNDING_ERROR) {
+				addHitPointToList(inverseRay, hitPointInfoList, hitTime, false);
+			}
 		}
 
 		return hitPointInfoList;
 	}
 
-	private void addHitPointToList(Ray inverseRay, List<HitPointInfo> hitPointInfoList, double hitTime) {
+	private void addHitPointToList(Ray inverseRay, List<HitPointInfo> hitPointInfoList, double hitTime, boolean isEntering) {
 		if (hitTime > Configuration.ROUNDING_ERROR) {
 			Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
 			hitPointInfoList.add(
@@ -70,7 +74,8 @@ public class Sphere extends GenericObject {
 									hitPoint
 							),
 							hitTime,
-							Operations.vectorTransformation(this.transformation, Operations.pointSubstraction(hitPoint, new Point()))
+							Operations.vectorTransformation(this.inverseTransformation.transpose(), Operations.pointSubstraction(hitPoint, new Point())),
+							isEntering
 					)
 			);
 		}

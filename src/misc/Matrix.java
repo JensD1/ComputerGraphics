@@ -44,6 +44,16 @@ public class Matrix {
         return this.matrix[row][column];
     }
 
+    public Matrix transpose(){
+        Matrix matrix = new Matrix();
+        for(int i = 0; i < 4; i ++){
+            for(int j = 0; j<4; j++){
+                matrix.setElement(i, j, this.matrix[j][i]);
+            }
+        }
+        return matrix;
+    }
+
     @Override
     public String toString() {
         String string = "";

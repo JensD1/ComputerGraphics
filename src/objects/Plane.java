@@ -1,4 +1,4 @@
-package generic_objects;
+package objects;
 
 import configuration.Configuration;
 import misc.HitPointInfo;
@@ -36,16 +36,17 @@ public class Plane extends GenericObject {
 		List<HitPointInfo> hitPointInfoList = new ArrayList<>();
 		double hitTime = -inverseRay.getOrigin().getZ() / inverseRay.getDir().getZ();
 
-		if (hitTime > Configuration.ROUNDING_ERROR) {
-			hitPointInfoList.add(
-					new HitPointInfo(
+		if (hitTime > Configuration.ROUNDING_ERROR && !(Math.abs(inverseRay.getDir().getZ()) < Configuration.ROUNDING_ERROR)) { // if not behind the eye and the ray is in the plane itself, the hitpoint can be calculated.
+			Vector normal = new Vector(0, 0, 1);
+			hitPointInfoList.add(new HitPointInfo(
 							this,
 							Operations.pointTransformation(
 									this.transformation,
 									Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()))
 							),
 							hitTime,
-							Operations.vectorTransformation(this.transformation, new Vector(0, 0, 1))
+							Operations.vectorTransformation(this.inverseTransformation.transpose(), normal),
+							(Operations.dotProduct(Operations.scalarVectorProduct(-1, inverseRay.getDir()), normal) >= 0) // isEntering if the corner between -inverseRay and the normal are smaller than 90°
 					)
 			);
 		}

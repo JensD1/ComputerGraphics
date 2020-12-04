@@ -1,56 +1,59 @@
 package misc;
 
 import configuration.Configuration;
-import generic_objects.GenericObject;
+import objects.GenericObject;
 import render_related.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ray {
 
     private Point origin;
     private Vector dir;
     private int recurseLevel;
-    private GenericObject insideObject;
+    private List<GenericObject> insideObjectList;
 
     public Ray(Point origin, Vector dir){
         this.origin = origin;
         this.dir = dir;
         this.recurseLevel = 0;
-        this.insideObject = null;
+        this.insideObjectList = new ArrayList<>();
     }
 
     public Ray(Point origin, Vector dir, int recurseLevel){
         this.origin = origin;
         this.dir = dir;
         this.recurseLevel = recurseLevel;
-        this.insideObject = null;
+        this.insideObjectList = new ArrayList<>();
     }
 
-    public Ray(Point origin, Vector dir, int recurseLevel, GenericObject insideObject){
+    public Ray(Point origin, Vector dir, int recurseLevel, List<GenericObject> insideObjectList){
         this.origin = origin;
         this.dir = dir;
         this.recurseLevel = recurseLevel;
-        this.insideObject = insideObject;
+        this.insideObjectList = insideObjectList;
     }
 
     public Ray(Point origin, Point destination){
         this.origin = origin;
         this.dir = Operations.pointSubstraction(destination, origin);
         this.recurseLevel = 0;
-        this.insideObject = null;
+        this.insideObjectList = new ArrayList<>();
     }
 
     public Ray(Point origin, Point destination, int recurseLevel){
         this.origin = origin;
         this.dir = Operations.pointSubstraction(destination, origin);
         this.recurseLevel = recurseLevel;
-        this.insideObject = null;
+        this.insideObjectList = new ArrayList<>();
     }
 
-    public Ray(Point origin, Point destination, int recurseLevel, GenericObject insideObject){
+    public Ray(Point origin, Point destination, int recurseLevel, List<GenericObject> insideObjectList){
         this.origin = origin;
         this.dir = Operations.pointSubstraction(destination, origin);
         this.recurseLevel = recurseLevel;
-        this.insideObject = insideObject;
+        this.insideObjectList = insideObjectList;
     }
 
     public Point getOrigin() {
@@ -87,12 +90,22 @@ public class Ray {
         this.recurseLevel = recurseLevel;
     }
 
-    public GenericObject getInsideObject() {
-        return insideObject;
+    public List<GenericObject> getInsideObjectList() {
+        return insideObjectList;
     }
 
-    public void setInsideObject(GenericObject insideObject) {
-        this.insideObject = insideObject;
+    public void setInsideObjectList(List<GenericObject> insideObjectList) {
+        this.insideObjectList = insideObjectList;
+    }
+
+    public GenericObject getHighestPriorityObject(){
+        GenericObject highestPriorityObject = null;
+        for (GenericObject genericObject : this.insideObjectList) {
+            if (highestPriorityObject == null || genericObject.getPriority() < highestPriorityObject.getPriority()) {
+                highestPriorityObject = genericObject;
+            }
+        }
+        return highestPriorityObject;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package generic_objects;
+package objects;
 
 import configuration.Configuration;
 import misc.*;
@@ -80,23 +80,24 @@ public class TaperedCylinder extends GenericObject {
 
 	private void addHitPointToList(List<HitPointInfo> hitPointInfoList, Ray inverseRay, double hitTime) {
 		if (hitTime > Configuration.ROUNDING_ERROR) {
-			Point hitLocation2 = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-			if (hitLocation2.getZ() >= -Configuration.ROUNDING_ERROR && hitLocation2.getZ() <= (1+Configuration.ROUNDING_ERROR)) {
-				hitPointInfoList.add(
-						new HitPointInfo(
-								this,
-								Operations.pointTransformation(this.transformation, hitLocation2),
-								hitTime,
-								Operations.vectorTransformation(
-										this.transformation,
-										new Vector(
-												hitLocation2.getX(),
-												hitLocation2.getY(),
-												-(this.s - 1) * (1 + (this.s - 1) * hitLocation2.getZ())
-										)
-								)
-						)
+			Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
+			if (hitLocation.getZ() >= -Configuration.ROUNDING_ERROR && hitLocation.getZ() <= (1+Configuration.ROUNDING_ERROR)) {
+				Vector normal = new Vector(
+						hitLocation.getX(),
+						hitLocation.getY(),
+						(1-this.s) * (1 + (this.s - 1) * hitLocation.getZ())
 				);
+				if(normal.norm() > Configuration.ROUNDING_ERROR){ // at the top of the cone (s=0), the norm of the normal will be 0.
+					hitPointInfoList.add(
+							new HitPointInfo(
+									this,
+									Operations.pointTransformation(this.transformation, hitLocation),
+									hitTime,
+									Operations.vectorTransformation(this.inverseTransformation.transpose(), normal),
+									(Operations.dotProduct(Operations.scalarVectorProduct(-1, inverseRay.getDir()), normal) >= 0) // isEntering if the corner between -inverseRay and the normal are smaller than 90°
+							)
+					);
+				}
 			}
 		}
 	}
@@ -107,7 +108,7 @@ public class TaperedCylinder extends GenericObject {
 				Point hitLocation = hitPointInfo.getHitPoint();
 				if (((Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2)) <= (Math.pow(s, 2) + Configuration.ROUNDING_ERROR)) && hitPointInfo.isHit()) {
 					hitPointInfo.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo.getHitPoint()));
-					hitPointInfo.setNormal(Operations.vectorTransformation(this.transformation, hitPointInfo.getNormal()));
+					hitPointInfo.setNormal(Operations.vectorTransformation(this.inverseTransformation.transpose(), hitPointInfo.getNormal()));
 					hitPointInfo.setObject(this);
 					hitPointInfoList.add(hitPointInfo);
 				}
