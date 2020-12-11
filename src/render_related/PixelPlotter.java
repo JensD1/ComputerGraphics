@@ -17,7 +17,11 @@ public class PixelPlotter {
         this.frame.setSize(Configuration.SCREEN_WIDTH, Configuration.SCREEN_HEIGHT);
         this.frame.setLocationRelativeTo(null);
         this.frame.add(canvas);
-        this.frame.setVisible(true);
+        setVisible(true);
+    }
+
+    public void setVisible(boolean visible){
+        this.frame.setVisible(visible);
     }
 
     public void addPixelToCanvas(Pixel pixel){

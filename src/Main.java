@@ -102,7 +102,7 @@ public class Main {
 		Material redMaterial = new Material(new CustomColor(0.8, 0.2, 0.1), new CustomColor(0.5, 0.8, 0.5),
 				100, new CustomColor(), new CustomColor(0.25, 0.15, 0.15), 0, 0, 1);
 		Material blueMaterial = new Material(new CustomColor(0, 0.7, 0.8), new CustomColor(0.8, 0.5, 0.5),
-				100, new CustomColor(), new CustomColor(0.1, 0.1, 0.1), 0.2, 0,1);
+				100, new CustomColor(), new CustomColor(0.1, 0.1, 0.1), 0, 0,1);
 		Material brownMaterial = new Material(new CustomColor(0.5450, 0.27058, 0.07451), new CustomColor(0.7, 0.6, 0.5),
 				0.25 * 128, new CustomColor(), new CustomColor(0.05, 0.0, 0.0), 0.1, 0,1);
 		Material yellowMaterial = new Material(new CustomColor(0.8, 0.8, 0), new CustomColor(0.6, 0.6, 0.3),
@@ -113,6 +113,8 @@ public class Main {
 				100, new CustomColor(), new CustomColor(0.02, 0.02, 0.02), 0.9, 0,1);
 		Material testMaterial = new Material(new CustomColor(0.5, 0.5, 0.5), new CustomColor(0.5, 0.5, 0.5),
 				100, new CustomColor(), new CustomColor(0.1, 0.1, 0.1), 0, 0,1);
+		Material waterMaterial = new Material(new CustomColor(0.05, 0.1, 0.4), new CustomColor(0.5, 0.5, 0.6), //new CustomColor(0.08, 0.05, 0.05),
+				30, new CustomColor(), new CustomColor(0.01, 0.01, 0.01), 0.1, 0.7,0.75);
 
 		// Materials from http://devernay.free.fr/cours/opengl/materials.html
 		Material emerald = new Material(new CustomColor(0.07568, 0.61424, 0.07568), new CustomColor(0.633, 0.727811, 0.633),
@@ -165,31 +167,34 @@ public class Main {
 				0.078125 * 128, new CustomColor(), new CustomColor(0.05, 0.05, 0.0), 0, 0, 1);
 
 		Camera camera = new Camera();
-        camera.setCameraLocation(new Point(19, 0, 6.1), new Point(0, 0, 6.1), new Vector(0, 0, 1));
+        camera.setCameraLocation(new Point(15, 15, 19), new Point(0, 0, 0), new Vector(0, 0, 1));
 		camera.setDistanceN(1000);
 		World world = new World(camera, new CustomColor(1, 1, 1));
-		PointLight pointLight = new PointLight(new Point(1, 10, 15), new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(1, 10, 15), new CustomColor(0.7, 0.7, 0.7));
 		world.addLight(pointLight);
 		PointLight pointLight2 = new PointLight(new Point(10, 1, 3), new CustomColor(0.2, 0.2, 0.2));
 		world.addLight(pointLight2);
-		PointLight pointLight3 = new PointLight(new Point(-5, -5, 5), new CustomColor(0.7, 0.7, 0.7));
-		world.addLight(pointLight3);
+//		PointLight pointLight3 = new PointLight(new Point(-5, -5, 5), new CustomColor(0.7, 0.7, 0.7));
+//		world.addLight(pointLight3);
+		PointLight pointLight4 = new PointLight(new Point(-15, -15, 15), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight4);
 
 //		Bounding box with plane so the floor is of another material
-		world.addObject(new Cube(0, 0, 19.99, 20, 20, 20, 0, 0, 0, redMaterial));
+		world.addObject(new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, blueMaterial));
 //		world.addObject(new Sphere(50, 0, 0, 0, cyanPlastic));
 //		world.addObject(new TaperedCylinder(1, 0, 0, -2, 30, 30, 20, 0, 0, 0, cyanPlastic));
-//		world.addObject(new Plane(redMaterial));
+		world.addObject(new Plane(0, 0, -9, 0, 0, 0, redMaterial));
 
 //		Easy world layout:
-//		world.addObject(new Cube(0, 0, 3, 3, 3, 3, 0, 0, 0, glassMaterial));
+		world.addObject(new Water(0, 0, 5, 20, 20, 0, 0, 0, waterMaterial, 2, 10, 6, 4));
+		world.addObject(new Cube(0, 0, 5, 3, 3, 3, 0, 0, 0, redMaterial));
 //		world.addObject(new Sphere(1, 0, 0, 6, glassMaterial));
 //		world.addObject(new TaperedCylinder(1,0, 0, 0.1, 8, 8, 3, 0, 0, 0, transparentMaterial));
 //		world.addObject(new Sphere(2, 0, 0, 3, yellowMaterial));
-		world.addObject(new Sphere(2, 6, 0, 6.1, glassMaterial));
-		world.addObject(new Sphere(2, 6, 0, 8.1, glassMaterial));
-		world.addObject(new Cube(6, 0, 6.1, 2, 2, 2, 0, 0, 0, glassMaterial));
-		world.addObject(new TaperedCylinder(0, -5, 0, 5.1, 1, 1, 2, 0, 0, 0, copper));
+//		world.addObject(new Sphere(2, 6, 0, 6.1, glassMaterial));
+//		world.addObject(new Sphere(2, 6, 0, 8.1, glassMaterial));
+//		world.addObject(new Cube(6, 0, 6.1, 2, 2, 2, 0, 0, 0, glassMaterial));
+//		world.addObject(new TaperedCylinder(0, -5, 0, 5.1, 1, 1, 2, 0, 0, 0, copper));
 //		world.addObject(new Sphere(3, -3, 6, 3, brownMaterial));
 //		world.addObject(new Cube(5, 0.5, 3.1, 1, 1, 1, 0, 0, 0, transparentMaterial));
 
@@ -227,5 +232,6 @@ public class Main {
 //		Render the scene
 		Renderer renderer = new Renderer();
 		renderer.renderFrame(world);
+
 	}
 }

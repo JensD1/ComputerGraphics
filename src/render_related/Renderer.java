@@ -4,8 +4,10 @@ import configuration.Configuration;
 import misc.*;
 import objects.GenericObject;
 import objects.TaperedCylinder;
+import objects.Water;
 
 import java.awt.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class Renderer {
 		hitPointInfo.setNormal(hitPointInfo.getNormal().normalize()); // normalise the normal
 
 		// check if the ray is inside the object, if so, reverse normals.
-		if (Operations.dotProduct(Operations.scalarVectorProduct(-1, ray.getDir()), hitPointInfo.getNormal()) < Configuration.ROUNDING_ERROR) {
+		if ((Operations.dotProduct(Operations.scalarVectorProduct(-1, ray.getDir()), hitPointInfo.getNormal()) < Configuration.ROUNDING_ERROR) && hitPointInfo.getObject().getClass() != Water.class) { // do not invert the normals for water.
 			hitPointInfo.setNormal(Operations.scalarVectorProduct(-1, hitPointInfo.getNormal()));
 		}
 

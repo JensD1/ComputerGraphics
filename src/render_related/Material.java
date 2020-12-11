@@ -11,7 +11,7 @@ public class Material {
 	private CustomColor ambient;
 	private double reflectionCoefficient;
 	private double refractionCoefficient;
-	private double relativeDensity;
+	private double relativeLightSpeed;
 
 	public Material(){
 		this.diffuse = new CustomColor(0, 0, 0);
@@ -21,12 +21,12 @@ public class Material {
 		this.ambient = new CustomColor(0, 0, 0);
 		this.reflectionCoefficient = 0;
 		this.refractionCoefficient = 0;
-		this.relativeDensity = 1;
+		this.relativeLightSpeed = 1;
 	}
 
 	public Material(CustomColor diffuse, CustomColor specular, double specularExponent,
 					CustomColor emission, CustomColor ambient, double reflectionCoefficient,
-					double refractionCoefficient, double relativeDensity){
+					double refractionCoefficient, double relativeLightSpeed){
 		this.diffuse = diffuse;
 		this.specular = specular;
 		this.specularExponent = specularExponent;
@@ -34,7 +34,7 @@ public class Material {
 		this.ambient = ambient;
 		this.reflectionCoefficient = reflectionCoefficient;
 		this.refractionCoefficient = refractionCoefficient;
-		this.relativeDensity = relativeDensity;
+		this.relativeLightSpeed = relativeLightSpeed;
 	}
 
 	public CustomColor getDiffuse() {
@@ -94,10 +94,10 @@ public class Material {
 	}
 
 	public double getRelativeDensity() {
-		return relativeDensity;
+		return relativeLightSpeed;
 	}
 
-	public void setRelativeDensity(double relativeDensity) {
-		this.relativeDensity = relativeDensity;
+	public void setRelativeDensity(double relativeLightSpeed) {
+		this.relativeLightSpeed = relativeLightSpeed;
 	}
 }
