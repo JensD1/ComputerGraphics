@@ -61,7 +61,7 @@ public class Renderer {
 		// check if the ray is inside the object, if so, reverse normals.
 		if (Operations.dotProduct(Operations.scalarVectorProduct(-1, ray.getDir()), hitPointInfo.getNormal()) < Configuration.ROUNDING_ERROR) {
 			hitPointInfo.setNormal(Operations.scalarVectorProduct(-1, hitPointInfo.getNormal()));
-		} // todo hier gaat hij soms in terwijl het niet moet bij een tapered cylinder.
+		}
 
 		// diffuse and specular components
 		for (PointLight light : world.getLights()) {
@@ -114,7 +114,7 @@ public class Renderer {
 					ray.getInsideObjectList().add(hitPointInfo.getObject());
 				} else {
 					if (highestPriorityObject == null) { // If the ray is in no objects, this can normally not occur but is a safety measure
-						c1 = 1;
+						c1 = hitPointInfo.getObject().getMaterial().getRelativeDensity();
 						c2 = 1;
 					} else {
 						// add the correct value to c1 and c2.
@@ -128,18 +128,22 @@ public class Renderer {
 						}
 					}
 				}
-				double cosineThetaSquare = 1 - Math.pow(c2 / c1, 2) * (1 - Math.pow(Operations.dotProduct(hitPointInfo.getNormal(), ray.getDir()), 2));
+				double ratio = c2/c1;
+				Vector inverseRayDir = Operations.scalarVectorProduct(-1, ray.getDir());
+				double mDotDir = Operations.dotProduct(hitPointInfo.getNormal(), inverseRayDir);
+
+				double cosineThetaSquare = 1 - Math.pow(ratio, 2) * (1 - Math.pow(mDotDir, 2));
 				if (cosineThetaSquare > Configuration.ROUNDING_ERROR) {// if not a total internal reflection and not at critical angle
 					double cosineTheta = Math.sqrt(cosineThetaSquare);
-					double coefficient = (c2 / c1) * Operations.dotProduct(hitPointInfo.getNormal(), ray.getDir()) - cosineTheta;
+					double coefficient = ratio * mDotDir - cosineTheta;
 					Vector refractionDir = Operations.vectorSum(
-							Operations.scalarVectorProduct(c2 / c1, ray.getDir()),
+							Operations.scalarVectorProduct(ratio, ray.getDir()),
 							Operations.scalarVectorProduct(coefficient, hitPointInfo.getNormal())
 					);
 
 //					if(c1 == c2){ // todo remove
-//						System.out.println(Operations.dotProduct(ray.getDir(), hitPointInfo.getNormal()));
-//						System.out.println("ray = " + ray.getDir() + "\nm = " + hitPointInfo.getNormal() + "\nrefraction = "+refractionDir);
+//						System.out.println("New\nDot product:\n" + Operations.dotProduct(ray.getDir(), hitPointInfo.getNormal()));
+//						System.out.println("ray = \n" + ray.getDir() + "\nm = \n" + hitPointInfo.getNormal() + "\nrefraction = \n"+refractionDir);
 //					}
 //					if (ray.getDir().equals(refractionDir)){ // todo remove
 //						System.out.println("equal");

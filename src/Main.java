@@ -165,30 +165,31 @@ public class Main {
 				0.078125 * 128, new CustomColor(), new CustomColor(0.05, 0.05, 0.0), 0, 0, 1);
 
 		Camera camera = new Camera();
-        camera.setCameraLocation(new Point(10, 10, 15), new Point(0, 0, 0.5), new Vector(0, 0, 1));
+        camera.setCameraLocation(new Point(19, 0, 6.1), new Point(0, 0, 6.1), new Vector(0, 0, 1));
 		camera.setDistanceN(1000);
 		World world = new World(camera, new CustomColor(1, 1, 1));
-//		PointLight pointLight = new PointLight(new Point(1, 10, 15), new CustomColor(1, 1, 1));
-//		world.addLight(pointLight);
-//		PointLight pointLight2 = new PointLight(new Point(10, 1, 3), new CustomColor(0.2, 0.2, 0.2));
-//		world.addLight(pointLight2);
-//		PointLight pointLight3 = new PointLight(new Point(-5, -5, 5), new CustomColor(0.7, 0.7, 0.7));
-//		world.addLight(pointLight3);
-		PointLight pointLight = new PointLight(new Point(10, 0, 10), new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(1, 10, 15), new CustomColor(1, 1, 1));
 		world.addLight(pointLight);
+		PointLight pointLight2 = new PointLight(new Point(10, 1, 3), new CustomColor(0.2, 0.2, 0.2));
+		world.addLight(pointLight2);
+		PointLight pointLight3 = new PointLight(new Point(-5, -5, 5), new CustomColor(0.7, 0.7, 0.7));
+		world.addLight(pointLight3);
 
 //		Bounding box with plane so the floor is of another material
-		world.addObject(new Cube(0, 0, 19.99, 20, 20, 20, 0, 0, 0, copper));
+		world.addObject(new Cube(0, 0, 19.99, 20, 20, 20, 0, 0, 0, redMaterial));
 //		world.addObject(new Sphere(50, 0, 0, 0, cyanPlastic));
 //		world.addObject(new TaperedCylinder(1, 0, 0, -2, 30, 30, 20, 0, 0, 0, cyanPlastic));
 //		world.addObject(new Plane(redMaterial));
 
 //		Easy world layout:
-		world.addObject(new Cube(0, 0, 3, 3, 3, 3, 0, 0, 0, glassMaterial));
-		world.addObject(new Sphere(1, 0, 0, 6, glassMaterial));
+//		world.addObject(new Cube(0, 0, 3, 3, 3, 3, 0, 0, 0, glassMaterial));
+//		world.addObject(new Sphere(1, 0, 0, 6, glassMaterial));
 //		world.addObject(new TaperedCylinder(1,0, 0, 0.1, 8, 8, 3, 0, 0, 0, transparentMaterial));
 //		world.addObject(new Sphere(2, 0, 0, 3, yellowMaterial));
-//		world.addObject(new Sphere(2, 6, 0, 6.1, glassMaterial));
+		world.addObject(new Sphere(2, 6, 0, 6.1, glassMaterial));
+		world.addObject(new Sphere(2, 6, 0, 8.1, glassMaterial));
+		world.addObject(new Cube(6, 0, 6.1, 2, 2, 2, 0, 0, 0, glassMaterial));
+		world.addObject(new TaperedCylinder(0, -5, 0, 5.1, 1, 1, 2, 0, 0, 0, copper));
 //		world.addObject(new Sphere(3, -3, 6, 3, brownMaterial));
 //		world.addObject(new Cube(5, 0.5, 3.1, 1, 1, 1, 0, 0, 0, transparentMaterial));
 
