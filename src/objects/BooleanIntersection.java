@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BooleanIntersection extends BooleanObject{
 
-	BooleanIntersection(GenericObject leftObject, GenericObject rightObject) {
+	public BooleanIntersection(GenericObject leftObject, GenericObject rightObject) {
 		super(leftObject, rightObject);
 	}
 

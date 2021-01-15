@@ -2,7 +2,7 @@ package misc;
 
 import objects.GenericObject;
 
-public class HitPointInfo {
+public class HitPointInfo implements Comparable<HitPointInfo>{
 	private boolean isHit;
 	private double hitTime;
 	private GenericObject object;
@@ -109,14 +109,20 @@ public class HitPointInfo {
 	}
 
 	@Override
-	public String toString() {
+	public String toString() { // todo change
 		return "HitPointInfo{" +
-				"isHit=" + isHit +
+//				"isHit=" + isHit +
 				", hitTime=" + hitTime +
-				", object=" + object +
-				", normal=" + normal +
-				", hitPoint=" + hitPoint +
-				", inShadow=" + inShadow +
+//				", object=" + object +
+//				", normal=" + normal +
+//				", hitPoint=" + hitPoint +
+//				", inShadow=" + inShadow +
+				", entering=" + isEntering +
 				'}';
+	}
+
+	@Override
+	public int compareTo(HitPointInfo o) {
+		return Double.compare(this.getHitTime(), o.getHitTime());
 	}
 }

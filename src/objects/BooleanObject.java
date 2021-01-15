@@ -8,8 +8,8 @@ import java.util.List;
 
 public abstract class BooleanObject extends GenericObject {
 
-	GenericObject rightObject;
-	GenericObject leftObject;
+	protected GenericObject rightObject;
+	protected GenericObject leftObject;
 
 	BooleanObject(GenericObject leftObject, GenericObject rightObject){
 		this.leftObject = leftObject;

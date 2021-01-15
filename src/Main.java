@@ -1,9 +1,9 @@
-import misc.Matrix;
-import objects.*;
-import misc.CustomColor;
-import misc.Point;
+import misc.*;
 import misc.Vector;
+import objects.*;
 import render_related.*;
+
+import java.util.*;
 
 public class Main {
 
@@ -97,6 +97,19 @@ public class Main {
 //        pixelPlotter.addPixelToCanvas(new Pixel(30, 30, hitPointInfo.getColor()));
 //        pixelPlotter.renderFrame();
 
+		// check if hitpoint list is sorted well
+//		List<HitPointInfo> list = new ArrayList<>();
+//		list.add(new HitPointInfo(-5, new Cube()));
+//		list.add(new HitPointInfo(13, new Cube()));
+//		list.add(new HitPointInfo(0, new Cube()));
+//		list.add(new HitPointInfo(5, new Cube()));
+//		list.add(new HitPointInfo(0, new Cube()));
+//		System.out.println(list);
+//		Collections.sort(list);
+//		System.out.println(list);
+//		Iterator<HitPointInfo> iterator = list.iterator();
+//		System.out.println(iterator.next());
+
 // Test a scene
 		// self created materials
 		Material redMaterial = new Material(new CustomColor(0.8, 0.2, 0.1), new CustomColor(0.5, 0.8, 0.5),
@@ -167,16 +180,16 @@ public class Main {
 				0.078125 * 128, new CustomColor(), new CustomColor(0.05, 0.05, 0.0), 0, 0, 1);
 
 		Camera camera = new Camera();
-        camera.setCameraLocation(new Point(15, 15, 19), new Point(0, 0, 0), new Vector(0, 0, 1));
+        camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
 		camera.setDistanceN(1000);
 		World world = new World(camera, new CustomColor(1, 1, 1));
-		PointLight pointLight = new PointLight(new Point(1, 10, 15), new CustomColor(0.7, 0.7, 0.7));
-		world.addLight(pointLight);
-		PointLight pointLight2 = new PointLight(new Point(10, 1, 3), new CustomColor(0.2, 0.2, 0.2));
-		world.addLight(pointLight2);
+//		PointLight pointLight = new PointLight(new Point(1, 10, 15), new CustomColor(0.7, 0.7, 0.7));
+//		world.addLight(pointLight);
+//		PointLight pointLight2 = new PointLight(new Point(10, 1, 3), new CustomColor(0.2, 0.2, 0.2));
+//		world.addLight(pointLight2);
 //		PointLight pointLight3 = new PointLight(new Point(-5, -5, 5), new CustomColor(0.7, 0.7, 0.7));
 //		world.addLight(pointLight3);
-		PointLight pointLight4 = new PointLight(new Point(-15, -15, 15), new CustomColor(0.5, 0.5, 0.5));
+		PointLight pointLight4 = new PointLight(new Point(0, 0, 15), new CustomColor(1, 1, 1));
 		world.addLight(pointLight4);
 
 //		Bounding box with plane so the floor is of another material
@@ -186,9 +199,11 @@ public class Main {
 		world.addObject(new Plane(0, 0, -9, 0, 0, 0, redMaterial));
 
 //		Easy world layout:
-		world.addObject(new Water(0, 0, 5, 20, 20, 0, 0, 0, waterMaterial, 2, 10, 6, 4));
-		world.addObject(new Cube(0, 0, 5, 3, 3, 3, 0, 0, 0, redMaterial));
-//		world.addObject(new Sphere(1, 0, 0, 6, glassMaterial));
+//		world.addObject(new Water(0, 0, 5, 20, 20, 0, 0, 0, waterMaterial, 2, 10, 6, 4));
+//		world.addObject(new Cube(0, 0, 5, 3, 3, 3, 0, 0, 0, redMaterial));
+		Cube cube = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, waterMaterial);
+		Sphere sphere = new Sphere(1, 0, 0, 2, waterMaterial);
+		world.addObject(new BooleanUnion(cube, sphere));
 //		world.addObject(new TaperedCylinder(1,0, 0, 0.1, 8, 8, 3, 0, 0, 0, transparentMaterial));
 //		world.addObject(new Sphere(2, 0, 0, 3, yellowMaterial));
 //		world.addObject(new Sphere(2, 6, 0, 6.1, glassMaterial));
