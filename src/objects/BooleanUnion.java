@@ -22,69 +22,80 @@ public class BooleanUnion extends BooleanObject {
 		if (!leftHitPointList.isEmpty() && !rightHitPointList.isEmpty()) {
 			// sort hitpoints
 			Collections.sort(leftHitPointList);
-			System.out.println("\n\nBegin:\nLeft\n" + leftHitPointList); // todo remove
-			// sort hitpoints
 			Collections.sort(rightHitPointList);
-			System.out.println("\nRight\n" + rightHitPointList); // todo remove
-			if(leftHitPointList.size()>1 && rightHitPointList.size()>1) // todo remove
-				System.out.println();
+
 			// initialize
 			Iterator<HitPointInfo> lftIterator = leftHitPointList.iterator(); // make sure that iteration is possible over all Hitpoints
 			Iterator<HitPointInfo> rtIterator = rightHitPointList.iterator();
-			HitPointInfo lftHitPoint = lftIterator.next(); // Save the hitpoint such that the smalles hitpoint of the two can be found easily.
-			HitPointInfo rtHitPoint = rtIterator.next();
-			boolean lftInside = !lftHitPoint.isEntering();
-			boolean rtInside = !rtHitPoint.isEntering();
+			boolean lftInside = !leftHitPointList.get(0).isEntering();
+			boolean rtInside = !rightHitPointList.get(0).isEntering();
 			boolean combInside = rtInside || lftInside;
+
+			HitPointInfo lftHitPoint = lftIterator.next(); // Take two "imaginative" hitpoints before the real hitpoints.
+			HitPointInfo rtHitPoint = rtIterator.next();
+
 			HitPointInfo lastHitPoint; // save the last hitpoint object so it is easily to put into the unionList when necessary
+			boolean tempCombInside;
+
 			while (lftIterator.hasNext() && rtIterator.hasNext()) {
 				if (lftHitPoint.getHitTime() < rtHitPoint.getHitTime()) {
 					lftInside = lftHitPoint.isEntering();
 					lastHitPoint = lftHitPoint;
-					lftHitPoint = lftIterator.next();// set ready for next iteration
+					lftHitPoint = lftIterator.next();
 				} else {
 					rtInside = rtHitPoint.isEntering();
 					lastHitPoint = rtHitPoint;
 					rtHitPoint = rtIterator.next();
-
 				}
-				boolean tempCombInside = rtInside || lftInside;
-				if (tempCombInside != combInside){ // save the hitpoint if combInside changes state.
+				tempCombInside = rtInside || lftInside;
+				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
 					unionList.add(lastHitPoint);
 					combInside = tempCombInside;
 				}
 			}
+
 			// go through the unconsumed lists.
-			while (lftIterator.hasNext()){
+			while (lftIterator.hasNext()) {
 				lftInside = lftHitPoint.isEntering();
 				lastHitPoint = lftHitPoint;
 				lftHitPoint = lftIterator.next();
-				boolean tempCombInside = rtInside || lftInside;
-				if (tempCombInside != combInside){ // save the hitpoint if combInside changes state.
+				tempCombInside = rtInside || lftInside;
+				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
 					unionList.add(lastHitPoint);
 				}
 				combInside = tempCombInside;
 			}
-			while (rtIterator.hasNext()){
+			while (rtIterator.hasNext()) {
 				rtInside = rtHitPoint.isEntering();
 				lastHitPoint = rtHitPoint;
 				rtHitPoint = rtIterator.next();
-				boolean tempCombInside = rtInside || lftInside;
-				if (tempCombInside != combInside){ // save the hitpoint if combInside changes state.
+				tempCombInside = rtInside || lftInside;
+				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
 					unionList.add(lastHitPoint);
 				}
 				combInside = tempCombInside;
 			}
-		} else{
-			if (!leftHitPointList.isEmpty()){
+
+			// last point is not evaluated ==> we evaluate it here:
+			lftInside = lftHitPoint.isEntering();
+			rtInside = rtHitPoint.isEntering();
+			tempCombInside = rtInside || lftInside;
+			if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
+				if (lftHitPoint.getHitTime() > rtHitPoint.getHitTime()) {
+					unionList.add(lftHitPoint);
+				} else {
+					unionList.add(rtHitPoint);
+				}
+			}
+
+		} else {
+			if (!leftHitPointList.isEmpty()) {
 				unionList.addAll(leftHitPointList); // todo change
 			}
-			if (!rightHitPointList.isEmpty()){
+			if (!rightHitPointList.isEmpty()) {
 				unionList.addAll(rightHitPointList); // todo change
 			}
 		}
-		if(!unionList.isEmpty())
-			System.out.println("\nUnionList:\n" + unionList); // todo remove
 		return unionList;
 	}
 }

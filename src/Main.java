@@ -203,7 +203,8 @@ public class Main {
 //		world.addObject(new Cube(0, 0, 5, 3, 3, 3, 0, 0, 0, redMaterial));
 		Cube cube = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, waterMaterial);
 		Sphere sphere = new Sphere(1, 0, 0, 2, waterMaterial);
-		world.addObject(new BooleanUnion(cube, sphere));
+		TaperedCylinder cylinder = new TaperedCylinder(1, 0, 0, 0, 3, 1, 1, 90, 0, 0,waterMaterial);
+		world.addObject(new BooleanUnion(new BooleanUnion(cube, cylinder), sphere));
 //		world.addObject(new TaperedCylinder(1,0, 0, 0.1, 8, 8, 3, 0, 0, 0, transparentMaterial));
 //		world.addObject(new Sphere(2, 0, 0, 3, yellowMaterial));
 //		world.addObject(new Sphere(2, 6, 0, 6.1, glassMaterial));
