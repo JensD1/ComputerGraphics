@@ -2,13 +2,12 @@ package render_related;
 
 import configuration.Configuration;
 import misc.*;
+import misc.Vector;
 import objects.GenericObject;
-import objects.TaperedCylinder;
 import objects.Water;
 
 import java.awt.*;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 public class Renderer {
@@ -16,19 +15,35 @@ public class Renderer {
 	public Renderer() {
 	}
 
-	public void renderFrame(World world) {
+	public void renderFrame(World world) { // todo optimize such that no pixel will be rendered twice
+		// todo optimize such that, as soon as delta h or delta w = 1 this for will nog be ran.
 		PixelPlotter pixelPlotter = new PixelPlotter();
 		HitPointInfo hitPointInfo;
-		for (int c = 0; c < Configuration.SCREEN_WIDTH; c++) {
-			for (int r = 0; r < Configuration.SCREEN_HEIGHT; r++) {
-				Ray ray = Ray.createRay(world, c, r);
-				hitPointInfo = world.calculateBestHitpoint(ray);
-				pixelPlotter.addPixelToCanvas(
-						new Pixel(c, transformYCoordinate(r), colorPixel(world, ray, hitPointInfo))
-				);
+		int deltaW = Configuration.SCREEN_WIDTH;
+		int deltaH = Configuration.SCREEN_HEIGHT;
+
+		//create a BST object
+		Map<Integer, Color> colors = new HashMap<Integer, Color>(Configuration.SCREEN_WIDTH * Configuration.SCREEN_HEIGHT * 2, 1);
+
+		while (deltaW > 1 || deltaH > 1) {
+			deltaH = Integer.max(1, deltaH / 2); // an integer will always round toward 0.
+			deltaW = Integer.max(1, deltaW / 2); // an integer will always round toward 0.
+			for (int c = 0; c < Configuration.SCREEN_WIDTH; c += deltaW) {
+				for (int r = 0; r < Configuration.SCREEN_HEIGHT; r += deltaH) {
+					Ray ray = Ray.createRay(world, c, r);
+					hitPointInfo = world.calculateBestHitpoint(ray);
+					Color color = colorPixel(world, ray, hitPointInfo);
+					addPixelToRangeOfCanvas(pixelPlotter, color, r, r + deltaH, c, c + deltaW, colors);
+					colors.putIfAbsent(calculateKey(c, r), color);
+				}
 			}
+			pixelPlotter.renderFrame();
 		}
-		pixelPlotter.renderFrame();
+		System.out.println("Finished rendering");
+	}
+
+	private int calculateKey(int column, int row){
+		return column + Configuration.SCREEN_WIDTH * row;
 	}
 
 	public int transformYCoordinate(int y) {
@@ -37,6 +52,32 @@ public class Renderer {
 
 	public Color colorPixel(World world, Ray ray, HitPointInfo hitPointInfo) {
 		return calculateShadeAndHit(world, ray, hitPointInfo).checkBounds().toJavaColor();
+	}
+
+	/**
+	 * This method will color all pixels within range width = [w1, w2[ and hight = [h1, h2[ todo check '['
+	 * with the given pixel value.
+	 *
+	 * @param pixelPlotter the pixelPlotter where the Pixels will be colored onto
+	 * @param color        the color of the pixel
+	 * @param h1           lower bound of hight range
+	 * @param h2           higher bound of hight range
+	 * @param w1           lower bound of width range
+	 * @param w2           higher bound of width range
+	 */
+	public void addPixelToRangeOfCanvas(PixelPlotter pixelPlotter, Color color, int h1, int h2, int w1, int w2,
+										Map<Integer, Color> colors) {
+		for (int column = w1; column < w2; column++) {
+			for (int row = h1; row < h2; row++) { // todo check if < must become <=
+				if (column < Configuration.SCREEN_WIDTH && row < Configuration.SCREEN_HEIGHT) {
+					if(!colors.containsKey(calculateKey(column, row))) {
+						pixelPlotter.addPixelToCanvas(
+								new Pixel(column, transformYCoordinate(row), color)
+						);
+					}
+				}
+			}
+		}
 	}
 
 	public CustomColor calculateShadeAndHit(World world, Ray ray, HitPointInfo hitPointInfo) {
@@ -130,7 +171,7 @@ public class Renderer {
 						}
 					}
 				}
-				double ratio = c2/c1;
+				double ratio = c2 / c1;
 				Vector inverseRayDir = Operations.scalarVectorProduct(-1, ray.getDir());
 				double mDotDir = Operations.dotProduct(hitPointInfo.getNormal(), inverseRayDir);
 
@@ -142,14 +183,6 @@ public class Renderer {
 							Operations.scalarVectorProduct(ratio, ray.getDir()),
 							Operations.scalarVectorProduct(coefficient, hitPointInfo.getNormal())
 					);
-
-//					if(c1 == c2){ // todo remove
-//						System.out.println("New\nDot product:\n" + Operations.dotProduct(ray.getDir(), hitPointInfo.getNormal()));
-//						System.out.println("ray = \n" + ray.getDir() + "\nm = \n" + hitPointInfo.getNormal() + "\nrefraction = \n"+refractionDir);
-//					}
-//					if (ray.getDir().equals(refractionDir)){ // todo remove
-//						System.out.println("equal");
-//					}
 
 					Ray refractedRay = new Ray(hitPointInfo.getHitPoint(), refractionDir.normalize(), ray.getRecurseLevel() + 1, new ArrayList<>(ray.getInsideObjectList()));
 					CustomColor refractionColor = calculateShadeAndHit(world, refractedRay, world.calculateBestHitpoint(refractedRay)).scalarProduct(hitPointInfo.getObject().getMaterial().getRefractionCoefficient());
@@ -197,5 +230,4 @@ public class Renderer {
 		}
 		return inLight;
 	}
-
 }

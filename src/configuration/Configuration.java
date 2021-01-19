@@ -11,7 +11,7 @@ public class Configuration {
 
     public static final Color BACKGROUND_COLOR = Color.black;
 
-    public static final int MAX_RECURSE_LEVEL = 5; // The recurse level counts for additional ray's shot ==> the total depth of rays = original ray + recurselevel
+    public static final int MAX_RECURSE_LEVEL = 10; // The recurse level counts for additional ray's shot ==> the total depth of rays = original ray + recurselevel
 
     public static final double MIN_SHININESS = 0.05;
     public static final double MIN_TRANSPARENTNESS = 0.3;

@@ -182,7 +182,7 @@ public class Main {
 		TransformationBuilder transformationBuilder = new TransformationBuilder();
 
 		Camera camera = new Camera();
-        camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 1, 0), new Vector(0, 0, 1));
+        camera.setCameraLocation(new Point(15, 15, 10), new Point(0, 1, 0), new Vector(0, 0, 1));
 		camera.setDistanceN(1000);
 		World world = new World(camera, new CustomColor(1, 1, 1));
 		PointLight pointLight = new PointLight(new Point(-10, -10, 15), new CustomColor(0.5, 0.5, 0.5));
@@ -195,25 +195,37 @@ public class Main {
 		world.addLight(pointLight4);
 
 //		Bounding box with plane so the floor is of another material
-		world.addObject(new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, blueMaterial));
+		world.addObject(new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, cyanRubber));
 //		world.addObject(new Sphere(50, 0, 0, 0, cyanPlastic));
 //		world.addObject(new TaperedCylinder(1, 0, 0, -2, 30, 30, 20, 0, 0, 0, cyanPlastic));
-		world.addObject(new Plane(0, 0, -9, 0, 0, 0, redMaterial));
+		world.addObject(new Plane(0, 0, -0.1, 0, 0, 0, redRubber));
 
 //		Easy world layout:
 //		world.addObject(new Water(0, 0, 5, 20, 20, 0, 0, 0, waterMaterial, 2, 10, 6, 4));
 //		world.addObject(new Cube(0, 0, 5, 3, 3, 3, 0, 0, 0, redMaterial));
 
-//		Cube cube = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, copper);
-//		Sphere sphere = new Sphere(1, 0, 0, 2, copper);
-//		TaperedCylinder cylinder = new TaperedCylinder(1, 0, 0, 0, 3, 1, 1, 90, 0, 0,copper);
-//		BooleanObject booleanObject = new BooleanUnion(new BooleanUnion(cube, cylinder), sphere);
-//		BooleanObject booleanObject = new BooleanIntersection(cube, sphere);
-//		BooleanObject booleanObject = new BooleanIntersection(cylinder, cube);
-//		BooleanObject booleanObject = new BooleanDifference(new BooleanDifference(cube, sphere), cylinder);
-//		booleanObject.setTransformation(transformationBuilder.reset().translation(0, -5, 0).create());
-//		booleanObject.setInverseTransformation(transformationBuilder.reset().inverseTranslation(0, -5, 0).create());
-//		world.addObject(booleanObject);
+		Cube cube1 = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, waterMaterial);
+		Sphere sphere1 = new Sphere(1, 0, 0, 2, waterMaterial);
+		TaperedCylinder cylinder1 = new TaperedCylinder(1, 0, 0, 0, 3, 1, 1, 90, 0, 0,waterMaterial);
+		Cube cube = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, copper);
+		Sphere sphere = new Sphere(1, 0, 0, 2, copper);
+		TaperedCylinder cylinder = new TaperedCylinder(1, 0, 0, 0, 3, 1, 1, 90, 0, 0,copper);
+		BooleanObject booleanObject = new BooleanUnion(new BooleanUnion(cube1, cylinder1), sphere1);
+		BooleanObject booleanObject1 = new BooleanIntersection(cube, sphere);
+		BooleanObject booleanObject2 = new BooleanIntersection(cylinder, cube);
+		BooleanObject booleanObject3 = new BooleanDifference(new BooleanDifference(cube, sphere), cylinder);
+		booleanObject.setTransformation(transformationBuilder.reset().translation(-5, 7, 2).create());
+		booleanObject.setInverseTransformation(transformationBuilder.reset().inverseTranslation(-5, 7, 2).create());
+		booleanObject1.setTransformation(transformationBuilder.reset().translation(8, -10, 2).create());
+		booleanObject1.setInverseTransformation(transformationBuilder.reset().inverseTranslation(8, -10, 2).create());
+		booleanObject2.setTransformation(transformationBuilder.reset().translation(4, -7, 2).create());
+		booleanObject2.setInverseTransformation(transformationBuilder.reset().inverseTranslation(4, -7, 2).create());
+		booleanObject3.setTransformation(transformationBuilder.reset().rotateX(45).translation(-3, -7, 2).create());
+		booleanObject3.setInverseTransformation(transformationBuilder.reset().inverseTranslation(-3, -7, 2).rotateX(45).create());
+		world.addObject(booleanObject);
+		world.addObject(booleanObject1);
+		world.addObject(booleanObject2);
+		world.addObject(booleanObject3);
 
 
 //		world.addObject(new TaperedCylinder(1,3, -3, 0, 1, 1, 1, 0, 0, 0, cyanPlastic));
@@ -241,13 +253,13 @@ public class Main {
 //		world.addObject(new TaperedCylinder(0, -5, 0, 7, 0.5, 0.5, 1, 0, 0, 0, yellowMaterial));
 
 		//      Nice world layout:
-//		world.addObject(new Sphere(2, 10, 2, 2, emerald));
-//		world.addObject(new Square(10, -19.9, 10, 20, 20, -90, 0, 0, mirrorMaterial));
-//		world.addObject(new TaperedCylinder(0, 7, 3, 0, 1, 1, 2, 0, 0, 0, turquoise));
-//		world.addObject(new TaperedCylinder(0, 7, 3, 3.7, 1, 1, -2, 0, 0, 0, brass));
-//		world.addObject(new TaperedCylinder(1, 3, 3, 0, 1, 1, 2, 0, 0, 0, bronze));
-//		world.addObject(new TaperedCylinder(0.5, 3, 7, 0, 1, 1, 2, 0, 0, 0, silver));
-//		world.addObject(new Cube(2, 10, 1, 1, 1, 1, 0, 0, 30, copper));
+		world.addObject(new Sphere(2, 10, 2, 2, emerald));
+		world.addObject(new Square(10, -19.9, 10, 20, 20, -90, 0, 0, mirrorMaterial));
+		world.addObject(new TaperedCylinder(0, 7, 3, 0, 1, 1, 2, 0, 0, 0, turquoise));
+		world.addObject(new TaperedCylinder(0, 7, 3, 3.7, 1, 1, -2, 0, 0, 0, brass));
+		world.addObject(new TaperedCylinder(1, 3, 3, 0, 1, 1, 2, 0, 0, 0, bronze));
+		world.addObject(new TaperedCylinder(0.5, 3, 7, 0, 1, 1, 2, 0, 0, 0, silver));
+		world.addObject(new Cube(2, 10, 1, 1, 1, 1, 0, 0, 30, copper));
 
 //		Christmas tree
 		GenericObject ct1 = new TaperedCylinder(1, 0, 0, 0, 1, 1, 2, 0, 0, 0, brownMaterial);
@@ -259,8 +271,8 @@ public class Main {
 		GenericObject b2 = new BooleanUnion(ct3, ct4);
 		GenericObject b3 = new BooleanUnion(b1, b2);
 		GenericObject christmasTree = new BooleanUnion(b3, ct5);
-//		christmasTree.setTransformation(transformationBuilder.reset().translation(0, 0, 0).create());
-//		christmasTree.setInverseTransformation(transformationBuilder.reset().inverseTranslation(0, 0, 0).create());
+		christmasTree.setTransformation(transformationBuilder.reset().translation(-10, -5, 0).create());
+		christmasTree.setInverseTransformation(transformationBuilder.reset().inverseTranslation(-10, -5, 0).create());
 		world.addObject(christmasTree);
 
 
