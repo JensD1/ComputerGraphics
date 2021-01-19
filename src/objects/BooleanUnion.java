@@ -1,6 +1,7 @@
 package objects;
 
 import misc.HitPointInfo;
+import misc.Operations;
 import misc.Ray;
 
 import java.util.ArrayList;
@@ -16,13 +17,29 @@ public class BooleanUnion extends BooleanObject {
 
 	@Override
 	public List<HitPointInfo> calculateHitPoint(Ray ray) {
+
+		Ray inverseRay = new Ray(
+				Operations.pointTransformation(this.inverseTransformation, ray.getOrigin()),
+				Operations.vectorTransformation(this.inverseTransformation, ray.getDir())
+		);
+
 		List<HitPointInfo> unionList = new ArrayList<>();  // the list of combined hitpoints
-		List<HitPointInfo> leftHitPointList = leftObject.calculateHitPoint(ray);
-		List<HitPointInfo> rightHitPointList = rightObject.calculateHitPoint(ray); // todo check for improvements
+		List<HitPointInfo> leftHitPointList = leftObject.calculateHitPoint(inverseRay);
+		List<HitPointInfo> rightHitPointList = rightObject.calculateHitPoint(inverseRay); // todo check for improvements
 		if (!leftHitPointList.isEmpty() && !rightHitPointList.isEmpty()) {
 			// sort hitpoints
 			Collections.sort(leftHitPointList);
 			Collections.sort(rightHitPointList);
+			if(!leftHitPointList.isEmpty()){
+				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+				infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
+				leftHitPointList.add(infHitpoint);
+			}
+			if(!rightHitPointList.isEmpty()){
+				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+				infHitpoint.setEntering(rightHitPointList.get(rightHitPointList.size()-1).isEntering());
+				rightHitPointList.add(infHitpoint);
+			}
 
 			// initialize
 			Iterator<HitPointInfo> lftIterator = leftHitPointList.iterator(); // make sure that iteration is possible over all Hitpoints
@@ -34,10 +51,10 @@ public class BooleanUnion extends BooleanObject {
 			HitPointInfo lftHitPoint = lftIterator.next(); // Take two "imaginative" hitpoints before the real hitpoints.
 			HitPointInfo rtHitPoint = rtIterator.next();
 
-			HitPointInfo lastHitPoint; // save the last hitpoint object so it is easily to put into the unionList when necessary
+			HitPointInfo lastHitPoint; // save the last hitpoint object so it is easy to put into the unionList when necessary
 			boolean tempCombInside;
 
-			while (lftIterator.hasNext() && rtIterator.hasNext()) {
+			while (lftIterator.hasNext() && rtIterator.hasNext()) { // the two hitpoints at infinity will not be treated.
 				if (lftHitPoint.getHitTime() < rtHitPoint.getHitTime()) {
 					lftInside = lftHitPoint.isEntering();
 					lastHitPoint = lftHitPoint;
@@ -74,24 +91,6 @@ public class BooleanUnion extends BooleanObject {
 					unionList.add(lastHitPoint);
 				}
 				combInside = tempCombInside;
-			}
-
-			// last two updates are not evaluated ==> we evaluate it here:
-			for(int i = 0; i<2; i++) {
-				if (lftHitPoint.getHitTime() < rtHitPoint.getHitTime()) {
-					lftInside = lftHitPoint.isEntering();
-					lastHitPoint = lftHitPoint;
-					lftHitPoint = new HitPointInfo(Double.MAX_VALUE, null);
-				} else {
-					rtInside = rtHitPoint.isEntering();
-					lastHitPoint = rtHitPoint;
-					rtHitPoint = new HitPointInfo(Double.MAX_VALUE, null);
-				}
-				tempCombInside = rtInside || lftInside;
-				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
-					unionList.add(lastHitPoint);
-					combInside = tempCombInside;
-				}
 			}
 
 		} else {

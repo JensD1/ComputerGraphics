@@ -1,6 +1,7 @@
 package objects;
 
 import misc.HitPointInfo;
+import misc.Matrix;
 import misc.Ray;
 import render_related.Material;
 

@@ -185,17 +185,17 @@ public class Renderer {
 		return color;
 	}
 
-	public double inLight(World world, PointLight light, HitPointInfo hitPointInfo) { // todo uncomment
-//		Ray ray = new Ray(hitPointInfo.getHitPoint(), light.getLocation()); // todo change the inshadow boolean to a value between [0, 1].
-//		double inLight = 1;
-//
-//		List<HitPointInfo> bestHitPoints = world.calculateAllHitPoints(ray, hitPointInfo.getObject()); // todo make sure to have all objects between t = [0, 1] and multiply the refractiveness.
-//		for (HitPointInfo bestHitPoint : bestHitPoints) {
-//			if (bestHitPoint.getHitTime() >= Configuration.ROUNDING_ERROR && bestHitPoint.getHitTime() <= (1 - Configuration.ROUNDING_ERROR) && bestHitPoint.isEntering()) {
-//				inLight = inLight * bestHitPoint.getObject().getMaterial().getRefractionCoefficient(); // The more refractive, the less shadows there are behind this object. // todo make sure that each object's shadow is only added once, not twice!
-//			}
-//		}
-		return 1.0; //inLight;
+	public double inLight(World world, PointLight light, HitPointInfo hitPointInfo) {
+		Ray ray = new Ray(hitPointInfo.getHitPoint(), light.getLocation()); // todo change the inshadow boolean to a value between [0, 1].
+		double inLight = 1;
+
+		List<HitPointInfo> bestHitPoints = world.calculateAllHitPoints(ray, hitPointInfo.getObject()); // todo make sure to have all objects between t = [0, 1] and multiply the refractiveness.
+		for (HitPointInfo bestHitPoint : bestHitPoints) {
+			if (bestHitPoint.getHitTime() >= Configuration.ROUNDING_ERROR && bestHitPoint.getHitTime() <= (1 - Configuration.ROUNDING_ERROR) && bestHitPoint.isEntering()) {
+				inLight = inLight * bestHitPoint.getObject().getMaterial().getRefractionCoefficient(); // The more refractive, the less shadows there are behind this object. // todo make sure that each object's shadow is only added once, not twice!
+			}
+		}
+		return inLight;
 	}
 
 }

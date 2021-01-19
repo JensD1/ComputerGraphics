@@ -75,4 +75,9 @@ public abstract class GenericObject {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    public void resetTransformation(){
+        this.transformation = Matrix.createUnitMatrix();
+        this.inverseTransformation = Matrix.createUnitMatrix();
+    }
 }

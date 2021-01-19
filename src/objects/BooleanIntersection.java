@@ -2,6 +2,7 @@ package objects;
 
 import configuration.Configuration;
 import misc.HitPointInfo;
+import misc.Operations;
 import misc.Ray;
 
 import java.util.ArrayList;
@@ -17,13 +18,29 @@ public class BooleanIntersection extends BooleanObject{
 
 	@Override
 	public List<HitPointInfo> calculateHitPoint(Ray ray) {
+
+		Ray inverseRay = new Ray(
+				Operations.pointTransformation(this.inverseTransformation, ray.getOrigin()),
+				Operations.vectorTransformation(this.inverseTransformation, ray.getDir())
+		);
+
 		List<HitPointInfo> unionList = new ArrayList<>();  // the list of combined hitpoints
-		List<HitPointInfo> leftHitPointList = leftObject.calculateHitPoint(ray);
-		List<HitPointInfo> rightHitPointList = rightObject.calculateHitPoint(ray); // todo check for improvements
+		List<HitPointInfo> leftHitPointList = leftObject.calculateHitPoint(inverseRay);
+		List<HitPointInfo> rightHitPointList = rightObject.calculateHitPoint(inverseRay); // todo check for improvements
 		if (!leftHitPointList.isEmpty() && !rightHitPointList.isEmpty()) {
 			// sort hitpoints
 			Collections.sort(leftHitPointList);
 			Collections.sort(rightHitPointList);
+			if(!leftHitPointList.isEmpty()){
+				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+				infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
+				leftHitPointList.add(infHitpoint);
+			}
+			if(!rightHitPointList.isEmpty()){
+				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+				infHitpoint.setEntering(rightHitPointList.get(rightHitPointList.size()-1).isEntering());
+				rightHitPointList.add(infHitpoint);
+			}
 
 			// initialize
 			Iterator<HitPointInfo> lftIterator = leftHitPointList.iterator(); // make sure that iteration is possible over all Hitpoints
@@ -54,53 +71,6 @@ public class BooleanIntersection extends BooleanObject{
 					combInside = tempCombInside;
 				}
 			}
-
-			// go through the unconsumed lists.
-			while (lftIterator.hasNext()) {
-				if(lftHitPoint.getHitTime() < rtHitPoint.getHitTime()) {
-					lftInside = lftHitPoint.isEntering();
-					lastHitPoint = lftHitPoint;
-					tempCombInside = rtInside && lftInside;
-					if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
-						unionList.add(lastHitPoint);
-					}
-					combInside = tempCombInside;
-				}
-				lftHitPoint = lftIterator.next();
-			}
-			while (rtIterator.hasNext()) {
-				if(lftHitPoint.getHitTime() > rtHitPoint.getHitTime()) {
-					rtInside = rtHitPoint.isEntering();
-					lastHitPoint = rtHitPoint;
-
-					tempCombInside = rtInside && lftInside;
-					if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
-						unionList.add(lastHitPoint);
-					}
-					combInside = tempCombInside;
-				}
-				rtHitPoint = rtIterator.next();
-			}
-
-			// last two updates are not evaluated ==> we evaluate it here:
-			for(int i = 0; i<2; i++) {
-				if (lftHitPoint.getHitTime() < rtHitPoint.getHitTime()) {
-					lftInside = lftHitPoint.isEntering();
-					lastHitPoint = lftHitPoint;
-					lftHitPoint = new HitPointInfo(Double.MAX_VALUE, null);
-				} else {
-					rtInside = rtHitPoint.isEntering();
-					lastHitPoint = rtHitPoint;
-					rtHitPoint = new HitPointInfo(Double.MAX_VALUE, null);
-				}
-				tempCombInside = rtInside && lftInside;
-				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
-					unionList.add(lastHitPoint);
-					combInside = tempCombInside;
-				}
-			}
-			if(unionList.size() < 2) // todo remove
-				System.out.println("help");
 		}
 		return unionList;
 	}
