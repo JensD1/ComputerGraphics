@@ -76,15 +76,21 @@ public class BooleanUnion extends BooleanObject {
 				combInside = tempCombInside;
 			}
 
-			// last point is not evaluated ==> we evaluate it here:
-			lftInside = lftHitPoint.isEntering();
-			rtInside = rtHitPoint.isEntering();
-			tempCombInside = rtInside || lftInside;
-			if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
-				if (lftHitPoint.getHitTime() > rtHitPoint.getHitTime()) {
-					unionList.add(lftHitPoint);
+			// last two updates are not evaluated ==> we evaluate it here:
+			for(int i = 0; i<2; i++) {
+				if (lftHitPoint.getHitTime() < rtHitPoint.getHitTime()) {
+					lftInside = lftHitPoint.isEntering();
+					lastHitPoint = lftHitPoint;
+					lftHitPoint = new HitPointInfo(Double.MAX_VALUE, null);
 				} else {
-					unionList.add(rtHitPoint);
+					rtInside = rtHitPoint.isEntering();
+					lastHitPoint = rtHitPoint;
+					rtHitPoint = new HitPointInfo(Double.MAX_VALUE, null);
+				}
+				tempCombInside = rtInside || lftInside;
+				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
+					unionList.add(lastHitPoint);
+					combInside = tempCombInside;
 				}
 			}
 

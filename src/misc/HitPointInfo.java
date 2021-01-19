@@ -52,6 +52,16 @@ public class HitPointInfo implements Comparable<HitPointInfo>{
 		this.isEntering = isEntering;
 	}
 
+	public HitPointInfo(HitPointInfo other){
+		this.hitTime = other.getHitTime();
+		this.isHit = other.isHit();
+		this.object = other.getObject();
+		this.normal = other.getNormal();
+		this.hitPoint = other.getHitPoint();
+		this.inShadow = other.isInShadow();
+		this.isEntering = other.isEntering();
+	}
+
 	public double getHitTime() {
 		return hitTime;
 	}

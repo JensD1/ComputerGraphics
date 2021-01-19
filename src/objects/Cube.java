@@ -74,7 +74,14 @@ public class Cube extends GenericObject {
             for(Square square: squares){
                 addHitPointToList(hitPointInfoList, square.calculateHitPoint(inverseRay));
             }
+            // when not inside and the ray is a tangent line, we take this point double in order to work properly with boolean objects.
+			if(hitPointInfoList.size() == 1){
+				HitPointInfo hitPointInfo = new HitPointInfo(hitPointInfoList.get(0));
+				hitPointInfo.setEntering(!hitPointInfo.isEntering());
+				hitPointInfoList.add(hitPointInfo);
+			}
         }
+
 		return hitPointInfoList;
 	}
 

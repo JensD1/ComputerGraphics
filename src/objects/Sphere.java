@@ -45,6 +45,8 @@ public class Sphere extends GenericObject {
 		// if discriminate is negative, the standard hitPointInfo will be returned, which is non-hit
 		if (Math.abs(discriminant) < Configuration.ROUNDING_ERROR) { // if discriminant is 0, there is 1 hitpoint.
 			double hitTime = -b / a;
+			// we add two in order to be able to work properly with Boolean objects
+			addHitPointToList(inverseRay, hitPointInfoList, hitTime, true); // todo see if it works
 			addHitPointToList(inverseRay, hitPointInfoList, hitTime, false);
 		} else if (discriminant > -Configuration.ROUNDING_ERROR) { // if there are 2 hitpoints
 			// hitpoint 1:

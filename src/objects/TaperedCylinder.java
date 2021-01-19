@@ -75,6 +75,12 @@ public class TaperedCylinder extends GenericObject {
 		// test Upper plane
 		addHitPointToList(hitPointInfoList, upperPlane.calculateHitPoint(inverseRay), this.s);
 
+		if(hitPointInfoList.size() == 1){ // todo does not work when inside taperedcylinder
+			HitPointInfo hitPointInfo = new HitPointInfo(hitPointInfoList.get(0));
+			hitPointInfo.setEntering(!hitPointInfo.isEntering());
+			hitPointInfoList.add(hitPointInfo);
+		}
+
 		return hitPointInfoList;
 	}
 
