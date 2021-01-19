@@ -50,6 +50,7 @@ public class BooleanDifference extends BooleanObject{
 			HitPointInfo lastHitPoint; // save the last hitpoint object so it is easy to put into the unionList when necessary
 			boolean tempCombInside;
 
+			// create combined list
 			while (lftIterator.hasNext() && rtIterator.hasNext()) { // the two hitpoints at infinity will not be treated.
 				if (lftHitPoint.getHitTime() < rtHitPoint.getHitTime()) {
 					lftInside = lftHitPoint.isEntering();

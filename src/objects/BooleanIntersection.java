@@ -52,6 +52,7 @@ public class BooleanIntersection extends BooleanObject{
 			HitPointInfo lastHitPoint; // save the last hitpoint object so it is easily to put into the unionList when necessary
 			boolean tempCombInside;
 
+			// create combined list
 			while (lftIterator.hasNext() && rtIterator.hasNext()) {
 				if (lftHitPoint.getHitTime() < rtHitPoint.getHitTime()) {
 					lftInside = lftHitPoint.isEntering();

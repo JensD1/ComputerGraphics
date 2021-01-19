@@ -179,6 +179,8 @@ public class Main {
 		Material yellowRubber = new Material(new CustomColor(0.5, 0.5, 0.4), new CustomColor(0.7, 0.7, 0.04),
 				0.078125 * 128, new CustomColor(), new CustomColor(0.05, 0.05, 0.0), 0, 0, 1);
 
+		TransformationBuilder transformationBuilder = new TransformationBuilder();
+
 		Camera camera = new Camera();
         camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 1, 0), new Vector(0, 0, 1));
 		camera.setDistanceN(1000);
@@ -202,17 +204,16 @@ public class Main {
 //		world.addObject(new Water(0, 0, 5, 20, 20, 0, 0, 0, waterMaterial, 2, 10, 6, 4));
 //		world.addObject(new Cube(0, 0, 5, 3, 3, 3, 0, 0, 0, redMaterial));
 
-		TransformationBuilder transformationBuilder = new TransformationBuilder();
-		Cube cube = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, copper);
-		Sphere sphere = new Sphere(1, 0, 0, 2, copper);
-		TaperedCylinder cylinder = new TaperedCylinder(1, 0, 0, 0, 3, 1, 1, 90, 0, 0,copper);
-		BooleanObject booleanObject = new BooleanUnion(new BooleanUnion(cube, cylinder), sphere);
+//		Cube cube = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, copper);
+//		Sphere sphere = new Sphere(1, 0, 0, 2, copper);
+//		TaperedCylinder cylinder = new TaperedCylinder(1, 0, 0, 0, 3, 1, 1, 90, 0, 0,copper);
+//		BooleanObject booleanObject = new BooleanUnion(new BooleanUnion(cube, cylinder), sphere);
 //		BooleanObject booleanObject = new BooleanIntersection(cube, sphere);
 //		BooleanObject booleanObject = new BooleanIntersection(cylinder, cube);
 //		BooleanObject booleanObject = new BooleanDifference(new BooleanDifference(cube, sphere), cylinder);
 //		booleanObject.setTransformation(transformationBuilder.reset().translation(0, -5, 0).create());
 //		booleanObject.setInverseTransformation(transformationBuilder.reset().inverseTranslation(0, -5, 0).create());
-		world.addObject(booleanObject);
+//		world.addObject(booleanObject);
 
 
 //		world.addObject(new TaperedCylinder(1,3, -3, 0, 1, 1, 1, 0, 0, 0, cyanPlastic));
@@ -249,11 +250,19 @@ public class Main {
 //		world.addObject(new Cube(2, 10, 1, 1, 1, 1, 0, 0, 30, copper));
 
 //		Christmas tree
-//		world.addObject(new TaperedCylinder(1, -5, 0, 0, 1, 1, 2, 0, 0, 0, brownMaterial));
-//		world.addObject(new TaperedCylinder(0.5, -5, 0, 2, 3, 3, 2, 0, 0, 0, greenPlastic));
-//		world.addObject(new TaperedCylinder(0.3, -5, 0, 4, 2, 2, 1.7, 0, 0, 0, greenPlastic));
-//		world.addObject(new TaperedCylinder(0.2, -5, 0, 5.7, 1, 1, 1.3, 0, 0, 0, greenPlastic));
-//		world.addObject(new TaperedCylinder(0, -5, 0, 7, 0.5, 0.5, 1, 0, 0, 0, greenPlastic));
+		GenericObject ct1 = new TaperedCylinder(1, 0, 0, 0, 1, 1, 2, 0, 0, 0, brownMaterial);
+		GenericObject ct2 = new TaperedCylinder(0.5, 0, 0, 2, 3, 3, 2, 0, 0, 0, greenPlastic);
+		GenericObject ct3 = new TaperedCylinder(0.3, 0, 0, 4, 2, 2, 1.7, 0, 0, 0, greenPlastic);
+		GenericObject ct4 = new TaperedCylinder(0.2, 0, 0, 5.7, 1, 1, 1.3, 0, 0, 0, greenPlastic);
+		GenericObject ct5 = new TaperedCylinder(0, 0, 0, 7, 0.5, 0.5, 1, 0, 0, 0, greenPlastic);
+		GenericObject b1 = new BooleanUnion(ct1, ct2);
+		GenericObject b2 = new BooleanUnion(ct3, ct4);
+		GenericObject b3 = new BooleanUnion(b1, b2);
+		GenericObject christmasTree = new BooleanUnion(b3, ct5);
+//		christmasTree.setTransformation(transformationBuilder.reset().translation(0, 0, 0).create());
+//		christmasTree.setInverseTransformation(transformationBuilder.reset().inverseTranslation(0, 0, 0).create());
+		world.addObject(christmasTree);
+
 
 //		Render the scene
 		Renderer renderer = new Renderer();
