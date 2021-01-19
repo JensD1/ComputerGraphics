@@ -31,16 +31,13 @@ public class BooleanIntersection extends BooleanObject{
 			// sort hitpoints
 			Collections.sort(leftHitPointList);
 			Collections.sort(rightHitPointList);
-			if(!leftHitPointList.isEmpty()){
-				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
-				infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
-				leftHitPointList.add(infHitpoint);
-			}
-			if(!rightHitPointList.isEmpty()){
-				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
-				infHitpoint.setEntering(rightHitPointList.get(rightHitPointList.size()-1).isEntering());
-				rightHitPointList.add(infHitpoint);
-			}
+
+			// add hitpoints in infinity
+			HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+			infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
+			leftHitPointList.add(infHitpoint);
+			infHitpoint.setEntering(rightHitPointList.get(rightHitPointList.size()-1).isEntering());
+			rightHitPointList.add(infHitpoint);
 
 			// initialize
 			Iterator<HitPointInfo> lftIterator = leftHitPointList.iterator(); // make sure that iteration is possible over all Hitpoints

@@ -29,16 +29,13 @@ public class BooleanDifference extends BooleanObject{
 			// sort hitpoints
 			Collections.sort(leftHitPointList);
 			Collections.sort(rightHitPointList);
-			if(!leftHitPointList.isEmpty()){
-				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
-				infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
-				leftHitPointList.add(infHitpoint);
-			}
-			if(!rightHitPointList.isEmpty()){
-				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
-				infHitpoint.setEntering(rightHitPointList.get(rightHitPointList.size()-1).isEntering());
-				rightHitPointList.add(infHitpoint);
-			}
+
+			// add hitpoints in infinity
+			HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+			infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
+			leftHitPointList.add(infHitpoint);
+			infHitpoint.setEntering(rightHitPointList.get(rightHitPointList.size()-1).isEntering());
+			rightHitPointList.add(infHitpoint);
 
 			// initialize
 			Iterator<HitPointInfo> lftIterator = leftHitPointList.iterator(); // make sure that iteration is possible over all Hitpoints
@@ -84,7 +81,34 @@ public class BooleanDifference extends BooleanObject{
 
 		} else {
 			if (!leftHitPointList.isEmpty()) {
-				unionList.addAll(leftHitPointList); // todo change
+				// sort hitpoints
+				Collections.sort(leftHitPointList);
+
+				// add an hitpoint in infinity
+				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+				infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
+				leftHitPointList.add(infHitpoint);
+
+				// initialize
+				Iterator<HitPointInfo> lftIterator = leftHitPointList.iterator(); // make sure that iteration is possible over all Hitpoints
+				boolean lftInside = !leftHitPointList.get(0).isEntering();
+				boolean combInside = lftInside;
+
+				HitPointInfo lftHitPoint = lftIterator.next(); // Take two "imaginative" hitpoints before the real hitpoints.
+
+				HitPointInfo lastHitPoint; // save the last hitpoint object so it is easy to put into the unionList when necessary
+				boolean tempCombInside;
+
+				while (lftIterator.hasNext()) { // the two hitpoints at infinity will not be treated.
+					lftInside = lftHitPoint.isEntering();
+					lastHitPoint = lftHitPoint;
+					lftHitPoint = lftIterator.next();
+					tempCombInside = lftInside;
+					if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
+						unionList.add(lastHitPoint);
+						combInside = tempCombInside;
+					}
+				}
 			}
 		}
 		return unionList;

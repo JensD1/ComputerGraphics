@@ -30,16 +30,13 @@ public class BooleanUnion extends BooleanObject {
 			// sort hitpoints
 			Collections.sort(leftHitPointList);
 			Collections.sort(rightHitPointList);
-			if(!leftHitPointList.isEmpty()){
-				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
-				infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
-				leftHitPointList.add(infHitpoint);
-			}
-			if(!rightHitPointList.isEmpty()){
-				HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
-				infHitpoint.setEntering(rightHitPointList.get(rightHitPointList.size()-1).isEntering());
-				rightHitPointList.add(infHitpoint);
-			}
+
+			// add hitpoints in infinity
+			HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+			infHitpoint.setEntering(leftHitPointList.get(leftHitPointList.size()-1).isEntering());
+			leftHitPointList.add(infHitpoint);
+			infHitpoint.setEntering(rightHitPointList.get(rightHitPointList.size()-1).isEntering());
+			rightHitPointList.add(infHitpoint);
 
 			// initialize
 			Iterator<HitPointInfo> lftIterator = leftHitPointList.iterator(); // make sure that iteration is possible over all Hitpoints
@@ -95,12 +92,43 @@ public class BooleanUnion extends BooleanObject {
 
 		} else {
 			if (!leftHitPointList.isEmpty()) {
-				unionList.addAll(leftHitPointList); // todo change
+				addOnlyImportantHitPointsOfList(leftHitPointList, unionList);
 			}
 			if (!rightHitPointList.isEmpty()) {
-				unionList.addAll(rightHitPointList); // todo change
+				addOnlyImportantHitPointsOfList(rightHitPointList, unionList);
 			}
 		}
 		return unionList;
+	}
+
+	private void addOnlyImportantHitPointsOfList(List<HitPointInfo> fromList, List<HitPointInfo> toList){
+		// sort hitpoints
+		Collections.sort(fromList);
+
+		// add an hitpoint in infinity
+		HitPointInfo infHitpoint = new HitPointInfo(Double.MAX_VALUE, null);
+		infHitpoint.setEntering(fromList.get(fromList.size()-1).isEntering());
+		fromList.add(infHitpoint);
+
+		// initialize
+		Iterator<HitPointInfo> iterator = fromList.iterator(); // make sure that iteration is possible over all Hitpoints
+		boolean inside = !fromList.get(0).isEntering();
+		boolean combInside = inside;
+
+		HitPointInfo hitPoint = iterator.next(); // Take two "imaginative" hitpoints before the real hitpoints.
+
+		HitPointInfo lastHitPoint; // save the last hitpoint object so it is easy to put into the unionList when necessary
+		boolean tempCombInside;
+
+		while (iterator.hasNext()) { // the two hitpoints at infinity will not be treated.
+			inside = hitPoint.isEntering();
+			lastHitPoint = hitPoint;
+			hitPoint = iterator.next();
+			tempCombInside = inside;
+			if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
+				toList.add(lastHitPoint);
+				combInside = tempCombInside;
+			}
+		}
 	}
 }
