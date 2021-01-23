@@ -74,7 +74,7 @@ public class Water extends GenericObject {
 
 		double hitTime = -inverseRay.getOrigin().getZ() / inverseRay.getDir().getZ();
 		List<HitPointInfo> hitPointInfoList = new ArrayList<>();
-		if (hitTime > Configuration.ROUNDING_ERROR && !(Math.abs(inverseRay.getDir().getZ()) < Configuration.ROUNDING_ERROR)) { // if not behind the eye and the ray is in the plane itself, the hitpoint can be calculated.
+		if (!(Math.abs(inverseRay.getDir().getZ()) < Configuration.ROUNDING_ERROR)) { // if not behind the eye and the ray is in the plane itself, the hitpoint can be calculated.
 			Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
 			if (Math.abs(hitLocation.getX()) <= (1.0 + Configuration.ROUNDING_ERROR) && Math.abs(hitLocation.getY()) <= (1.0 + Configuration.ROUNDING_ERROR)) {
 				double xCoefficient = Math.sin(hitLocation.getX() * this.xNumberOfPeriods) * amplitude;

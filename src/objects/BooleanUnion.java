@@ -64,8 +64,9 @@ public class BooleanUnion extends BooleanObject {
 				}
 				tempCombInside = rtInside || lftInside;
 				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
-					unionList.add(lastHitPoint);
 					combInside = tempCombInside;
+					lastHitPoint.setEntering(combInside);
+					unionList.add(lastHitPoint);
 				}
 			}
 
@@ -76,9 +77,10 @@ public class BooleanUnion extends BooleanObject {
 				lftHitPoint = lftIterator.next();
 				tempCombInside = rtInside || lftInside;
 				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
+					combInside = tempCombInside;
+					lastHitPoint.setEntering(combInside);
 					unionList.add(lastHitPoint);
 				}
-				combInside = tempCombInside;
 			}
 			while (rtIterator.hasNext()) {
 				rtInside = rtHitPoint.isEntering();
@@ -86,9 +88,10 @@ public class BooleanUnion extends BooleanObject {
 				rtHitPoint = rtIterator.next();
 				tempCombInside = rtInside || lftInside;
 				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
+					combInside = tempCombInside;
+					lastHitPoint.setEntering(combInside);
 					unionList.add(lastHitPoint);
 				}
-				combInside = tempCombInside;
 			}
 
 		} else {
@@ -134,8 +137,9 @@ public class BooleanUnion extends BooleanObject {
 			hitPoint = iterator.next();
 			tempCombInside = inside;
 			if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
-				toList.add(lastHitPoint);
 				combInside = tempCombInside;
+				lastHitPoint.setEntering(combInside);
+				toList.add(lastHitPoint);
 			}
 		}
 	}

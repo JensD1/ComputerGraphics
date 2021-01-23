@@ -51,36 +51,30 @@ public class Sphere extends GenericObject {
 		} else if (discriminant > -Configuration.ROUNDING_ERROR) { // if there are 2 hitpoints
 			// hitpoint 1:
 			double hitTime = -(b / a) - (Math.sqrt(Math.abs(discriminant)) / a);
-			if(hitTime > Configuration.ROUNDING_ERROR){
-				addHitPointToList(inverseRay, hitPointInfoList, hitTime, true);
-			}
+			addHitPointToList(inverseRay, hitPointInfoList, hitTime, true);
 
 			//hitpoint 2:
 			hitTime = -(b / a) + (Math.sqrt(Math.abs(discriminant)) / a);
-			if(hitTime > Configuration.ROUNDING_ERROR) {
-				addHitPointToList(inverseRay, hitPointInfoList, hitTime, false);
-			}
+			addHitPointToList(inverseRay, hitPointInfoList, hitTime, false);
 		}
 
 		return hitPointInfoList;
 	}
 
 	private void addHitPointToList(Ray inverseRay, List<HitPointInfo> hitPointInfoList, double hitTime, boolean isEntering) {
-		if (hitTime > Configuration.ROUNDING_ERROR) {
-			Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-			hitPointInfoList.add(
-					new HitPointInfo(
-							this,
-							Operations.pointTransformation(
-									this.transformation,
-									hitPoint
-							),
-							hitTime,
-							Operations.vectorTransformation(this.inverseTransformation.transpose(), Operations.pointSubstraction(hitPoint, new Point())),
-							isEntering
-					)
-			);
-		}
+		Point hitPoint = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
+		hitPointInfoList.add(
+				new HitPointInfo(
+						this,
+						Operations.pointTransformation(
+								this.transformation,
+								hitPoint
+						),
+						hitTime,
+						Operations.vectorTransformation(this.inverseTransformation.transpose(), Operations.pointSubstraction(hitPoint, new Point())),
+						isEntering
+				)
+		);
 	}
 
 	public void setMaterial(Material material) {

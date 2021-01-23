@@ -36,7 +36,7 @@ public class Plane extends GenericObject {
 		List<HitPointInfo> hitPointInfoList = new ArrayList<>();
 		double hitTime = -inverseRay.getOrigin().getZ() / inverseRay.getDir().getZ();
 
-		if (hitTime > Configuration.ROUNDING_ERROR && !(Math.abs(inverseRay.getDir().getZ()) < Configuration.ROUNDING_ERROR)) { // if not behind the eye and the ray is in the plane itself, the hitpoint can be calculated.
+		if (!(Math.abs(inverseRay.getDir().getZ()) < Configuration.ROUNDING_ERROR)) { // if not behind the eye and the ray is in the plane itself, the hitpoint can be calculated.
 			Vector normal = new Vector(0, 0, 1);
 			hitPointInfoList.add(new HitPointInfo(
 							this,

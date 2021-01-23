@@ -65,8 +65,9 @@ public class BooleanIntersection extends BooleanObject{
 				}
 				tempCombInside = rtInside && lftInside;
 				if (tempCombInside != combInside) { // save the hitpoint if combInside changes state.
-					unionList.add(lastHitPoint);
 					combInside = tempCombInside;
+					lastHitPoint.setEntering(combInside);
+					unionList.add(lastHitPoint);
 				}
 			}
 		}

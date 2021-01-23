@@ -75,7 +75,7 @@ public class TaperedCylinder extends GenericObject {
 		// test Upper plane
 		addHitPointToList(hitPointInfoList, upperPlane.calculateHitPoint(inverseRay), this.s);
 
-		if(hitPointInfoList.size() == 1){ // todo does not work when inside taperedcylinder
+		if (hitPointInfoList.size() == 1) { // todo does not work when inside taperedcylinder
 			HitPointInfo hitPointInfo = new HitPointInfo(hitPointInfoList.get(0));
 			hitPointInfo.setEntering(!hitPointInfo.isEntering());
 			hitPointInfoList.add(hitPointInfo);
@@ -85,25 +85,23 @@ public class TaperedCylinder extends GenericObject {
 	}
 
 	private void addHitPointToList(List<HitPointInfo> hitPointInfoList, Ray inverseRay, double hitTime) {
-		if (hitTime > Configuration.ROUNDING_ERROR) {
-			Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
-			if (hitLocation.getZ() >= -Configuration.ROUNDING_ERROR && hitLocation.getZ() <= (1+Configuration.ROUNDING_ERROR)) {
-				Vector normal = new Vector(
-						hitLocation.getX(),
-						hitLocation.getY(),
-						(1-this.s) * (1 + (this.s - 1) * hitLocation.getZ())
+		Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
+		if (hitLocation.getZ() >= -Configuration.ROUNDING_ERROR && hitLocation.getZ() <= (1 + Configuration.ROUNDING_ERROR)) {
+			Vector normal = new Vector(
+					hitLocation.getX(),
+					hitLocation.getY(),
+					(1 - this.s) * (1 + (this.s - 1) * hitLocation.getZ())
+			);
+			if (normal.norm() > Configuration.ROUNDING_ERROR) { // at the top of the cone (s=0), the norm of the normal will be 0.
+				hitPointInfoList.add(
+						new HitPointInfo(
+								this,
+								Operations.pointTransformation(this.transformation, hitLocation),
+								hitTime,
+								Operations.vectorTransformation(this.inverseTransformation.transpose(), normal),
+								(Operations.dotProduct(Operations.scalarVectorProduct(-1, inverseRay.getDir()), normal) >= 0) // isEntering if the corner between -inverseRay and the normal are smaller than 90°
+						)
 				);
-				if(normal.norm() > Configuration.ROUNDING_ERROR){ // at the top of the cone (s=0), the norm of the normal will be 0.
-					hitPointInfoList.add(
-							new HitPointInfo(
-									this,
-									Operations.pointTransformation(this.transformation, hitLocation),
-									hitTime,
-									Operations.vectorTransformation(this.inverseTransformation.transpose(), normal),
-									(Operations.dotProduct(Operations.scalarVectorProduct(-1, inverseRay.getDir()), normal) >= 0) // isEntering if the corner between -inverseRay and the normal are smaller than 90°
-							)
-					);
-				}
 			}
 		}
 	}

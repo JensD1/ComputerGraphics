@@ -42,13 +42,12 @@ public class CreateScene {
 		// Booleans
 		Cube glassCube = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, Materials.getGlassMaterial());
 		Sphere glassSphere = new Sphere(1, 0, 0, 2, Materials.getGlassMaterial());
-		TaperedCylinder glassCylinder = new TaperedCylinder(1, 0, 0, 0, 3, 1, 1, 90, 0, 0,Materials.getGlassMaterial());
 
 		Cube cube = new Cube(0, 0, 0, 2, 2, 2, 0, 0, 0, Materials.getCopper());
 		Sphere sphere = new Sphere(1, 0, 0, 2, Materials.getCopper());
 		TaperedCylinder cylinder = new TaperedCylinder(1, 0, 0, 0, 3, 1, 1, 90, 0, 0,Materials.getCopper());
 
-		BooleanObject booleanObject = new BooleanUnion(new BooleanUnion(glassCube, glassCylinder), glassSphere);
+		BooleanObject booleanObject = new BooleanUnion(glassCube, glassSphere);
 		booleanObject.setTransformation(transformationBuilder.reset().translation(-5, 7, 2).create());
 		booleanObject.setInverseTransformation(transformationBuilder.reset().inverseTranslation(-5, 7, 2).create());
 
@@ -93,33 +92,6 @@ public class CreateScene {
 		world.addObject(christmasTree);
 
 
-		return world;
-	}
-
-	public static World createSceneWithBooleansAndWaterTest(){
-		TransformationBuilder transformationBuilder = new TransformationBuilder();
-
-		Camera camera = new Camera();
-		camera.setCameraLocation(new Point(0, 15, 15), new Point(10, -10, 0), new Vector(0, 0, 1));
-		camera.setDistanceN(1000);
-		World world = new World(camera, new CustomColor(1, 1, 1));
-		PointLight pointLight = new PointLight(new Point(-10, -10, 15), new CustomColor(0.5, 0.5, 0.5));
-		world.addLight(pointLight);
-		PointLight pointLight2 = new PointLight(new Point(0, 0, 0), new CustomColor(0.7, 0.7, 0.7));
-		world.addLight(pointLight2);
-		PointLight pointLight3 = new PointLight(new Point(0, 0, 10), new CustomColor(0.5, 0.5, 0.5));
-		world.addLight(pointLight3);
-		PointLight pointLight4 = new PointLight(new Point(7, 10, 5), new CustomColor(0.7, 0.7, 0.7));
-		world.addLight(pointLight4);
-		PointLight pointLight5 = new PointLight(new Point(14, -16, 5), new CustomColor(0.7, 0.7, 0.7));
-		world.addLight(pointLight5);
-
-		GenericObject boundingBoxCube = new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, Materials.getCyanRubber());
-		GenericObject waterContainerCube = new Cube(10, -10, 0, 5, 5, 5, 0, 0, 0, Materials.getObsidian());
-		GenericObject groundBox = new Cube(0, 0, -10.1, 21, 21, 10, 0, 0, 0, Materials.getRedRubber());
-		GenericObject boundingBox = new BooleanDifference(boundingBoxCube, groundBox);
-		boundingBox = new BooleanUnion(boundingBox, waterContainerCube);
-		world.addObject(boundingBox);
 		return world;
 	}
 
@@ -187,4 +159,40 @@ public class CreateScene {
 
 		return world;
 	}
+
+	public static World simpleObjectTestScene() {
+		Camera camera = new Camera();
+		camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
+		camera.setDistanceN(1000);
+		World world = new World(camera, new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(-15, 15, 15), new CustomColor(1, 1, 1));
+		world.addLight(pointLight);
+
+//		GenericObject object = new Sphere(5, 0, 0, 0, Materials.getObsidian());
+//		GenericObject object = new Cube(0, 0, 0, 5, 5, 5, 0, 0, 0, Materials.getObsidian());
+//		GenericObject object = new Plane(0, 0, 0, 0, 0, 0, Materials.getObsidian());
+//		GenericObject object = new Square(0, 0, 0,5, 5, 0, 0, 0, Materials.getObsidian());
+//		GenericObject object = new TaperedCylinder(0.5, 0, 0, 0, 5, 5, 5, 0, 0, 0, Materials.getObsidian());
+		GenericObject object = new Water(0, 0, 0, 5, 5, 0, 0, 0, Materials.getObsidian(),1, 10, 10, 2);
+		world.addObject(object);
+
+		return world;
+	}
+
+	public static World simpleBoundingBoxTest() {
+		Camera camera = new Camera();
+		camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
+		camera.setDistanceN(1000);
+		World world = new World(camera, new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(0, 0, 0), new CustomColor(1, 1, 1));
+		world.addLight(pointLight);
+
+//		GenericObject object = new Sphere(30, 0, 0, 0, Materials.getObsidian());
+//		GenericObject object = new Cube(0, 0, 0, 20, 20, 20, 0, 0, 0, Materials.getObsidian());
+		GenericObject object = new TaperedCylinder(1, 0, 0, -10, 40, 40, 40, 0, 0, 0, Materials.getObsidian());
+		world.addObject(object);
+
+		return world;
+	}
+
 }
