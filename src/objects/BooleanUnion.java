@@ -99,6 +99,13 @@ public class BooleanUnion extends BooleanObject {
 				addOnlyImportantHitPointsOfList(rightHitPointList, unionList);
 			}
 		}
+
+		if(!unionList.isEmpty()) {
+			for (HitPointInfo hitPointInfo : unionList) {
+				hitPointInfo.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo.getHitPoint()));
+				hitPointInfo.setNormal(Operations.vectorTransformation(this.inverseTransformation.transpose(), hitPointInfo.getNormal()));
+			}
+		}
 		return unionList;
 	}
 

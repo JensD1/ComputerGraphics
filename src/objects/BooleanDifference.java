@@ -112,6 +112,13 @@ public class BooleanDifference extends BooleanObject{
 				}
 			}
 		}
+
+		if(!unionList.isEmpty()) {
+			for (HitPointInfo hitPointInfo : unionList) {
+				hitPointInfo.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo.getHitPoint()));
+				hitPointInfo.setNormal(Operations.vectorTransformation(this.inverseTransformation.transpose(), hitPointInfo.getNormal()));
+			}
+		}
 		return unionList;
 	}
 }

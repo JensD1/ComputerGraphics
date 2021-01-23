@@ -15,7 +15,7 @@ public class Configuration {
 
     public static final double MIN_SHININESS = 0.05;
     public static final double MIN_TRANSPARENTNESS = 0.3;
-    public static final double MIN_IN_LIGHT = 0.3;
+    public static final double MIN_IN_LIGHT = 0;
 
     public static final int LOWEST_PRIORITY = 5;
 

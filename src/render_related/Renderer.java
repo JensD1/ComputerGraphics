@@ -23,18 +23,20 @@ public class Renderer {
 		int deltaH = Configuration.SCREEN_HEIGHT;
 
 		//create a BST object
-		Map<Integer, Color> colors = new HashMap<Integer, Color>(Configuration.SCREEN_WIDTH * Configuration.SCREEN_HEIGHT * 2, 1);
+		Map<Integer, Color> colors = new HashMap<Integer, Color>(Configuration.SCREEN_WIDTH * Configuration.SCREEN_HEIGHT, 1);
 
 		while (deltaW > 1 || deltaH > 1) {
 			deltaH = Integer.max(1, deltaH / 2); // an integer will always round toward 0.
 			deltaW = Integer.max(1, deltaW / 2); // an integer will always round toward 0.
 			for (int c = 0; c < Configuration.SCREEN_WIDTH; c += deltaW) {
 				for (int r = 0; r < Configuration.SCREEN_HEIGHT; r += deltaH) {
-					Ray ray = Ray.createRay(world, c, r);
-					hitPointInfo = world.calculateBestHitpoint(ray);
-					Color color = colorPixel(world, ray, hitPointInfo);
-					addPixelToRangeOfCanvas(pixelPlotter, color, r, r + deltaH, c, c + deltaW, colors);
-					colors.putIfAbsent(calculateKey(c, r), color);
+					if(!colors.containsKey(calculateKey(c, r))) {
+						Ray ray = Ray.createRay(world, c, r);
+						hitPointInfo = world.calculateBestHitpoint(ray);
+						Color color = colorPixel(world, ray, hitPointInfo);
+						addPixelToRangeOfCanvas(pixelPlotter, color, r, r + deltaH, c, c + deltaW, colors);
+						colors.put(calculateKey(c, r), color);
+					}
 				}
 			}
 			pixelPlotter.renderFrame();
@@ -70,7 +72,7 @@ public class Renderer {
 		for (int column = w1; column < w2; column++) {
 			for (int row = h1; row < h2; row++) { // todo check if < must become <=
 				if (column < Configuration.SCREEN_WIDTH && row < Configuration.SCREEN_HEIGHT) {
-					if(!colors.containsKey(calculateKey(column, row))) {
+					if(!colors.containsKey(calculateKey(column, row))) { // make sure that the correct pixels are not overwritten.
 						pixelPlotter.addPixelToCanvas(
 								new Pixel(column, transformYCoordinate(row), color)
 						);
