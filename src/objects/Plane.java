@@ -27,12 +27,6 @@ public class Plane extends GenericObject {
 		super(x, y, z, 1, 1, 1, rotateX, rotateY, rotateZ, material);
 	}
 
-	public Plane(double x, double y, double z,
-				 double rotateX, double rotateY, double rotateZ,
-				 Material material, Texture texture) {
-		super(x, y, z, 1, 1, 1, rotateX, rotateY, rotateZ, material, texture);
-	}
-
 	@Override
 	public List<HitPointInfo> calculateHitPoint(Ray ray) {
 		Ray inverseRay = new Ray(

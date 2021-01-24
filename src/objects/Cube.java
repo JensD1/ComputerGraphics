@@ -48,20 +48,6 @@ public class Cube extends GenericObject {
 		this.squares.add(new Square(1, 0, 0, 1, 1, 0, 90, 0, this.material)); // leftSquare
 	}
 
-	public Cube(double x, double y, double z,
-				double scaleX, double scaleY, double scaleZ,
-				double rotateX, double rotateY, double rotateZ,
-				Material material, Texture texture) {
-		super(x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, material, texture);
-		this.squares = new ArrayList<>();
-		this.squares.add(new Square(0, 0, -1, 1, 1, 180, 0, 0, this.material)); // groundsquare
-		this.squares.add(new Square(0, 0, 1, 1, 1, 0, 0, 0, this.material)); // upperSquare
-		this.squares.add(new Square(0, -1, 0, 1, 1, 90, 0, 0, this.material)); // backSquare
-		this.squares.add(new Square(0, 1, 0, 1, 1, -90, 0, 0, this.material)); // frontSquare
-		this.squares.add(new Square(-1, 0, 0, 1, 1, 0, -90, 0, this.material)); // rightSquare
-		this.squares.add(new Square(1, 0, 0, 1, 1, 0, 90, 0, this.material)); // leftSquare
-	}
-
 	@Override
 	public List<HitPointInfo> calculateHitPoint(Ray ray) {
 		List<HitPointInfo> hitPointInfoList = new ArrayList<>();

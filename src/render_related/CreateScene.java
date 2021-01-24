@@ -203,8 +203,7 @@ public class CreateScene {
 		PointLight pointLight = new PointLight(new Point(15, 15, 15), new CustomColor(2, 2, 2));
 		world.addLight(pointLight);
 
-		Texture texture = new WoodTexture(0.5, 1, 0.3, 10, 0.1, 1);
-		GenericObject object = new TaperedCylinder(0.5, 0, 0, -2, 4, 4, 4, 0, 0, 0, Materials.getGold(), texture);
+		GenericObject object = new TaperedCylinder(0.5, 1, 0, -2, 4, 4, 4, 0, 0, 0, Materials.getWoodMaterial());
 		world.addObject(object);
 
 		return world;
@@ -219,7 +218,9 @@ public class CreateScene {
 		world.addLight(pointLight);
 
 		Texture texture = new NoiseTexture(1);
-		GenericObject object = new Plane(0, 0, 0, 0, 0, 0, Materials.getGold(), texture);
+		Material material = Materials.getGold();
+		material.setTexture(texture);
+		GenericObject object = new Plane(0, 0, 0, 0, 0, 0, Materials.getGold());
 		world.addObject(object);
 
 		return world;

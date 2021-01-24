@@ -9,11 +9,25 @@ public class NoiseTexture extends Texture{
 	double scale;
 
 	public NoiseTexture(){
+		super();
 		this.noiseClass = new NoiseClass();
 		this.scale = 1;
 	}
 
 	public NoiseTexture(double scale){
+		super();
+		this.noiseClass = new NoiseClass();
+		this.scale = 1;
+	}
+
+	public NoiseTexture(boolean isWorldTexture){
+		super(isWorldTexture);
+		this.noiseClass = new NoiseClass();
+		this.scale = 1;
+	}
+
+	public NoiseTexture(double scale, boolean isWorldTexture){
+		super(isWorldTexture);
 		this.noiseClass = new NoiseClass();
 		this.scale = 1;
 	}

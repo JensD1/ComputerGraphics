@@ -26,6 +26,10 @@ public class Point {
         this.point = point;
     }
 
+    public Point(Point point){
+        this.point = point.point;
+    }
+
     public void setX(double value){
         this.point[0] = value;
     }

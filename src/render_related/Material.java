@@ -12,6 +12,7 @@ public class Material {
 	private double reflectionCoefficient;
 	private double refractionCoefficient;
 	private double relativeLightSpeed;
+	private Texture texture;
 
 	public Material(){
 		this.diffuse = new CustomColor(0, 0, 0);
@@ -22,6 +23,7 @@ public class Material {
 		this.reflectionCoefficient = 0;
 		this.refractionCoefficient = 0;
 		this.relativeLightSpeed = 1;
+		this.texture = new NoTexture();
 	}
 
 	public Material(CustomColor diffuse, CustomColor specular, double specularExponent,
@@ -35,6 +37,21 @@ public class Material {
 		this.reflectionCoefficient = reflectionCoefficient;
 		this.refractionCoefficient = refractionCoefficient;
 		this.relativeLightSpeed = relativeLightSpeed;
+		this.texture = new NoTexture();
+	}
+
+	public Material(CustomColor diffuse, CustomColor specular, double specularExponent,
+					CustomColor emission, CustomColor ambient, double reflectionCoefficient,
+					double refractionCoefficient, double relativeLightSpeed, Texture texture){
+		this.diffuse = diffuse;
+		this.specular = specular;
+		this.specularExponent = specularExponent;
+		this.emission = emission;
+		this.ambient = ambient;
+		this.reflectionCoefficient = reflectionCoefficient;
+		this.refractionCoefficient = refractionCoefficient;
+		this.relativeLightSpeed = relativeLightSpeed;
+		this.texture = texture;
 	}
 
 	public CustomColor getDiffuse() {
@@ -99,5 +116,21 @@ public class Material {
 
 	public void setRelativeDensity(double relativeLightSpeed) {
 		this.relativeLightSpeed = relativeLightSpeed;
+	}
+
+	public double getRelativeLightSpeed() {
+		return relativeLightSpeed;
+	}
+
+	public void setRelativeLightSpeed(double relativeLightSpeed) {
+		this.relativeLightSpeed = relativeLightSpeed;
+	}
+
+	public Texture getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
 	}
 }

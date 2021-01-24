@@ -38,16 +38,6 @@ public class TaperedCylinder extends GenericObject {
 		this.upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material);
 	}
 
-	public TaperedCylinder(double s, double x, double y, double z, double scaleX,
-						   double scaleY, double scaleZ, double rotateX, double rotateY,
-						   double rotateZ, Material material, Texture texture) {
-		super(x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ,
-				material, texture);
-		this.s = s;
-		this.groundPlane = new Plane(0, 0, 0, 180, 0, 0, this.material);
-		this.upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material);
-	}
-
 	@Override
 	public List<HitPointInfo> calculateHitPoint(Ray ray) {
 		List<HitPointInfo> hitPointInfoList = new ArrayList<>();

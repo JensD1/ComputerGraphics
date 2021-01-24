@@ -70,6 +70,9 @@ public class Materials {
 			0.078125 * 128, new CustomColor(), new CustomColor(0.05, 0.05, 0.05), 0, 0, 1);
 	private static final Material yellowRubber = new Material(new CustomColor(0.5, 0.5, 0.4), new CustomColor(0.7, 0.7, 0.04),
 			0.078125 * 128, new CustomColor(), new CustomColor(0.05, 0.05, 0.0), 0, 0, 1);
+	private static final Material woodMaterial = new Material(new CustomColor(0.365234375, 0.251953125, 0.126953125), new CustomColor(0.1, 0.1, 0.1),
+			200, new CustomColor(), new CustomColor(0.187, 0.129, 0.065), 0, 0, 1,
+			new WoodTexture(0.8, 1, 0.01, 15, 0.3, 10, 10, 7));
 
 	public static Material getRedMaterial() {
 		return redMaterial;
@@ -197,5 +200,9 @@ public class Materials {
 
 	public static Material getYellowRubber() {
 		return yellowRubber;
+	}
+
+	public static Material getWoodMaterial() {
+		return woodMaterial;
 	}
 }

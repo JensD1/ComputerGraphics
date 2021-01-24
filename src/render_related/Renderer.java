@@ -2,6 +2,7 @@ package render_related;
 
 import configuration.Configuration;
 import misc.*;
+import misc.Point;
 import misc.Vector;
 import objects.GenericObject;
 import objects.Water;
@@ -95,10 +96,17 @@ public class Renderer {
 	public CustomColor shade(World world, Ray ray, HitPointInfo hitPointInfo) {
 		Vector v = Operations.pointSubstraction(world.getCamera().getEye(), hitPointInfo.getHitPoint()).normalize();
 		CustomColor color = new CustomColor();
+
+		Point texturePoint = new Point(hitPointInfo.getHitPoint());
+		if(!hitPointInfo.getObject().getMaterial().getTexture().isWorldTexture()) {
+			texturePoint = Operations.pointTransformation(hitPointInfo.getObject().getInverseTransformation(), texturePoint);
+		}
+
+
 		color = color.addColor(hitPointInfo.getObject().getMaterial().getEmission()); // add emmision
 		if (!ray.getInsideObjectList().contains(hitPointInfo.getObject())) { // if inside object (refraction) then these should not be calculated.
 			CustomColor ambientColor = CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getAmbient(), world.getAmbient());
-			ambientColor.scalarProduct(hitPointInfo.getObject().getTexture().texture(hitPointInfo.getHitPoint())); // todo controleer
+			ambientColor.scalarProduct(hitPointInfo.getObject().getMaterial().getTexture().texture(texturePoint)); // todo controleer
 			color = color.addColor(ambientColor); // add ambient colors
 		}
 		hitPointInfo.setNormal(hitPointInfo.getNormal().normalize()); // normalise the normal
@@ -118,7 +126,7 @@ public class Renderer {
 					double mDotS = Operations.dotProduct(s, hitPointInfo.getNormal()); // The lambert term
 					if (mDotS > 0.0) { // Hitpoint is turned towards the light.
 						CustomColor diffuseColor = CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getDiffuse(), light.getColor()).scalarProduct(mDotS);
-						diffuseColor.scalarProduct(hitPointInfo.getObject().getTexture().texture(hitPointInfo.getHitPoint())); // todo controleer
+						diffuseColor.scalarProduct(hitPointInfo.getObject().getMaterial().getTexture().texture(texturePoint)); // todo controleer
 						color = color.addColor(diffuseColor.scalarProduct(inLight));
 					}
 					Vector h = Operations.vectorSum(v, s);

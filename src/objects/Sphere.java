@@ -28,12 +28,6 @@ public class Sphere extends GenericObject {
 		this.inverseTransformation = inverseTransformation;
 	}
 
-	public Sphere(Matrix transformation, Matrix inverseTransformation, Material material, Texture texture) {
-		super(material, texture);
-		this.transformation = transformation;
-		this.inverseTransformation = inverseTransformation;
-	}
-
 	@Override
 	public List<HitPointInfo> calculateHitPoint(Ray ray) {
 

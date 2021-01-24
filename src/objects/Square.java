@@ -25,13 +25,6 @@ public class Square extends GenericObject {
 		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material);
 	}
 
-	public Square(double x, double y, double z,
-				  double scaleX, double scaleY,
-				  double rotateX, double rotateY, double rotateZ,
-				  Material material, Texture texture) {
-		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material, texture);
-	}
-
 	@Override
 	public List<HitPointInfo> calculateHitPoint(Ray ray) {
 		Ray inverseRay = new Ray(

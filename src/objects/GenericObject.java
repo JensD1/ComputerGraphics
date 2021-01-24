@@ -13,14 +13,12 @@ public abstract class GenericObject {
     protected Matrix transformation;
     protected Matrix inverseTransformation;
     protected Material material;
-    protected Texture texture;
     protected int priority; // The priority level of the object. -1 means no defined priority.
 
     public GenericObject(){
         this.transformation = Matrix.createUnitMatrix();
         this.inverseTransformation = Matrix.createUnitMatrix();
         this.material = new Material();
-        this.texture = new NoTexture();
         this.priority = Configuration.LOWEST_PRIORITY;
     }
 
@@ -28,33 +26,6 @@ public abstract class GenericObject {
         this.transformation = Matrix.createUnitMatrix();
         this.inverseTransformation = Matrix.createUnitMatrix();
         this.material = material;
-        this.texture = new NoTexture();
-        this.priority = Configuration.LOWEST_PRIORITY;
-    }
-
-    public GenericObject(Material material, Texture texture){
-        this.transformation = Matrix.createUnitMatrix();
-        this.inverseTransformation = Matrix.createUnitMatrix();
-        this.material = material;
-        this.texture = texture;
-        this.priority = Configuration.LOWEST_PRIORITY;
-    }
-
-    public GenericObject(double x, double y, double z,
-                         double scaleX, double scaleY, double scaleZ,
-                         double rotateX, double rotateY, double rotateZ,
-                         Material material, Texture texture){
-        TransformationBuilder transformationBuilder = new TransformationBuilder();
-        this.transformation = transformationBuilder.scaling(scaleX, scaleY, scaleZ)
-                .rotateX(rotateX).rotateY(rotateY).rotateZ(rotateZ)
-                .translation(x, y, z).create();
-        this.inverseTransformation = transformationBuilder.reset()
-                .inverseTranslation(x, y, z)
-                .inverseRotateZ(rotateZ).inverseRotateY(rotateY).inverseRotateX(rotateX)
-                .inverseScaling(scaleX, scaleY, scaleZ)
-                .create();
-        this.material = material;
-        this.texture = texture;
         this.priority = Configuration.LOWEST_PRIORITY;
     }
 
@@ -72,7 +43,6 @@ public abstract class GenericObject {
                 .inverseScaling(scaleX, scaleY, scaleZ)
                 .create();
         this.material = material;
-        this.texture = new NoTexture();
         this.priority = Configuration.LOWEST_PRIORITY;
     }
 
@@ -111,13 +81,5 @@ public abstract class GenericObject {
     public void resetTransformation(){
         this.transformation = Matrix.createUnitMatrix();
         this.inverseTransformation = Matrix.createUnitMatrix();
-    }
-
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
     }
 }
