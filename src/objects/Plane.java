@@ -6,6 +6,7 @@ import misc.Operations;
 import misc.Ray;
 import misc.Vector;
 import render_related.Material;
+import render_related.Texture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,12 @@ public class Plane extends GenericObject {
 				 double rotateX, double rotateY, double rotateZ,
 				 Material material) {
 		super(x, y, z, 1, 1, 1, rotateX, rotateY, rotateZ, material);
+	}
+
+	public Plane(double x, double y, double z,
+				 double rotateX, double rotateY, double rotateZ,
+				 Material material, Texture texture) {
+		super(x, y, z, 1, 1, 1, rotateX, rotateY, rotateZ, material, texture);
 	}
 
 	@Override

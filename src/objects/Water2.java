@@ -3,33 +3,64 @@ package objects;
 import configuration.Configuration;
 import misc.*;
 import render_related.Material;
-import render_related.Texture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Square extends GenericObject {
+public class Water2 extends GenericObject {
 
-	public Square() {
+	private double amplitude;
+	private NoiseClass noiseClassX;
+	private NoiseClass noiseClassY;
+	double scale;
+
+	public Water2() {
 		super();
+		this.amplitude = 1;
+		this.noiseClassX = new NoiseClass();
+		this.noiseClassY = new NoiseClass();
+		this.scale = 1;
 	}
 
-	public Square(Material material) {
+	public Water2(Material material) {
 		super(material);
+		this.amplitude = 1;
+		this.noiseClassX = new NoiseClass();
+		this.noiseClassY = new NoiseClass();
+		this.scale = 1;
 	}
 
-	public Square(double x, double y, double z,
+	public Water2(double x, double y, double z, // todo add scale z so waves are bigger.
 				  double scaleX, double scaleY,
 				  double rotateX, double rotateY, double rotateZ,
 				  Material material) {
 		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material);
+		this.amplitude = 1;
+		this.noiseClassX = new NoiseClass();
+		this.noiseClassY = new NoiseClass();
+		this.scale = 1;
 	}
 
-	public Square(double x, double y, double z,
+	public Water2(double x, double y, double z, // todo add scale z so waves are bigger.
 				  double scaleX, double scaleY,
 				  double rotateX, double rotateY, double rotateZ,
-				  Material material, Texture texture) {
-		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material, texture);
+				  Material material, double amplitude) {
+		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material);
+		this.amplitude = amplitude;
+		this.noiseClassX = new NoiseClass();
+		this.noiseClassY = new NoiseClass();
+		this.scale = 1;
+	}
+
+	public Water2(double x, double y, double z, // todo add scale z so waves are bigger.
+				  double scaleX, double scaleY,
+				  double rotateX, double rotateY, double rotateZ,
+				  Material material, double amplitude, double scale) {
+		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material);
+		this.amplitude = amplitude;
+		this.noiseClassX = new NoiseClass();
+		this.noiseClassY = new NoiseClass();
+		this.scale = scale;
 	}
 
 	@Override
@@ -44,7 +75,9 @@ public class Square extends GenericObject {
 		if (!(Math.abs(inverseRay.getDir().getZ()) < Configuration.ROUNDING_ERROR)) { // if not behind the eye and the ray is in the plane itself, the hitpoint can be calculated.
 			Point hitLocation = Operations.pointVectorAddition(inverseRay.getOrigin(), Operations.scalarVectorProduct(hitTime, inverseRay.getDir()));
 			if (Math.abs(hitLocation.getX()) <= (1.0 + Configuration.ROUNDING_ERROR) && Math.abs(hitLocation.getY()) <= (1.0 + Configuration.ROUNDING_ERROR)) {
-				Vector normal = new Vector(0, 0, 1);
+				double xCoefficient = this.noiseClassX.turbulence(this.scale, hitLocation) * 2 * amplitude - amplitude; // the range of xCoeficient is [-A, A]
+				double yCoefficient = this.noiseClassY.turbulence(this.scale, hitLocation) * 2 * amplitude - amplitude; // the range of xCoeficient is [-A, A]
+				Vector normal = new Vector(xCoefficient, yCoefficient, 1).normalize();
 				hitPointInfoList.add(new HitPointInfo(
 								this,
 								Operations.pointTransformation(

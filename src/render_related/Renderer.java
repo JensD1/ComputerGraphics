@@ -97,9 +97,9 @@ public class Renderer {
 		CustomColor color = new CustomColor();
 		color = color.addColor(hitPointInfo.getObject().getMaterial().getEmission()); // add emmision
 		if (!ray.getInsideObjectList().contains(hitPointInfo.getObject())) { // if inside object (refraction) then these should not be calculated.
-			color = color.addColor( // add ambient colors
-					CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getAmbient(), world.getAmbient())
-			);
+			CustomColor ambientColor = CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getAmbient(), world.getAmbient());
+			ambientColor.scalarProduct(hitPointInfo.getObject().getTexture().texture(hitPointInfo.getHitPoint())); // todo controleer
+			color = color.addColor(ambientColor); // add ambient colors
 		}
 		hitPointInfo.setNormal(hitPointInfo.getNormal().normalize()); // normalise the normal
 
@@ -118,6 +118,7 @@ public class Renderer {
 					double mDotS = Operations.dotProduct(s, hitPointInfo.getNormal()); // The lambert term
 					if (mDotS > 0.0) { // Hitpoint is turned towards the light.
 						CustomColor diffuseColor = CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getDiffuse(), light.getColor()).scalarProduct(mDotS);
+						diffuseColor.scalarProduct(hitPointInfo.getObject().getTexture().texture(hitPointInfo.getHitPoint())); // todo controleer
 						color = color.addColor(diffuseColor.scalarProduct(inLight));
 					}
 					Vector h = Operations.vectorSum(v, s);

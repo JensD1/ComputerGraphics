@@ -36,7 +36,7 @@ public class CreateScene {
 		GenericObject floor = new BooleanUnion(groundPlane, waterContainerCube);
 		world.addObject(boundingBoxCube);
 		world.addObject(floor);
-		world.addObject(new Water(10, -10, -0.5, 6, 6, 0, 0, 0, Materials.getWaterMaterial(), 0.5, 10, 6, 2));
+		world.addObject(new Water2(10, -10, -0.3, 5.1, 5.1, 0, 0, 0, Materials.getWaterMaterial(), 5, 20));
 		world.addObject(new Cube(10, -10, -2.9, 2, 2, 2, 0, 0, 0, Materials.getGold()));
 
 		// Booleans
@@ -195,4 +195,56 @@ public class CreateScene {
 		return world;
 	}
 
+	public static World simpleTexturesTest(){
+		Camera camera = new Camera();
+		camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
+		camera.setDistanceN(1000);
+		World world = new World(camera, new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(15, 15, 15), new CustomColor(2, 2, 2));
+		world.addLight(pointLight);
+
+		Texture texture = new WoodTexture(0.5, 1, 0.3, 10, 0.1, 1);
+		GenericObject object = new TaperedCylinder(0.5, 0, 0, -2, 4, 4, 4, 0, 0, 0, Materials.getGold(), texture);
+		world.addObject(object);
+
+		return world;
+	}
+
+	public static World simpleTexturesTestNoise(){
+		Camera camera = new Camera();
+		camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
+		camera.setDistanceN(1000);
+		World world = new World(camera, new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(15, 15, 15), new CustomColor(2, 2, 2));
+		world.addLight(pointLight);
+
+		Texture texture = new NoiseTexture(1);
+		GenericObject object = new Plane(0, 0, 0, 0, 0, 0, Materials.getGold(), texture);
+		world.addObject(object);
+
+		return world;
+	}
+
+	public static World water2Test(){
+		Camera camera = new Camera();
+		camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
+		camera.setDistanceN(1000);
+		World world = new World(camera, new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(-10, -10, 15), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight);
+		PointLight pointLight2 = new PointLight(new Point(0, 0, 0), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight2);
+		PointLight pointLight3 = new PointLight(new Point(0, 0, 10), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight3);
+
+		GenericObject object = new Water2(0, 0, 0, 30, 30, 0, 0, 0, Materials.getWaterMaterial(), 5, 20);
+		world.addObject(object);
+		world.addObject(new Cube(0, 0, -5, 3, 3, 3, 0, 0, 0, Materials.getGold()));
+
+		//		Bounding box with plane so the floor is of another material
+		GenericObject boundingBoxCube = new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, Materials.getObsidian());
+		world.addObject(boundingBoxCube);
+
+		return world;
+	}
 }

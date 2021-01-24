@@ -3,6 +3,7 @@ package objects;
 import configuration.Configuration;
 import misc.*;
 import render_related.Material;
+import render_related.Texture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,12 @@ public class Sphere extends GenericObject {
 
 	public Sphere(Matrix transformation, Matrix inverseTransformation, Material material) {
 		super(material);
+		this.transformation = transformation;
+		this.inverseTransformation = inverseTransformation;
+	}
+
+	public Sphere(Matrix transformation, Matrix inverseTransformation, Material material, Texture texture) {
+		super(material, texture);
 		this.transformation = transformation;
 		this.inverseTransformation = inverseTransformation;
 	}
