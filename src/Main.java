@@ -10,8 +10,10 @@ public class Main {
 //		World world = CreateScene.createSceneWithBooleansAndWater();
 //		World world = CreateScene.simpleObjectTestScene();
 //		World world = CreateScene.simpleBoundingBoxTest();
-		World world = CreateScene.simpleTexturesTest();
+//		World world = CreateScene.simpleTexturesTest();
 //		World world = CreateScene.water2Test();
+//		World world = CreateScene.waterCubeTest();
+		World world = CreateScene.MaterialTest();
 		Renderer renderer = new Renderer();
 
 		renderer.renderFrame(world);

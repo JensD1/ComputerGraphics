@@ -248,4 +248,50 @@ public class CreateScene {
 
 		return world;
 	}
+
+	public static World waterCubeTest(){
+		Camera camera = new Camera();
+		camera.setCameraLocation(new Point(15, 15, 15), new Point(0, 0, 0), new Vector(0, 0, 1));
+		camera.setDistanceN(1000);
+		World world = new World(camera, new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(-10, -10, 15), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight);
+		PointLight pointLight2 = new PointLight(new Point(0, 0, 0), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight2);
+		PointLight pointLight3 = new PointLight(new Point(0, 0, 10), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight3);
+
+		GenericObject object = new WaterCube(0, 0, -10, 11, 11, 11, 0, 0, 0, Materials.getWaterMaterial(), 5, 20);
+		world.addObject(object);
+		world.addObject(new Cube(0, 0, -5, 3, 3, 3, 0, 0, 0, Materials.getGold()));
+
+		//		Bounding box with plane so the floor is of another material
+		GenericObject boundingBoxCube = new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, Materials.getObsidian());
+		world.addObject(boundingBoxCube);
+
+		return world;
+	}
+
+	public static World MaterialTest(){
+		Camera camera = new Camera();
+		camera.setCameraLocation(new Point(15, 0, 3), new Point(0, 0, -3), new Vector(0, 0, 1));
+		camera.setDistanceN(1000);
+		World world = new World(camera, new CustomColor(1, 1, 1));
+		PointLight pointLight = new PointLight(new Point(0, 15, 15), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight);
+		PointLight pointLight2 = new PointLight(new Point(0, 0, 0), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight2);
+		PointLight pointLight3 = new PointLight(new Point(0, 0, 10), new CustomColor(0.5, 0.5, 0.5));
+		world.addLight(pointLight3);
+
+		GenericObject object = new Sphere(3, 0, 0, 0, Materials.getSilver());
+		world.addObject(object);
+
+		GenericObject boundingBoxCube = new Cube(0, 0, 10, 20, 20, 20, 0, 0, 0, Materials.getCyanRubber());
+		GenericObject floor = new Square(0, 0, -3.01, 21, 21, 0, 0, 0, Materials.getWoodMaterial());
+		world.addObject(boundingBoxCube);
+		world.addObject(floor);
+
+		return world;
+	}
 }
