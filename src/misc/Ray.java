@@ -82,6 +82,16 @@ public class Ray {
         return new Ray(world.getCamera().getEye(), dir.normalize());
     }
 
+    public static Ray createRay(World world, double c, double r){
+        Vector dirN = Operations.scalarVectorProduct(-world.getCamera().getDistanceN(), world.getCamera().getN());
+        double uCoefficient = world.getCamera().getWidth() * (2 * c / (double) Configuration.SCREEN_WIDTH - 1);
+        Vector dirU = Operations.scalarVectorProduct(uCoefficient, world.getCamera().getU());
+        double vCoefficient = world.getCamera().getHeight() * (2 * r / (double) Configuration.SCREEN_HEIGHT - 1);
+        Vector dirV = Operations.scalarVectorProduct(vCoefficient, world.getCamera().getV());
+        Vector dir = Operations.vectorSum(Operations.vectorSum(dirN, dirU), dirV);
+        return new Ray(world.getCamera().getEye(), dir.normalize());
+    }
+
     public int getRecurseLevel() {
         return recurseLevel;
     }

@@ -3,8 +3,6 @@ package objects;
 import configuration.Configuration;
 import misc.*;
 import render_related.Material;
-import render_related.NoTexture;
-import render_related.Texture;
 
 import java.util.List;
 
@@ -16,15 +14,15 @@ public abstract class GenericObject {
     protected int priority; // The priority level of the object. -1 means no defined priority.
 
     public GenericObject(){
-        this.transformation = Matrix.createUnitMatrix();
-        this.inverseTransformation = Matrix.createUnitMatrix();
+        this.transformation = Matrix.createIdentityMatrix();
+        this.inverseTransformation = Matrix.createIdentityMatrix();
         this.material = new Material();
         this.priority = Configuration.LOWEST_PRIORITY;
     }
 
     public GenericObject(Material material){
-        this.transformation = Matrix.createUnitMatrix();
-        this.inverseTransformation = Matrix.createUnitMatrix();
+        this.transformation = Matrix.createIdentityMatrix();
+        this.inverseTransformation = Matrix.createIdentityMatrix();
         this.material = material;
         this.priority = Configuration.LOWEST_PRIORITY;
     }
@@ -79,7 +77,7 @@ public abstract class GenericObject {
     }
 
     public void resetTransformation(){
-        this.transformation = Matrix.createUnitMatrix();
-        this.inverseTransformation = Matrix.createUnitMatrix();
+        this.transformation = Matrix.createIdentityMatrix();
+        this.inverseTransformation = Matrix.createIdentityMatrix();
     }
 }

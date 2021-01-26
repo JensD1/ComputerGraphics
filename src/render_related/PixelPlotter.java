@@ -4,6 +4,7 @@ import configuration.Configuration;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class PixelPlotter {
 
@@ -30,6 +31,14 @@ public class PixelPlotter {
 
     public void renderFrame(){
         canvas.repaint();
+    }
+
+    public void save(String title){
+        try {
+            canvas.save(title);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

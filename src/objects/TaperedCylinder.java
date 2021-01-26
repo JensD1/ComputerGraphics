@@ -11,21 +11,21 @@ import java.util.List;
 public class TaperedCylinder extends GenericObject {
 
 	private double s;
-	Plane groundPlane;
-	Plane upperPlane; // todo kijk overal na of er this. staat
+	private Plane groundPlane;
+	private Plane upperPlane;
 
 	public TaperedCylinder() {
 		super();
 		this.s = 1;
-		this.groundPlane = new Plane(0, 0, 0, 180, 0, 0, this.material);
-		this.upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material);
+		this.groundPlane = new Plane(0.0, 0.0, 0.0, 180.0, 0.0, 0.0, this.material);
+		this.upperPlane = new Plane(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, this.material);
 	}
 
 	public TaperedCylinder(double s, Material material) {
 		super(material);
 		this.s = s;
-		this.groundPlane = new Plane(0, 0, 0, 180, 0, 0, this.material);
-		this.upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material);
+		this.groundPlane = new Plane(0.0, 0.0, 0.0, 180.0, 0.0, 0.0, this.material);
+		this.upperPlane = new Plane(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, this.material);
 	}
 
 	public TaperedCylinder(double s, double x, double y, double z, double scaleX,
@@ -34,8 +34,8 @@ public class TaperedCylinder extends GenericObject {
 		super(x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ,
 				material);
 		this.s = s;
-		this.groundPlane = new Plane(0, 0, 0, 180, 0, 0, this.material);
-		this.upperPlane = new Plane(0, 0, 1, 0, 0, 0, this.material);
+		this.groundPlane = new Plane(0.0, 0.0, 0.0, 180.0, 0.0, 0.0, this.material);
+		this.upperPlane = new Plane(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, this.material);
 	}
 
 	@Override
@@ -48,13 +48,13 @@ public class TaperedCylinder extends GenericObject {
 		);
 
 		// test the mantle
-		double d = (this.s - 1) * inverseRay.getDir().getZ();
-		double f = 1 + (this.s - 1) * inverseRay.getOrigin().getZ();
-		double a = Math.pow(inverseRay.getDir().getX(), 2) + Math.pow(inverseRay.getDir().getY(), 2) - Math.pow(d, 2);
+		double d = (this.s - 1.0) * inverseRay.getDir().getZ();
+		double f = 1 + (this.s - 1.0) * inverseRay.getOrigin().getZ();
+		double a = Math.pow(inverseRay.getDir().getX(), 2.0) + Math.pow(inverseRay.getDir().getY(), 2.0) - Math.pow(d, 2.0);
 		double b = inverseRay.getOrigin().getX() * inverseRay.getDir().getX() + inverseRay.getOrigin().getY() * inverseRay.getDir().getY() - f * d;
-		double c = Math.pow(inverseRay.getOrigin().getX(), 2) + Math.pow(inverseRay.getOrigin().getY(), 2) - Math.pow(f, 2);
+		double c = Math.pow(inverseRay.getOrigin().getX(), 2.0) + Math.pow(inverseRay.getOrigin().getY(), 2.0) - Math.pow(f, 2.0);
 
-		double discriminant = Math.pow(b, 2) - a * c;
+		double discriminant = Math.pow(b, 2.0) - a * c;
 
 		// if discriminate is negative, the standard hitPointInfo will be returned, which is non-hit
 		if (Math.abs(discriminant) < Configuration.ROUNDING_ERROR) { // if discriminant is 0, there is 1 hitpoint
@@ -71,12 +71,12 @@ public class TaperedCylinder extends GenericObject {
 		}
 
 		// test and add groundplane hitpoint
-		addHitPointToList(hitPointInfoList, groundPlane.calculateHitPoint(inverseRay), 1); // we set s to one so the ground plane is a normal circle
+		addHitPointToList(hitPointInfoList, this.groundPlane.calculateHitPoint(inverseRay), 1.0); // we set s to one so the ground plane is a normal circle
 
 		// test Upper plane
-		addHitPointToList(hitPointInfoList, upperPlane.calculateHitPoint(inverseRay), this.s);
+		addHitPointToList(hitPointInfoList, this.upperPlane.calculateHitPoint(inverseRay), this.s);
 
-		if (hitPointInfoList.size() == 1) { // todo does not work when inside taperedcylinder
+		if (hitPointInfoList.size() == 1) {
 			HitPointInfo hitPointInfo = new HitPointInfo(hitPointInfoList.get(0));
 			hitPointInfo.setEntering(!hitPointInfo.isEntering());
 			hitPointInfoList.add(hitPointInfo);
@@ -91,7 +91,7 @@ public class TaperedCylinder extends GenericObject {
 			Vector normal = new Vector(
 					hitLocation.getX(),
 					hitLocation.getY(),
-					(1 - this.s) * (1 + (this.s - 1) * hitLocation.getZ())
+					(1.0 - this.s) * (1.0 + (this.s - 1.0) * hitLocation.getZ())
 			);
 			if (normal.norm() > Configuration.ROUNDING_ERROR) { // at the top of the cone (s=0), the norm of the normal will be 0.
 				hitPointInfoList.add(
@@ -100,7 +100,7 @@ public class TaperedCylinder extends GenericObject {
 								Operations.pointTransformation(this.transformation, hitLocation),
 								hitTime,
 								Operations.vectorTransformation(this.inverseTransformation.transpose(), normal),
-								(Operations.dotProduct(Operations.scalarVectorProduct(-1, inverseRay.getDir()), normal) >= 0) // isEntering if the corner between -inverseRay and the normal are smaller than 90°
+								(Operations.dotProduct(Operations.scalarVectorProduct(-1.0, inverseRay.getDir()), normal) >= 0.0) // isEntering if the corner between -inverseRay and the normal are smaller than 90°
 						)
 				);
 			}
@@ -111,7 +111,7 @@ public class TaperedCylinder extends GenericObject {
 		if (!toAddList.isEmpty()) {
 			for (HitPointInfo hitPointInfo : toAddList) { // Change the parameters that needs to change
 				Point hitLocation = hitPointInfo.getHitPoint();
-				if (((Math.pow(hitLocation.getX(), 2) + Math.pow(hitLocation.getY(), 2)) <= (Math.pow(s, 2) + Configuration.ROUNDING_ERROR)) && hitPointInfo.isHit()) {
+				if (((Math.pow(hitLocation.getX(), 2.0) + Math.pow(hitLocation.getY(), 2.0)) <= (Math.pow(s, 2.0) + Configuration.ROUNDING_ERROR)) && hitPointInfo.isHit()) {
 					hitPointInfo.setHitPoint(Operations.pointTransformation(this.transformation, hitPointInfo.getHitPoint()));
 					hitPointInfo.setNormal(Operations.vectorTransformation(this.inverseTransformation.transpose(), hitPointInfo.getNormal()));
 					hitPointInfo.setObject(this);

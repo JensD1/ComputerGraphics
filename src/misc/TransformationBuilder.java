@@ -6,11 +6,11 @@ public class TransformationBuilder {
     private Matrix transformationMatrix;
 
     public TransformationBuilder() {
-        this.transformationMatrix = Matrix.createUnitMatrix();
+        this.transformationMatrix = Matrix.createIdentityMatrix();
     }
 
     public TransformationBuilder reset() {
-        this.transformationMatrix = Matrix.createUnitMatrix();
+        this.transformationMatrix = Matrix.createIdentityMatrix();
         return this;
     }
 

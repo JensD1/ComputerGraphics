@@ -16,8 +16,7 @@ public class Renderer {
 	public Renderer() {
 	}
 
-	public void renderFrame(World world) { // todo optimize such that no pixel will be rendered twice
-		// todo optimize such that, as soon as delta h or delta w = 1 this for will nog be ran.
+	public void renderFrame(World world, boolean saveImage, String title) {
 		PixelPlotter pixelPlotter = new PixelPlotter();
 		HitPointInfo hitPointInfo;
 		int deltaW = Configuration.SCREEN_WIDTH;
@@ -32,15 +31,42 @@ public class Renderer {
 			for (int c = 0; c < Configuration.SCREEN_WIDTH; c += deltaW) {
 				for (int r = 0; r < Configuration.SCREEN_HEIGHT; r += deltaH) {
 					if(!colors.containsKey(calculateKey(c, r))) {
+						//uncomment below if you don't want anti aliasing
+//						Ray ray = Ray.createRay(world, c, r);
+//						hitPointInfo = world.calculateBestHitpoint(ray);
+//						Color color = colorPixel(world, ray, hitPointInfo);
+//						addPixelToRangeOfCanvas(pixelPlotter, color, r, r + deltaH, c, c + deltaW, colors);
+//						colors.put(calculateKey(c, r), color);
+
+						// This section is for antialiasing, comment if you don't want this.
 						Ray ray = Ray.createRay(world, c, r);
 						hitPointInfo = world.calculateBestHitpoint(ray);
-						Color color = colorPixel(world, ray, hitPointInfo);
+						Color color1 = colorPixel(world, ray, hitPointInfo);
+						ray = Ray.createRay(world, (double)c, ((double) r) + 0.5);
+						hitPointInfo = world.calculateBestHitpoint(ray);
+						Color color2 = colorPixel(world, ray, hitPointInfo);
+						ray = Ray.createRay(world, ((double)c) + 0.5, (double) r);
+						hitPointInfo = world.calculateBestHitpoint(ray);
+						Color color3 = colorPixel(world, ray, hitPointInfo);
+						ray = Ray.createRay(world, ((double)c) + 0.5, ((double)r) + 0.5);
+						hitPointInfo = world.calculateBestHitpoint(ray);
+						Color color4 = colorPixel(world, ray, hitPointInfo);
+
+						int blue = (color1.getBlue() + color2.getBlue() + color3.getBlue() + color4.getBlue()) / 4;
+						int green = (color1.getGreen() + color2.getGreen() + color3.getGreen() + color4.getGreen()) / 4;
+						int red = (color1.getRed() + color2.getRed() + color3.getRed() + color4.getRed()) / 4;
+						Color color = new Color(red, green, blue);
+						// end antialiasing
+
 						addPixelToRangeOfCanvas(pixelPlotter, color, r, r + deltaH, c, c + deltaW, colors);
 						colors.put(calculateKey(c, r), color);
 					}
 				}
 			}
 			pixelPlotter.renderFrame();
+		}
+		if(saveImage) {
+			pixelPlotter.save(title);
 		}
 		System.out.println("Finished rendering");
 	}
@@ -58,7 +84,7 @@ public class Renderer {
 	}
 
 	/**
-	 * This method will color all pixels within range width = [w1, w2[ and hight = [h1, h2[ todo check '['
+	 * This method will color all pixels within range width = [w1, w2[ and hight = [h1, h2[
 	 * with the given pixel value.
 	 *
 	 * @param pixelPlotter the pixelPlotter where the Pixels will be colored onto
@@ -71,7 +97,7 @@ public class Renderer {
 	public void addPixelToRangeOfCanvas(PixelPlotter pixelPlotter, Color color, int h1, int h2, int w1, int w2,
 										Map<Integer, Color> colors) {
 		for (int column = w1; column < w2; column++) {
-			for (int row = h1; row < h2; row++) { // todo check if < must become <=
+			for (int row = h1; row < h2; row++) {
 				if (column < Configuration.SCREEN_WIDTH && row < Configuration.SCREEN_HEIGHT) {
 					if(!colors.containsKey(calculateKey(column, row))) { // make sure that the correct pixels are not overwritten.
 						pixelPlotter.addPixelToCanvas(
@@ -106,7 +132,7 @@ public class Renderer {
 		color = color.addColor(hitPointInfo.getObject().getMaterial().getEmission()); // add emmision
 		if (!ray.getInsideObjectList().contains(hitPointInfo.getObject())) { // if inside object (refraction) then these should not be calculated.
 			CustomColor ambientColor = CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getAmbient(), world.getAmbient());
-			ambientColor.scalarProduct(hitPointInfo.getObject().getMaterial().getTexture().texture(texturePoint)); // todo controleer
+			ambientColor.scalarProduct(hitPointInfo.getObject().getMaterial().getTexture().texture(texturePoint));
 			color = color.addColor(ambientColor); // add ambient colors
 		}
 		hitPointInfo.setNormal(hitPointInfo.getNormal().normalize()); // normalise the normal
@@ -119,14 +145,14 @@ public class Renderer {
 		// diffuse and specular components
 		for (PointLight light : world.getLights()) {
 			double inLight = inLight(world, light, hitPointInfo);
-			if (inLight > Configuration.MIN_IN_LIGHT && !ray.getInsideObjectList().contains(hitPointInfo.getObject())) { // if not shadow //todo check
+			if (inLight > Configuration.MIN_IN_LIGHT && !ray.getInsideObjectList().contains(hitPointInfo.getObject())) { // if not shadow and not inside an object (transparancy)
 				Vector s = Operations.pointSubstraction(light.getLocation(), hitPointInfo.getHitPoint());
 				if (s.norm() > Configuration.ROUNDING_ERROR) {
 					s = s.normalize();
 					double mDotS = Operations.dotProduct(s, hitPointInfo.getNormal()); // The lambert term
 					if (mDotS > 0.0) { // Hitpoint is turned towards the light.
 						CustomColor diffuseColor = CustomColor.colorProduct(hitPointInfo.getObject().getMaterial().getDiffuse(), light.getColor()).scalarProduct(mDotS);
-						diffuseColor.scalarProduct(hitPointInfo.getObject().getMaterial().getTexture().texture(texturePoint)); // todo controleer
+						diffuseColor.scalarProduct(hitPointInfo.getObject().getMaterial().getTexture().texture(texturePoint));
 						color = color.addColor(diffuseColor.scalarProduct(inLight));
 					}
 					Vector h = Operations.vectorSum(v, s);
@@ -199,7 +225,7 @@ public class Renderer {
 					CustomColor refractionColor = calculateShadeAndHit(world, refractedRay, world.calculateBestHitpoint(refractedRay)).scalarProduct(hitPointInfo.getObject().getMaterial().getRefractionCoefficient());
 					color = color.addColor(refractionColor);
 				} else { // if tot. internal reflection takes place.
-					totalInternalReflection = true; // todo at critical angle itself, don't do this (ask first if ok)
+					totalInternalReflection = true;
 					if (hitPointInfo.isEntering()) {
 						ray.getInsideObjectList().remove(hitPointInfo.getObject());
 					} else {
@@ -218,7 +244,7 @@ public class Renderer {
 				);
 				Ray reflectedRay = new Ray(hitPointInfo.getHitPoint(), reflectionDir.normalize(), ray.getRecurseLevel() + 1, new ArrayList<>(ray.getInsideObjectList()));
 				CustomColor reflectionColor;
-				if (totalInternalReflection) { // todo check if everything is correct.
+				if (totalInternalReflection) {
 					reflectionColor = calculateShadeAndHit(world, reflectedRay, world.calculateBestHitpoint(reflectedRay)).scalarProduct(hitPointInfo.getObject().getMaterial().getRefractionCoefficient());
 				} else {
 					reflectionColor = calculateShadeAndHit(world, reflectedRay, world.calculateBestHitpoint(reflectedRay)).scalarProduct(hitPointInfo.getObject().getMaterial().getReflectionCoefficient());
@@ -230,13 +256,13 @@ public class Renderer {
 	}
 
 	public double inLight(World world, PointLight light, HitPointInfo hitPointInfo) {
-		Ray ray = new Ray(hitPointInfo.getHitPoint(), light.getLocation()); // todo change the inshadow boolean to a value between [0, 1].
+		Ray ray = new Ray(hitPointInfo.getHitPoint(), light.getLocation());
 		double inLight = 1;
 
-		List<HitPointInfo> bestHitPoints = world.calculateAllHitPoints(ray, hitPointInfo.getObject()); // todo make sure to have all objects between t = [0, 1] and multiply the refractiveness.
+		List<HitPointInfo> bestHitPoints = world.calculateAllHitPoints(ray, hitPointInfo.getObject());
 		for (HitPointInfo bestHitPoint : bestHitPoints) {
 			if (bestHitPoint.getHitTime() >= Configuration.ROUNDING_ERROR && bestHitPoint.getHitTime() <= (1 - Configuration.ROUNDING_ERROR) && bestHitPoint.isEntering()) {
-				inLight = inLight * bestHitPoint.getObject().getMaterial().getRefractionCoefficient(); // The more refractive, the less shadows there are behind this object. // todo make sure that each object's shadow is only added once, not twice!
+				inLight = inLight * bestHitPoint.getObject().getMaterial().getRefractionCoefficient(); // The more refractive, the less shadows there are behind this object.
 			}
 		}
 		return inLight;

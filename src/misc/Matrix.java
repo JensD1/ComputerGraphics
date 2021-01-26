@@ -8,12 +8,21 @@ public class Matrix {
         this.matrix = new double[4][4];
         for(int i = 0; i<4; i++){
             for(int j = 0; i<4; i++){
-                this.matrix[i][j] = 0;
+                this.matrix[i][j] = 0.0;
             }
         }
     }
 
-    public static Matrix createUnitMatrix(){
+    public Matrix(Matrix matrix){
+        this.matrix = new double[4][4];
+        for(int i = 0; i<4; i++){
+            for(int j = 0; i<4; i++){
+                this.matrix[i][j] = matrix.getElement(i, j);
+            }
+        }
+    }
+
+    public static Matrix createIdentityMatrix(){
         double[][] matrixInitValues = {
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},

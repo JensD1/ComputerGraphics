@@ -1,6 +1,7 @@
 package render_related;
 
 import misc.CustomColor;
+import misc.Matrix;
 
 public class Materials {
 	// self created materials
@@ -20,6 +21,14 @@ public class Materials {
 			100, new CustomColor(), new CustomColor(0.1, 0.1, 0.1), 0, 0, 1);
 	private static final Material waterMaterial = new Material(new CustomColor(0.05, 0.1, 0.4), new CustomColor(0.5, 0.5, 0.6), //new CustomColor(0.08, 0.05, 0.05),
 			30, new CustomColor(), new CustomColor(0.01, 0.01, 0.01), 0.1, 0.7, 0.75);
+	private static final Material lightMaterial = new Material(new CustomColor(0, 0, 0), new CustomColor(0, 0, 0), //new CustomColor(0.08, 0.05, 0.05),
+			30, new CustomColor(1, 0.8, 0.5), new CustomColor(0, 0, 0), 0, 0, 1);
+	private static final Material cloudMaterial = new Material(new CustomColor(), new CustomColor(),
+			0, new CustomColor(), new CustomColor(0.042, 0.91, 0.91), 0, 0, 1,
+			new NoiseTexture(0.1, true, 1, 20));
+	private static final Material groundMaterial = new Material(new CustomColor(), new CustomColor(),
+			0, new CustomColor(), new CustomColor(0.5450, 0.27058, 0.07451), 0, 0, 1,
+			new NoiseTexture(0.1, true, 0.2, 1.3));
 
 	// Materials from http://devernay.free.fr/cours/opengl/materials.html
 	private static final Material emerald = new Material(new CustomColor(0.07568, 0.61424, 0.07568), new CustomColor(0.633, 0.727811, 0.633),
@@ -31,7 +40,7 @@ public class Materials {
 	private static final Material pearl = new Material(new CustomColor(1, 0.829, 0.829), new CustomColor(0.296648, 0.296648, 0.296648),
 			0.088 * 128, new CustomColor(), new CustomColor(0.25, 0.20725, 0.20725), 0.05, 0, 1);
 	private static final Material ruby = new Material(new CustomColor(0.61424, 0.04136, 0.04136), new CustomColor(0.727811, 0.626959, 0.626959),
-			0.6 * 128, new CustomColor(), new CustomColor(0.1745, 0.01175, 0.01175), 0.1, 0.2, 0.5);
+			0.6 * 128, new CustomColor(), new CustomColor(0.1745, 0.01175, 0.01175), 0.1, 0.25, 0.5);
 	private static final Material turquoise = new Material(new CustomColor(0.396, 0.74151, 0.69102), new CustomColor(0.297254, 0.30829, 0.306678),
 			0.1 * 128, new CustomColor(), new CustomColor(0.1, 0.18725, 0.1745), 0, 0, 1);
 	private static final Material brass = new Material(new CustomColor(0.780392, 0.568627, 0.113725), new CustomColor(0.992157, 0.941176, 0.807843),
@@ -43,9 +52,9 @@ public class Materials {
 	private static final Material copper = new Material(new CustomColor(0.7038, 0.27048, 0.0828), new CustomColor(0.256777, 0.137622, 0.086014),
 			0.1 * 128, new CustomColor(), new CustomColor(0.19125, 0.0735, 0.0225), 0, 0, 1);
 	private static final Material gold = new Material(new CustomColor(0.75164, 0.60648, 0.22648), new CustomColor(0.628281, 0.555802, 0.366065),
-			0.4 * 128, new CustomColor(), new CustomColor(0.24725, 0.1995, 0.0745), 0.02, 0, 1);
+			0.4 * 128, new CustomColor(), new CustomColor(0.24725, 0.1995, 0.0745), 0.15, 0, 1);
 	private static final Material silver = new Material(new CustomColor(0.50754, 0.50754, 0.50754), new CustomColor(0.508273, 0.508273, 0.508273),
-			0.4 * 128, new CustomColor(), new CustomColor(0.19225, 0.19225, 0.19225), 0.02, 0, 1);
+			0.4 * 128, new CustomColor(), new CustomColor(0.19225, 0.19225, 0.19225), 0.15, 0, 1);
 	private static final Material blackPlastic = new Material(new CustomColor(0.01, 0.01, 0.01), new CustomColor(0.50, 0.50, 0.50),
 			0.25 * 128, new CustomColor(), new CustomColor(0.0, 0.0, 0.0), 0, 0, 1);
 	private static final Material cyanPlastic = new Material(new CustomColor(0.0, 0.50980392, 0.50980392), new CustomColor(0.50196078, 0.50196078, 0.50196078),
@@ -75,134 +84,157 @@ public class Materials {
 			new WoodTexture(0.8, 1, 0.01, 15, 0.3, 10, 10, 7));
 
 	public static Material getRedMaterial() {
-		return redMaterial;
+		return new Material(redMaterial);
 	}
 
 	public static Material getBlueMaterial() {
-		return blueMaterial;
+		return new Material(blueMaterial);
 	}
 
 	public static Material getBrownMaterial() {
-		return brownMaterial;
+		return new Material(brownMaterial);
 	}
 
 	public static Material getYellowMaterial() {
-		return yellowMaterial;
+		return new Material(yellowMaterial);
 	}
 
 	public static Material getGlassMaterial() {
-		return glassMaterial;
+		return new Material(glassMaterial);
 	}
 
 	public static Material getMirrorMaterial() {
-		return mirrorMaterial;
+		return new Material(mirrorMaterial);
 	}
 
 	public static Material getTestMaterial() {
-		return testMaterial;
+		return new Material(testMaterial);
 	}
 
 	public static Material getWaterMaterial() {
-		return waterMaterial;
+		return new Material(waterMaterial);
 	}
 
 	public static Material getEmerald() {
-		return emerald;
+		return new Material(emerald);
 	}
 
 	public static Material getJade() {
-		return jade;
+		return new Material(jade);
 	}
 
 	public static Material getObsidian() {
-		return obsidian;
+		return new Material(obsidian);
 	}
 
 	public static Material getPearl() {
-		return pearl;
+		return new Material(pearl);
 	}
 
 	public static Material getRuby() {
-		return ruby;
+		return new Material(ruby);
 	}
 
 	public static Material getTurquoise() {
-		return turquoise;
+		return new Material(turquoise);
 	}
 
 	public static Material getBrass() {
-		return brass;
+		return new Material(brass);
 	}
 
 	public static Material getBronze() {
-		return bronze;
+		return new Material(bronze);
 	}
 
 	public static Material getChrome() {
-		return chrome;
+		return new Material(chrome);
 	}
 
 	public static Material getCopper() {
-		return copper;
+		return new Material(copper);
 	}
 
 	public static Material getGold() {
-		return gold;
+		return new Material(gold);
 	}
 
 	public static Material getSilver() {
-		return silver;
+		return new Material(silver);
 	}
 
 	public static Material getBlackPlastic() {
-		return blackPlastic;
+		return new Material(blackPlastic);
 	}
 
 	public static Material getCyanPlastic() {
-		return cyanPlastic;
+		return new Material(cyanPlastic);
 	}
 
 	public static Material getGreenPlastic() {
-		return greenPlastic;
+		return new Material(greenPlastic);
 	}
 
 	public static Material getRedPlastic() {
-		return redPlastic;
+		return new Material(redPlastic);
 	}
 
 	public static Material getWhitePlastic() {
-		return whitePlastic;
+		return new Material(whitePlastic);
 	}
 
 	public static Material getYellowPlastic() {
-		return yellowPlastic;
+		return new Material(yellowPlastic);
 	}
 
 	public static Material getBlackRubber() {
-		return blackRubber;
+		return new Material(blackRubber);
 	}
 
 	public static Material getCyanRubber() {
-		return cyanRubber;
+		return new Material(cyanRubber);
 	}
 
 	public static Material getGreenRubber() {
-		return greenRubber;
+		return new Material(greenRubber);
 	}
 
 	public static Material getRedRubber() {
-		return redRubber;
+		return new Material(redRubber);
 	}
 
 	public static Material getWhiteRubber() {
-		return whiteRubber;
+		return new Material(whiteRubber);
 	}
 
 	public static Material getYellowRubber() {
-		return yellowRubber;
+		return new Material(yellowRubber);
 	}
 
 	public static Material getWoodMaterial() {
-		return woodMaterial;
+		return new Material(woodMaterial);
+	}
+
+	public static Material getWoodMaterial(boolean isworldTexture, Matrix transformation) {
+		return new Material(
+				new CustomColor(0.365234375, 0.251953125, 0.126953125),
+				new CustomColor(0.1, 0.1, 0.1),
+				200,
+				new CustomColor(), new CustomColor(0.187, 0.129, 0.065),
+				0, 0, 1,
+				new WoodTexture(0.8, 1, 0.01, 15, 0.3,
+						10, 10, 7, isworldTexture, transformation));
+	}
+
+	public static Material getLightMaterial() {
+		return new Material(lightMaterial);
+	}
+
+	public static Material getCloudMaterial() {
+		return new Material(cloudMaterial);
+	}
+
+	public static Material getGroundMaterial() {
+		return new Material(groundMaterial);
 	}
 }

@@ -1,6 +1,8 @@
 package render_related;
 
 import configuration.Configuration;
+import misc.Matrix;
+import misc.Operations;
 import misc.Point;
 
 import java.text.CompactNumberFormat;
@@ -15,6 +17,7 @@ public class WoodTexture extends Texture {
 	private double zPhasecoef;
 	private int totRatioNumber;
 	private int lightPartRatio;
+	private Matrix transformation;
 
 	public WoodTexture(double minIntensity, double maxIntensity, double ringThickness, double numberOfWobbles,
 					   double skewStrength, double zPhaseCoef) {
@@ -27,6 +30,7 @@ public class WoodTexture extends Texture {
 		this.zPhasecoef = zPhaseCoef;
 		this.totRatioNumber = 2;
 		this.lightPartRatio = 1;
+		this.transformation = Matrix.createIdentityMatrix();
 	}
 
 	public WoodTexture(double minIntensity, double maxIntensity, double ringThickness, double numberOfWobbles,
@@ -40,6 +44,7 @@ public class WoodTexture extends Texture {
 		this.zPhasecoef = zPhaseCoef;
 		this.totRatioNumber = totRatioNumber;
 		this.lightPartRatio = lightPartRatio;
+		this.transformation = Matrix.createIdentityMatrix();
 	}
 
 	public WoodTexture(double minIntensity, double maxIntensity, double ringThickness, double numberOfWobbles,
@@ -53,6 +58,22 @@ public class WoodTexture extends Texture {
 		this.zPhasecoef = zPhaseCoef;
 		this.totRatioNumber = totRatioNumber;
 		this.lightPartRatio = lightPartRatio;
+		this.transformation = Matrix.createIdentityMatrix();
+	}
+
+	public WoodTexture(double minIntensity, double maxIntensity, double ringThickness, double numberOfWobbles,
+					   double skewStrength, double zPhaseCoef, int totRatioNumber, int lightPartRatio, boolean isWorldTexture,
+					   Matrix transformation) {
+		super(isWorldTexture);
+		this.minIntensity = minIntensity;
+		this.maxIntensity = maxIntensity;
+		this.ringThickness = ringThickness;
+		this.numberOfWobbles = numberOfWobbles;
+		this.skewStrength = skewStrength;
+		this.zPhasecoef = zPhaseCoef;
+		this.totRatioNumber = totRatioNumber;
+		this.lightPartRatio = lightPartRatio;
+		this.transformation = transformation;
 	}
 
 	public WoodTexture() {
@@ -65,6 +86,7 @@ public class WoodTexture extends Texture {
 		this.zPhasecoef = 0;
 		this.totRatioNumber = 2;
 		this.lightPartRatio = 1;
+		this.transformation = Matrix.createIdentityMatrix();
 	}
 
 	public WoodTexture(double minIntensity, double maxIntensity) {
@@ -77,6 +99,7 @@ public class WoodTexture extends Texture {
 		this.zPhasecoef = 0;
 		this.totRatioNumber = 2;
 		this.lightPartRatio = 1;
+		this.transformation = Matrix.createIdentityMatrix();
 	}
 
 	public WoodTexture(double minIntensity, double maxIntensity, int totRatioNumber, int lightPartRatio) {
@@ -89,6 +112,7 @@ public class WoodTexture extends Texture {
 		this.zPhasecoef = 0;
 		this.totRatioNumber = totRatioNumber;
 		this.lightPartRatio = lightPartRatio;
+		this.transformation = Matrix.createIdentityMatrix();
 	}
 
 	public WoodTexture(double minIntensity, double maxIntensity, boolean isWorldTexture) {
@@ -101,6 +125,7 @@ public class WoodTexture extends Texture {
 		this.zPhasecoef = 0;
 		this.totRatioNumber = 2;
 		this.lightPartRatio = 1;
+		this.transformation = Matrix.createIdentityMatrix();
 	}
 
 	public WoodTexture(double minIntensity, double maxIntensity, int totRatioNumber, int lightPartRatio, boolean isWorldTexture) {
@@ -113,19 +138,36 @@ public class WoodTexture extends Texture {
 		this.zPhasecoef = 0;
 		this.totRatioNumber = totRatioNumber;
 		this.lightPartRatio = lightPartRatio;
+		this.transformation = Matrix.createIdentityMatrix();
+	}
+
+	public WoodTexture(double minIntensity, double maxIntensity, int totRatioNumber, int lightPartRatio, boolean isWorldTexture, Matrix transformation) {
+		super(isWorldTexture);
+		this.minIntensity = minIntensity;
+		this.maxIntensity = maxIntensity;
+		this.ringThickness = 1;
+		this.numberOfWobbles = 1;
+		this.skewStrength = 0;
+		this.zPhasecoef = 0;
+		this.totRatioNumber = totRatioNumber;
+		this.lightPartRatio = lightPartRatio;
+		this.transformation = transformation;
 	}
 
 	@Override
 	public double texture(Point hitPoint) {
-		double r = Math.sqrt(Math.pow(hitPoint.getX(), 2) + Math.pow(hitPoint.getY(), 2));
-		double x = hitPoint.getX();
+		Point transformedHitPoint = Operations.pointTransformation(this.transformation, hitPoint);
+
+		double x = transformedHitPoint.getX(); // we need this more often
+		double y = transformedHitPoint.getY();
+		double r = Math.sqrt(Math.pow(x, 2) + Math.pow(transformedHitPoint.getY(), 2));
 		double theta;
-		if(hitPoint.getX() != 0) {
-			theta = Math.atan2(hitPoint.getY(),  x);
+		if(x != 0) {
+			theta = Math.atan2(y,  x);
 		} else{
 			theta = 0;
 		}
-		return advancedWood(r, theta, hitPoint);
+		return advancedWood(r, theta, transformedHitPoint);
 	}
 
 	private double advancedWood(double r, double theta, Point point) {
@@ -207,5 +249,13 @@ public class WoodTexture extends Texture {
 
 	public void setLightPartRatio(int lightPartRatio) {
 		this.lightPartRatio = lightPartRatio;
+	}
+
+	public Matrix getTransformation() {
+		return transformation;
+	}
+
+	public void setTransformation(Matrix transformation) {
+		this.transformation = transformation;
 	}
 }

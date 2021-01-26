@@ -30,7 +30,7 @@ public class Water2 extends GenericObject {
 		this.scale = 1;
 	}
 
-	public Water2(double x, double y, double z, // todo add scale z so waves are bigger.
+	public Water2(double x, double y, double z,
 				  double scaleX, double scaleY,
 				  double rotateX, double rotateY, double rotateZ,
 				  Material material) {
@@ -41,7 +41,7 @@ public class Water2 extends GenericObject {
 		this.scale = 1;
 	}
 
-	public Water2(double x, double y, double z, // todo add scale z so waves are bigger.
+	public Water2(double x, double y, double z,
 				  double scaleX, double scaleY,
 				  double rotateX, double rotateY, double rotateZ,
 				  Material material, double amplitude) {
@@ -52,7 +52,7 @@ public class Water2 extends GenericObject {
 		this.scale = 1;
 	}
 
-	public Water2(double x, double y, double z, // todo add scale z so waves are bigger.
+	public Water2(double x, double y, double z,
 				  double scaleX, double scaleY,
 				  double rotateX, double rotateY, double rotateZ,
 				  Material material, double amplitude, double scale) {

@@ -25,7 +25,7 @@ public class BooleanUnion extends BooleanObject {
 
 		List<HitPointInfo> unionList = new ArrayList<>();  // the list of combined hitpoints
 		List<HitPointInfo> leftHitPointList = leftObject.calculateHitPoint(inverseRay);
-		List<HitPointInfo> rightHitPointList = rightObject.calculateHitPoint(inverseRay); // todo check for improvements
+		List<HitPointInfo> rightHitPointList = rightObject.calculateHitPoint(inverseRay);
 		if (!leftHitPointList.isEmpty() && !rightHitPointList.isEmpty()) {
 			// sort hitpoints
 			Collections.sort(leftHitPointList);

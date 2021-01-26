@@ -17,7 +17,7 @@ public class Water extends GenericObject {
 	public Water() {
 		super();
 		this.amplitude = 1;
-		this.xNumberOfPeriods = Math.PI; // todo check
+		this.xNumberOfPeriods = Math.PI;
 		this.yNumberOfPeriods = Math.PI;
 		this.harmonicWaves = 0;
 	}
@@ -25,42 +25,42 @@ public class Water extends GenericObject {
 	public Water(Material material) {
 		super(material);
 		this.amplitude = 1;
-		this.xNumberOfPeriods = Math.PI; // todo check
+		this.xNumberOfPeriods = Math.PI;
 		this.yNumberOfPeriods = Math.PI;
 		this.harmonicWaves = 0;
 	}
 
-	public Water(double x, double y, double z, // todo add scale z so waves are bigger.
+	public Water(double x, double y, double z,
 				 double scaleX, double scaleY,
 				 double rotateX, double rotateY, double rotateZ,
 				 Material material) {
 		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material);
 		this.amplitude = 1;
-		this.xNumberOfPeriods = Math.PI; // todo check
+		this.xNumberOfPeriods = Math.PI;
 		this.yNumberOfPeriods = Math.PI;
 		this.harmonicWaves = 0;
 	}
 
-	public Water(double x, double y, double z, // todo add scale z so waves are bigger.
+	public Water(double x, double y, double z,
 				 double scaleX, double scaleY,
 				 double rotateX, double rotateY, double rotateZ,
 				 Material material, double amplitude, double xNumberOfPeriods,
 				 double yNumberOfPeriods) {
 		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material);
 		this.amplitude = amplitude;
-		this.xNumberOfPeriods = xNumberOfPeriods * Math.PI; // todo check
+		this.xNumberOfPeriods = xNumberOfPeriods * Math.PI;
 		this.yNumberOfPeriods = yNumberOfPeriods * Math.PI;
 		this.harmonicWaves = 0;
 	}
 
-	public Water(double x, double y, double z, // todo add scale z so waves are bigger.
+	public Water(double x, double y, double z,
 				 double scaleX, double scaleY,
 				 double rotateX, double rotateY, double rotateZ,
 				 Material material, double amplitude, double xNumberOfPeriods,
 				 double yNumberOfPeriods, double harmonicWaves) {
 		super(x, y, z, scaleX, scaleY, 1, rotateX, rotateY, rotateZ, material);
 		this.amplitude = amplitude;
-		this.xNumberOfPeriods = xNumberOfPeriods * Math.PI; // todo check
+		this.xNumberOfPeriods = xNumberOfPeriods * Math.PI;
 		this.yNumberOfPeriods = yNumberOfPeriods * Math.PI;
 		this.harmonicWaves = harmonicWaves;
 	}

@@ -1,8 +1,11 @@
 package render_related;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class PixelPanel extends JPanel {
 
@@ -27,5 +30,15 @@ public class PixelPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         g2.drawImage(bufferedImage, null, null);
+    }
+
+    public void save(String title) throws IOException {
+        int i = 1;
+        File file = new File("D:\\OneDrive - Universiteit Antwerpen\\_universiteit\\Ma 1\\I Computer_Graphics\\Images\\" + title + ".PNG");
+        while(file.exists()){
+            file = new File("D:\\OneDrive - Universiteit Antwerpen\\_universiteit\\Ma 1\\I Computer_Graphics\\Images\\" + title + i + ".PNG");
+            i++;
+        }
+        ImageIO.write(bufferedImage, "PNG", file);
     }
 }

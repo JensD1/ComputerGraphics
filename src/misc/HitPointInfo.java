@@ -119,14 +119,14 @@ public class HitPointInfo implements Comparable<HitPointInfo>{
 	}
 
 	@Override
-	public String toString() { // todo change
+	public String toString() {
 		return "HitPointInfo{" +
-//				"isHit=" + isHit +
+				"isHit=" + isHit +
 				", hitTime=" + hitTime +
-//				", object=" + object +
-//				", normal=" + normal +
-//				", hitPoint=" + hitPoint +
-//				", inShadow=" + inShadow +
+				", object=" + object +
+				", normal=" + normal +
+				", hitPoint=" + hitPoint +
+				", inShadow=" + inShadow +
 				", entering=" + isEntering +
 				'}';
 	}

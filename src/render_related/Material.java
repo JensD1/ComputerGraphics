@@ -1,6 +1,7 @@
 package render_related;
 
 import misc.CustomColor;
+import misc.Matrix;
 
 public class Material {
 
@@ -52,6 +53,30 @@ public class Material {
 		this.refractionCoefficient = refractionCoefficient;
 		this.relativeLightSpeed = relativeLightSpeed;
 		this.texture = texture;
+	}
+
+	public Material(Material material){
+		this.diffuse = new CustomColor(material.diffuse);
+		this.specular = new CustomColor(material.specular);
+		this.specularExponent = material.specularExponent;
+		this.emission = new CustomColor(material.emission);
+		this.ambient = new CustomColor(material.ambient);
+		this.reflectionCoefficient = material.reflectionCoefficient;
+		this.refractionCoefficient = material.refractionCoefficient;
+		this.relativeLightSpeed = material.relativeLightSpeed;
+		Texture otherTexture = material.getTexture();
+		if(otherTexture.getClass() == WoodTexture.class){
+			WoodTexture woodTexture = (WoodTexture) otherTexture;
+			this.texture = new WoodTexture(woodTexture.getMinIntensity(), woodTexture.getMaxIntensity(), woodTexture.getRingThickness(), woodTexture.getNumberOfWobbles(),
+					woodTexture.getSkewStrength(), woodTexture.getzPhasecoef(), woodTexture.getTotRatioNumber(), woodTexture.getLightPartRatio(), woodTexture.isWorldTexture());
+		}
+		if(otherTexture.getClass() == NoiseTexture.class){
+			NoiseTexture noiseTexture = (NoiseTexture)otherTexture;
+			this.texture = new NoiseTexture(noiseTexture.getScale(), noiseTexture.isWorldTexture(), noiseTexture.getMin(), noiseTexture.getMax());
+		}
+		if(otherTexture.getClass() == NoTexture.class){
+			this.texture = new NoTexture();
+		}
 	}
 
 	public CustomColor getDiffuse() {
